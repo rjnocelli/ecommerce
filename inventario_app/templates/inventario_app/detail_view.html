@@ -1,0 +1,19 @@
+{% extends 'inventario_app/base.html' %}
+{% block body%}
+
+<div class='row justify-content-md-center'>
+    <div class=''>
+        <img class="img-thumbnail" src="{{product.image.url}}">
+        <p>precio: ${{product.price}}</p>
+        <h2>{{product.name}}</h2>
+        <p>{{product.description}}</p>
+        <a class='btn btn-primary' href="{% url 'index' %}">Volver al inicio</a>
+        <a href="{% url 'add-to-cart' id=product.id%}"><button class="btn btn-outline-secondary add-btn update-cart">Agregar al carro</button></a>
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}

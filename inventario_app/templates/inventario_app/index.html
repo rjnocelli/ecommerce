@@ -1,0 +1,39 @@
+{% extends 'inventario_app/base.html' %}
+{% load static %}
+    {% block body %}
+    <!-- <div class="row justify-content-md-center">
+        <div class=''>
+            <h1>WELCOME TO INVENTARIO</h1>
+        </div>
+    <div>
+    <div class="row justify-content-md-center">
+        {% for product in products %}  
+        <div class="col lg-4">
+            <div class="thumbnail">
+                <img src="{{ product.image.url }}" alt=""></h2>
+            </div>
+           <a href="{% url 'detail' id=product.id %}"><h2>{{ product.name }}</h2></a> 
+            <p>{{ product.description }}</p>
+        <hr>
+        </div>
+        {% endfor %}
+    </div> -->
+   
+
+
+    <div class="row">
+		{% for product in products %}
+		<div class="col-lg-4">
+			<img class="img-thumbnail" src="{{product.image.url}}">
+			<div class="box-element product">
+				<h6><strong>{{product.name}}</strong></h6>
+				<hr>				
+				<a class="btn btn-outline-success" href="{% url 'detail' id=product.id%}">Detalles</a>
+				<h4 style="display: inline-block; float: right"><strong>${{product.price}}</strong></h4>
+
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+   
+    {% endblock %}
