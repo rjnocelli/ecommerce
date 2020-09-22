@@ -1,5 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
 from .models import Product, OrderItem, Order
 from .forms import CreateProductForm
 from django.views.generic import FormView, CreateView, DetailView
@@ -21,6 +22,18 @@ def detail(request, id):
     context = {'product': qs}
     return render(request, 'inventario_app/detail_view.html', context)
 
+def update(request, id):
+    qs = get_object_or_404(Product, id=id)
+    form = CreateProductForm(instance = qs)
+    if request.method == "POST":
+        form = CreateProductForm(request.POST, instance = qs)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('index'))
+    return render(request, "inventario_app/update_product.html", context = {"form": form, "product":qs})
+
+
+
 def SearchProducts(request):
     queryset = Product.objects.all()
     query = request.GET.get('q')
@@ -41,7 +54,7 @@ def addToCart(request, id):
     item = get_object_or_404(Product, id = id)
     key = 'cart_id'
     if key in request.session:
-        session_id = request.session['cart_id'] 
+        session_id = request.session[key] 
         order = get_object_or_404(Order, id = session_id)
         if order.items.filter(product__id = item.id).exists():
             orderitem_object = order.items.filter(product__id = item.id)[0]
@@ -65,7 +78,6 @@ def cart(request):
     try:
         session_id = request.session[key]
         order = get_object_or_404(Order, id=session_id)
-        
         context = {"order": order}
         return render(request, 'inventario_app/checkout.html', context)
     except:

@@ -19,7 +19,10 @@
         {% endfor %}
     </div> -->
    
-
+    <div class="jumbotron">
+        <h1>Bienvenidos a Funes Dulceria</h1>
+        <p>Hace tu pedido y te lo enviamos a casa</p>
+    </div>
 
     <div class="row">
 		{% for product in products %}
@@ -28,7 +31,8 @@
 			<div class="box-element product">
 				<h6><strong>{{product.name}}</strong></h6>
 				<hr>				
-				<a class="btn btn-outline-success" href="{% url 'detail' id=product.id%}">Detalles</a>
+                <a class="btn btn-outline-primary btn-sm" href="{% url 'detail' id=product.id%}">Detalles</a>
+                <a class="btn btn-outline-secondary btn-sm" href="{% url 'update' id=product.id%}">Actualizar</a>
 				<h4 style="display: inline-block; float: right"><strong>${{product.price}}</strong></h4>
 
 			</div>
