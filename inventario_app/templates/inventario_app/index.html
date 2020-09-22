@@ -19,12 +19,16 @@
         {% endfor %}
     </div> -->
    
+    <div class="jumbotron">
+        <h1>Bienvenidos a Funes Dulceria</h1>
+        <h5>Elegi lo que quieras y te lo enviamos a tu casa</h5>
+    </div>
 
 
     <div class="row">
 		{% for product in products %}
-		<div class="col-lg-4">
-			<img class="img-thumbnail" src="{{product.image.url}}">
+		<div class="col-lg-3">
+			<a href="{% url 'detail' id=product.id%}"><img class="img-thumbnail" src="{{product.image.url}}"></a>
 			<div class="box-element product">
 				<h6><strong>{{product.name}}</strong></h6>
 				<hr>				
