@@ -21,18 +21,13 @@
    
     <div class="jumbotron">
         <h1>Bienvenidos a Funes Dulceria</h1>
-<<<<<<< HEAD
-        <p>Hace tu pedido y te lo enviamos a casa</p>
-    </div>
-=======
         <h5>Elegi lo que quieras y te lo enviamos a tu casa</h5>
     </div>
 
->>>>>>> 79d1551db036b36ae0641f1e0e3e406020cba19f
 
     <div class="row">
 		{% for product in products %}
-		<div class="col-lg-3">
+		<div class="col-lg-4">
 			<a href="{% url 'detail' id=product.id%}"><img class="img-thumbnail" src="{{product.image.url}}"></a>
 			<div class="box-element product">
 				<h6><strong>{{product.name}}</strong></h6>
