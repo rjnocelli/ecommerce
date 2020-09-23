@@ -39,8 +39,9 @@ def SearchProducts(request):
     if query:
         queryset = queryset.filter(
             Q(name__icontains=query) |
-            Q(description__icontains=query)
-        ).distinct()
+            Q(description__icontains=query) |
+            Q(category__name__icontains=query)
+        ).distinct()    
         print(queryset)
     context = {
         'products': queryset
