@@ -30,7 +30,7 @@
 		<div class="col-lg-3">
 			<a href="{% url 'detail' id=product.id%}"><img class="img-thumbnail" src="{{product.image.url}}"></a>
 			<div class="box-element product">
-				<h6><strong>{{product.name}}</strong></h6>
+                <h6><strong>{{product.name}}</strong></h6>
 				<hr>				
                 <a class="btn btn-outline-primary btn-sm" href="{% url 'detail' id=product.id%}">Detalles</a>
                 <a class="btn btn-outline-secondary btn-sm" href="{% url 'update' id=product.id%}">Actualizar</a>

@@ -36,13 +36,13 @@ def update(request, id):
 def SearchProducts(request):
     queryset = Product.objects.all()
     query = request.GET.get('q')
+    print(query)
     if query:
         queryset = queryset.filter(
             Q(name__icontains=query) |
             Q(description__icontains=query) |
             Q(category__name__icontains=query)
         ).distinct()    
-        print(queryset)
     context = {
         'products': queryset
     }
