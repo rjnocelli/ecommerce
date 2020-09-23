@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from django.db.models import Q
 from .models import Product, OrderItem, Order
 from .forms import CreateProductForm
 from django.views.generic import FormView, CreateView, DetailView
@@ -17,7 +18,6 @@ class CreateProductView(CreateView):
 
 
 def detail(request, id):
-    print(id)
     qs = get_object_or_404(Product, id=id)
     context = {'product': qs}
     return render(request, 'inventario_app/detail_view.html', context)
@@ -33,7 +33,6 @@ def update(request, id):
     return render(request, "inventario_app/update_product.html", context = {"form": form, "product":qs})
 
 
-
 def SearchProducts(request):
     queryset = Product.objects.all()
     query = request.GET.get('q')
@@ -42,6 +41,7 @@ def SearchProducts(request):
             Q(name__icontains=query) |
             Q(description__icontains=query)
         ).distinct()
+        print(queryset)
     context = {
         'products': queryset
     }

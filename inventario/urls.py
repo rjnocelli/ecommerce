@@ -9,6 +9,7 @@ urlpatterns = [
     path('', views.Index, name='index'),
     path('product/', include('inventario_app.urls')),
     path('cart/', views.cart, name='cart'),
+    path('search/', views.SearchProducts, name='search-view'),
 ]
 
 if settings.DEBUG:

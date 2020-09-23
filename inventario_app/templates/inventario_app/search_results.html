@@ -6,14 +6,13 @@
 <div class="row">
     {% for product in products %}
     <div class="col-lg-4">
-        <img class="img-thumbnail" src="{{product.image.url}}">
-        <div class="box-element product">
+        <a href="{% url 'detail' id=product.id%}"><img class="img-thumbnail" src="{{product.image.url}}"></a>        <div class="box-element product">
             <h6><strong>{{product.name}}</strong></h6>
             <hr>
 
-            <button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Agregar al carro</button>
+            <a href="{% url 'add-to-cart' id=product.id%}"><button class="btn btn-outline-secondary add-btn update-cart">Agregar </button></a>
             
-            <a class="btn btn-outline-success" href="#">Detalles</a>
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'detail' id=product.id%}">Detalles</a>
             <h4 style="display: inline-block; float: right"><strong>${{product.price}}</strong></h4>
 
         </div>
