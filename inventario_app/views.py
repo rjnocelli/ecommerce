@@ -8,7 +8,8 @@ from django.views.generic import FormView, CreateView, DetailView
 
 def Index(request):
     products = Product.objects.all()
-    return render(request, 'inventario_app/index.html', context={'products': products})
+    featured = products.order_by("-views")[:4]
+    return render(request, 'inventario_app/index.html', context={'products': products, 'featured':featured})
 
 class CreateProductView(CreateView):
     template_name = 'inventario_app/create_product.html'
@@ -53,6 +54,8 @@ def Success(request):
 
 def addToCart(request, id):
     item = get_object_or_404(Product, id = id)
+    item.views += 1
+    item.save()
     key = 'cart_id'
     if key in request.session:
         session_id = request.session[key] 

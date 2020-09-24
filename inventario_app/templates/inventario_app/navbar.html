@@ -3,39 +3,45 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light ml-auto">
-    <a class="navbar-brand" href="{% url 'index' %}">Chocolates</a>
+
+  
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark ml-auto">
+  <div class="container d-flex justify-content-between">
+    <a class="navbar-brand" href="{% url 'index' %}">DULCERIA</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
   
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
+        {% if user.is_authenticated %}
         <li class="nav-item active ml-auto">
           <a class="nav-link" href="{% url 'create' %}">Nuevo <span class="sr-only">(current)</span></a>
+        {% endif %}
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Categorias
+            Chocolates
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{% url 'search-view' %}?q=Almendras">Almendras</a>
             <a class="dropdown-item" href="{% url 'search-view' %}?q=Nueces">Nueces</a>
             <a class="dropdown-item" href="{% url 'search-view' %}?q=Blanco">Blanco</a>
             <a class="dropdown-item" href="{% url 'search-view' %}?q=En Rama">En Rama</a>
-            <a class="dropdown-item" href="#">Another action</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Something else here</a>
           </div>
         </li>
+        
         <li class="nav-item mr-auto">
           <a href="{% url 'cart' %}"><i style="vertical-align: middle" class="fas fa-shopping-cart"></i>
           </a> 
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0" action="{% url 'search-view' %}" method="GET">
-        <input name="q" class="form-control mr-sm-2" type="search" placeholder="Buscar">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <input name="q" class="form-control mr-sm-3" type="search" placeholder="Buscar">
+        <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
       </form>
     </div>
   </nav> 

@@ -8,7 +8,8 @@ class Product(models.Model):
     timestamp = models.DateTimeField(default=timezone.now,blank=True, null=True)
     image = models.ImageField(default='chocolate.jpg',blank=True, null=True, verbose_name='imagen')
     category = models.ManyToManyField("Category", verbose_name='categoria', blank=True)
-
+    views = models.IntegerField(default = 0, null=True, blank=True)
+    
     def __str__(self):
         return self.name
 
@@ -19,28 +20,28 @@ class Category(models.Model):
         return self.name
 
 class OrderItem(models.Model):
-	product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True)
-	quantity = models.IntegerField(default=1, null=True, blank=True)
-	date_added = models.DateTimeField(auto_now_add=True)
+    product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True)
+    quantity = models.IntegerField(default=1, null=True, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
 
-	@property
-	def get_total(self):
-		total = self.product.price * self.quantity
-		return total
+    @property
+    def get_total(self):
+        total = self.product.price * self.quantity
+        return total
 
 class Order(models.Model):
-	items = models.ManyToManyField("OrderItem")
-	date_ordered = models.DateTimeField(auto_now_add=True)
-	complete = models.BooleanField(default=False)
+    items = models.ManyToManyField("OrderItem")
+    date_ordered = models.DateTimeField(auto_now_add=True)
+    complete = models.BooleanField(default=False)
 
-	def __str__(self):
-		return str(self.id)
+    def __str__(self):
+        return str(self.id)
 
-	@property
-	def get_cart_total(self):
-		orderitems = self.items.all()
-		total = sum([item.get_total for item in orderitems])
-		return total 
+    @property
+    def get_cart_total(self):
+        orderitems = self.items.all()
+        total = sum([item.get_total for item in orderitems])
+        return total 
 
 
 
