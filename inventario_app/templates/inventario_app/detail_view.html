@@ -2,7 +2,7 @@
 {% block body%}
 
 <div class='row justify-content-md-center'>
-    <div class=''>
+    <div class='col-6'>
         <img class="img-thumbnail" src="{{product.image.url}}">
         <p>precio: ${{product.price}}</p>
         <h2>{{product.name}}</h2>
@@ -14,9 +14,5 @@
         <a href="{% url 'add-to-cart' id=product.id%}"><button class="btn btn-outline-secondary add-btn update-cart">Agregar </button></a>
     </div>
 </div>
-
-
-
-
 
 {% endblock %}
