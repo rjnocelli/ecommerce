@@ -1,7 +1,6 @@
 {% extends 'inventario_app/base.html' %}
 {% load static %}
 {% block body %}
-<h2>asdas</h2>
 
 <!-- <ul>
 {% for i in order.items.all  %}
@@ -12,8 +11,7 @@
 	{% endfor %} -->
 	
 
-	
-     <div class="row">
+<!-- 	
 		<div class="col-lg-6">
 			<div class="box-element" id="form-wrapper">
 				<form id="form">
@@ -58,30 +56,40 @@
 				<button id="make-payment">Make payment</button>
 				<div id="paypal-button-container"></div>
 			</div>
-			
-		</div>
-
+			 -->
+		<!-- </div> -->
+		
+		<div class="row">
+	 
 		<div class="col-lg-6">
 			<div class="box-element">
 				<a  class="btn btn-outline-dark" href="{% url 'index' %}">&#x2190; Inicio</a>
 				<hr>
-				<h3>Order Summary</h3>
+				<h3>Resumen de orden</h3>
 				<hr>
 				{% for item in order.items.all %}
-				<div class="cart-row">
+				<div class="row">
+					<div class='col-lg-4'>
+						<p style="display: inline-block;">{{item.product.name}}</p><hr>
+					</div>
+					<div class='col-lg-4'>
+						<p style="display: inline-block;">${{item.product.price|floatformat:2}}</p><hr>
+					</div>
+					<div class='col-lg-4'>
+						<p style="display: inline-block;">
+							<a href=""><i class="fas fa-minus mr-1"></i>
+							</a>{{item.quantity}}<a href=""><i class="fas fa-plus ml-1"></i></a>
+						</p><hr>
+					</div>
 					<!-- <div style="flex:2"><img class="img-thumbnail2" src="{{item.product.image.url}}"></div> -->
-					<p>{{item.product.name}}</p>
-					<p>${{item.product.price|floatformat:2}}</p>
-					<p>x{{item.quantity}}</p>
 				</div>
 				{% endfor %}
-				<h5>Items:   {{order.get_cart_items}}</h5>
+				<h5>Cantidad:   {{order.get_cart_items}} unidades</h5>
 				<h5>Total:   ${{order.get_cart_total|floatformat:2}}</h5>
 			</div>
 		</div>
 	</div>
 
-	<script src="https://www.paypal.com/sdk/js?client-id=YOUR-CLIENT-ID&currency=USD&disable-funding=credit"></script> -->
 
 
 {% endblock body %}

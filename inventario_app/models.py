@@ -28,6 +28,15 @@ class OrderItem(models.Model):
     def get_total(self):
         total = self.product.price * self.quantity
         return total
+    
+    @property
+    def add(self):
+        self.quantity += 1
+    @property
+    def take(self):
+        self.quantity += 1
+    
+
 
 class Order(models.Model):
     items = models.ManyToManyField("OrderItem")
@@ -42,6 +51,14 @@ class Order(models.Model):
         orderitems = self.items.all()
         total = sum([item.get_total for item in orderitems])
         return total 
+
+    @property
+    def get_cart_items(self):
+        orderitems = self.items.all()
+        total = sum([item.quantity for item in orderitems])
+        return total
+
+
 
 
 
