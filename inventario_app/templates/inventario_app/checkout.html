@@ -77,8 +77,8 @@
 					</div>
 					<div class='col-lg-4'>
 						<p style="display: inline-block;">
-							<a href=""><i class="fas fa-minus mr-1"></i>
-							</a>{{item.quantity}}<a href=""><i class="fas fa-plus ml-1"></i></a>
+							<a><i class="fas fa-minus mr-1"></i>
+							</a>{{item.quantity}}<a href="{% url 'add-to-cart' item.product.id %}"><i class="fas fa-plus ml-1"></i></a>
 						</p><hr>
 					</div>
 					<!-- <div style="flex:2"><img class="img-thumbnail2" src="{{item.product.image.url}}"></div> -->
