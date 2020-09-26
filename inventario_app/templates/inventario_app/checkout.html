@@ -68,6 +68,7 @@
 				<h3>Resumen de orden</h3>
 				<hr>
 				{% for item in order.items.all %}
+				{% if item.quantity > 0 %}
 				<div class="row">
 					<div class='col-lg-4'>
 						<p style="display: inline-block;">{{item.product.name}}</p><hr>
@@ -83,6 +84,7 @@
 					</div>
 					<!-- <div style="flex:2"><img class="img-thumbnail2" src="{{item.product.image.url}}"></div> -->
 				</div>
+				{% endif %}
 				{% endfor %}
 				<h5>Cantidad:   {{order.get_cart_items}} unidades</h5>
 				<h5>Total:   ${{order.get_cart_total|floatformat:2}}</h5>
