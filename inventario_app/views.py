@@ -54,8 +54,6 @@ def Success(request):
 
 def addToCart(request, id):
     item = get_object_or_404(Product, id = id)
-    item.views += 1
-    item.save()
     key = 'cart_id'
     if key in request.session:
         session_id = request.session[key] 
@@ -66,6 +64,8 @@ def addToCart(request, id):
             orderitem_object.save()
         else:
             orderitem_object = OrderItem.objects.create(product=item)
+            orderitem_object.product.views += 1
+            orderitem_object.product.save()
             order.items.add(orderitem_object)
         context = {"order": order}
         return render(request, 'inventario_app/checkout.html',context)
