@@ -52,6 +52,19 @@ def SearchProducts(request):
 def Success(request):
     return render(request, 'inventario_app/success.html')
 
+def removeFromCart(request, id):
+    item = get_object_or_404(Product, id = id)
+    key = 'cart_id'
+    if key in request.session:
+        session_id = request.session[key] 
+        order = get_object_or_404(Order, id = session_id)
+        if order.items.filter(product__id = item.id).exists():
+            orderitem_object = order.items.filter(product__id = item.id)[0]
+            orderitem_object.quantity -= 1
+            orderitem_object.save()
+    context = {'order':order}
+    return render(request, 'inventario_app/checkout.html', context)
+
 def addToCart(request, id):
     item = get_object_or_404(Product, id = id)
     key = 'cart_id'
@@ -76,6 +89,7 @@ def addToCart(request, id):
         order.items.add(orderitem_object)
         context = {"order": order}
         return render(request, 'inventario_app/checkout.html', context)
+
 
 def cart(request):
     key = 'cart_id'
