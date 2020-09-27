@@ -158,8 +158,7 @@ class ConfirmRegistrationView(View):
             order.complete = True
             order.save()
             del request.session['cart_id']
-            context['message'] = 'Orden confirmada. Uno de nuestros empleados se comunicara con vos via telefono para completar la orden.'
-
+            messages.success(request, 'Orden confirmada. Uno de nuestros empleados se comunicara con vos via telefono para completar la orden.')
         return render(request, 'inventario_app/index.html', context)
 
 

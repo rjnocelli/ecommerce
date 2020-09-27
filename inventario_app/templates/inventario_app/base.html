@@ -10,10 +10,10 @@
     <title>Document</title>
 </head>
 <body style="background-color: rgb(224, 253, 255)">
-    {% if messages %}<ul class="messages">
+    {% if messages %}
         {% for message in messages %}
-        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}</ul>{% endif %}
+        <p {% if message.tags %} class="{{ message.tags }} alert alert-success"{% endif %}>{{ message }}</p>
+        {% endfor %}{% endif %}
 
     {% include "inventario_app/navbar.html" %}
     <div style="margin-top: 30px; background-color: rgb(224, 253, 255)" class="container">
