@@ -10,6 +10,7 @@ urlpatterns = [
     path('product/', include('inventario_app.urls')),
     path('cart/', views.cart, name='cart'),
     path('search/', views.SearchProducts, name='search-view'),
+    path('email-confirmation/', views.email_confirmation, name='email-confirmation')
 ]
 
 if settings.DEBUG:

@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.db.models import Q
 from .models import Product, OrderItem, Order
-from .forms import CreateProductForm
+from .forms import CreateProductForm, EmailConfirmationForm
 from django.views.generic import FormView, CreateView, DetailView
 
 def Index(request):
@@ -16,7 +16,6 @@ class CreateProductView(CreateView):
     model = Product
     fields = ['name','price','description','category','image']
     success_url = 'success'
-
 
 def detail(request, id):
     qs = get_object_or_404(Product, id=id)
@@ -32,7 +31,6 @@ def update(request, id):
             form.save()
             return HttpResponseRedirect(reverse('index'))
     return render(request, "inventario_app/update_product.html", context = {"form": form, "product":qs})
-
 
 def SearchProducts(request):
     queryset = Product.objects.all()
@@ -89,7 +87,6 @@ def addToCart(request, id):
         context = {"order": order}
         return render(request, 'inventario_app/checkout.html', context)
 
-
 def cart(request):
     key = 'cart_id'
     try:
@@ -100,21 +97,16 @@ def cart(request):
     except:
         return HttpResponse('Tu carrito esta vacio')
 
-# def cart(request):
-#    key = 'cart_id'
-#     session_id = request.session[key]
-#     print(session_id)
-#     order = get_object_or_404(Order, id = session_id)
-#     context = {"order": order}
-#     return render(request, 'inventario_app/checkout.html', context)
+def email_confirmation(request):
+    form = EmailConfirmationForm()
+    if request.method == 'POST':
+        form = EmailConfirmationForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            return HttpResponseRedirect(reverse('index'))
+    context = {"form": form}
+    return render(request, 'inventario_app/email_confirmation.html', context)
 
-    
-        
-# #         print(order)
-#     except:
-#         return HttpResponse('Tu carrito esta vacio')
-
-# if key in request.session:
 
         
     

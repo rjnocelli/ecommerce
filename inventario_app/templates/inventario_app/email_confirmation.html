@@ -1,0 +1,25 @@
+{% extends 'inventario_app/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block body %}
+
+
+
+<h1> Confirmacion de orden - Paso 1:</h1>
+<p>Por favor llene el formulario con sus datos y le enviaremos un email de confirmacion</p>
+<div class='row'>
+
+    <div class='col-4 mt-2'> 
+    <a  class="btn btn-outline-dark mb-4" href="{% url 'cart' %}">&#x2190; Atras</a>
+    <a  class="btn btn-outline-dark float-right mb-4" href="">Continuar &#x2192;</a>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form | crispy }}
+            <br><button type="submit">Enviar</button>
+        </form>
+
+
+    </div>
+</div>
+{% endblock %}
