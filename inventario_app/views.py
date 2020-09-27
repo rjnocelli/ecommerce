@@ -17,6 +17,7 @@ class CreateProductView(CreateView):
     fields = ['name','price','description','category','image']
     success_url = 'success'
 
+
 def detail(request, id):
     qs = get_object_or_404(Product, id=id)
     context = {'product': qs}
