@@ -1,31 +1,15 @@
 {% extends 'inventario_app/base.html' %}
 {% load static %}
     {% block body %}
-    <!-- <div class="row justify-content-md-center">
-        <div class=''>
-            <h1>WELCOME TO INVENTARIO</h1>
-        </div>
-    <div>
-    <div class="row justify-content-md-center">
-        {% for product in products %}  
-        <div class="col lg-4">
-            <div class="thumbnail">
-                <img src="{{ product.image.url }}" alt=""></h2>
-            </div>
-           <a href="{% url 'detail' id=product.id %}"><h2>{{ product.name }}</h2></a> 
-            <p>{{ product.description }}</p>
-        <hr>
-        </div>
-        {% endfor %}
-    </div> -->
-    <!-- {% if messages %}<ul class="messages">
+   
+    {% if messages %}
         {% for message in messages %}
-        <li {% if message.tags %} class="{{ message.tags }} alert alert-success"{% endif %}>{{ message }}</li>
-        {% endfor %}</ul>{% endif %}
-    -->
+        <p {% if message.tags %} class="{{ message.tags }} alert alert-success"{% endif %}>{{ message }}</p>
+        {% endfor %}{% endif %}
+   
     <div style='background-color:rgb(236, 229, 229)' class="jumbotron text-center expand">
         <h1 class="">Bienvenidos a Funes Dulceria</h1>
-        <p class="lead text-muted">Elegi lo que quieras y te lo enviamos a tu casa<p>
+        <p class="lead text-muted">Elegí  lo que quieras y te lo enviamos a tu casa<p>
     </div>
     <div style="border: 1px solid black; padding: 10px" class="row shadow-lg">
         <h3 class=''>Mas Populares</h3>

@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email confirmation</title>
+    <title>ORDEN CONFIRMADA</title>
 </head>
 <body>
-    <h1>Bienvenidos a Dulceria Funes</h1>
+    <h1>Orden {{ order.id }}</h1>
+    <p>Cliente: {{ user_name }}</p>
+    <p>Telefono: {{ user_phone_number }}</p>
+    <p>Email: {{ user_email }}</p>
     
-    <!-- <table class="table">
+    <table class="table">
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
@@ -29,13 +32,11 @@
         </tbody>
         <tbody>
         <tr>
-            <td ><h2>Cantidad: {{order.get_cart_items}} unidades</h2></td>
+            <td ><h2>Cantidad: {{order.get_cart_items}} unidades</h2></td><br>
             <td ><h2>Total: ${{order.get_cart_total|floatformat:2}}</h2></td>
         </tr>
         </tbody>
-      </table> -->
+      </table>
 
-    <p>Por favor clickee sobre este link para confirmar su direccion de email y completar su orden.</p>
-    <h4><a href="{{ confirm_url }}">{{ confirm_url }}</h4></p>
 </body>
 </html>

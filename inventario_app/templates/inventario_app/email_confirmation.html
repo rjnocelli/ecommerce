@@ -5,13 +5,13 @@
 {% block body %}
 
 
+<a  class="btn btn-outline-dark mb-4" href="{% url 'cart' %}">&#x2190; Atras</a>
 
-<h1> Confirmacion de orden - Paso 1:</h1>
-<p>Por favor llene el formulario con sus datos y le enviaremos un email de confirmacion</p>
+<h1> Confirmación de orden</h1>
+<p>Por favor llene el formulario con sus datos y le enviaremos un link de confirmación</p>
 <div class='row'>
 
     <div class='col-4 mt-2'> 
-    <a  class="btn btn-outline-dark mb-4" href="{% url 'cart' %}">&#x2190; Atras</a>
     <!-- <a  class="btn btn-outline-dark float-right mb-4" href="">Continuar &#x2192;</a> -->
         <form method="POST">
             {% csrf_token %}
