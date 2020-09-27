@@ -115,13 +115,10 @@ def email_confirmation(request):
     if request.method == 'POST':
         form = EmailConfirmationForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data['name']
-            email = form.cleaned_data['email']
-            phone_number = form.cleaned_data['phone_number']
             session_id = request.session['cart_id']
-            request.session['user_name'] = name
-            request.session['user_email'] = email
-            request.session['user_phone_number'] = phone_number
+            customer_info = form.cleaned_data
+            customer_email = customer_info['email']
+            request.session['customer_info'] = customer_info
             order = get_object_or_404(Order, id=session_id)
             order_id = urlsafe_base64_encode(force_bytes(order.id))            
             token = order_tokenizer.make_token(order)
@@ -129,18 +126,17 @@ def email_confirmation(request):
             message = get_template('inventario_app/email_confirmation_link.html').render({
                 'confirm_url': url,
                 'order': order,
-                'name': name,
-                'phone_number': phone_number
+                'customer_info': customer_info
             })
             mail = EmailMessage(
                 'Dulceria Funes',
                 message,
                 settings.EMAIL_HOST_USER,
-                [email],
+                [customer_email],
                 )
             mail.content_subtype = 'html'
             mail.send()
-            messages.success(request, f'Se ha enviado un email a esta direccion de correo para confirmar su pedido {email}')
+            messages.success(request, f'Se ha enviado un email a esta direccion de correo para confirmar su pedido {customer_email}')
             return HttpResponseRedirect(reverse('index'))
     context = {"form": form}
     return render(request, 'inventario_app/email_confirmation.html', context)
@@ -161,16 +157,13 @@ class ConfirmRegistrationView(View):
         }
 
         if order and order_tokenizer.check_token(order, token):
-            user_name = request.session['user_name']
-            user_email = request.session['user_email']
-            user_phone_number = request.session['user_phone_number']
+            customer_info = request.session['customer_info']
             order.complete = True
             order.save()
             message = get_template('inventario_app/email_confirmation_final.html').render({
                 'order': order,
-                'user_name': user_name,
-                'user_email': user_email,
-                'user_phone_number': user_phone_number,
+                'customer_info': customer_info,
+                
             })
             mail = EmailMessage(
                 'Dulceria Funes',
@@ -180,7 +173,7 @@ class ConfirmRegistrationView(View):
                 )
             mail.content_subtype = 'html'
             mail.send()
-            del request.session['cart_id']
+            del request.session['cart_id'], request.session['customer_info']
             messages.success(request, 'Orden confirmada. Uno de nuestros empleados se comunicara con usted via telefono para completar la orden.')
         return render(request, 'inventario_app/index.html', context)
 
