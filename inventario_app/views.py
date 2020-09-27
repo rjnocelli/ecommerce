@@ -1,7 +1,12 @@
+from django.conf import settings
+
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.db.models import Q
+
+from django.core.mail import send_mail
+
 from .models import Product, OrderItem, Order
 from .forms import CreateProductForm, EmailConfirmationForm
 from django.views.generic import FormView, CreateView, DetailView
@@ -103,7 +108,14 @@ def email_confirmation(request):
     if request.method == 'POST':
         form = EmailConfirmationForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            send_mail(
+                'Confirmacion de email',
+                f'Por favor {name}, confirme su email',
+                settings.EMAIL_HOST_USER,
+                [email],
+                fail_silently=False,)
             return HttpResponseRedirect(reverse('index'))
     context = {"form": form}
     return render(request, 'inventario_app/email_confirmation.html', context)

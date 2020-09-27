@@ -116,3 +116,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 MEDIA_URL = '/images/'
+
+#Email conf
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'rjnocelli2@gmail.com'
+EMAIL_HOST_PASSWORD = '4k6j0clhi'
+EMAIL_PORT = 587
+PASSWORD_RESET_TIMEOUT_DAYS = 2
