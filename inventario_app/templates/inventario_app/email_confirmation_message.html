@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email confirmation</title>
+</head>
+<body>
+    <h1>Bienvenidos a Dulceria Funes</h1>
+    
+    <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Precio x unidad</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.product.price }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <tbody>
+        <tr>
+            <th><h2>Cantidad: {{order.get_cart_items}} unidades</h2></th>
+            <th><h2>Total: ${{order.get_cart_total|floatformat:2}}</h2></th>
+        </tr>
+        </tbody>
+      </table>
+
+  
+    <p>Por favor clickee sobre este link para confirmar su direccion de email y completar su orden.</p>
+    <p><a href="{{ confirm_url }}">{{ confirm_url }}</a></p>
+</body>
+</html>

@@ -36,8 +36,6 @@ class OrderItem(models.Model):
     def take(self):
         self.quantity += 1
     
-
-
 class Order(models.Model):
     items = models.ManyToManyField("OrderItem")
     date_ordered = models.DateTimeField(auto_now_add=True)

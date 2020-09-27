@@ -4,12 +4,19 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.db.models import Q
+from django.contrib import messages
 
 from django.core.mail import send_mail
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from .tokens import order_tokenizer
+from django.template.loader import get_template
+from django.core.mail import EmailMessage
 
 from .models import Product, OrderItem, Order
 from .forms import CreateProductForm, EmailConfirmationForm
-from django.views.generic import FormView, CreateView, DetailView
+from django.views.generic import FormView, CreateView, DetailView, View
+
 
 def Index(request):
     products = Product.objects.all()
@@ -110,15 +117,50 @@ def email_confirmation(request):
         if form.is_valid():
             name = form.cleaned_data['name']
             email = form.cleaned_data['email']
-            send_mail(
-                'Confirmacion de email',
-                f'Por favor {name}, confirme su email',
+            session_id = request.session['cart_id'] 
+            order = get_object_or_404(Order, id=session_id)
+            order_id = urlsafe_base64_encode(force_bytes(order.id))            
+            token = order_tokenizer.make_token(order)
+            url = 'http://localhost:8000' + reverse('confirm_email', kwargs={'order_id': order_id,'token': token})
+            message = get_template('inventario_app/email_confirmation_message.html').render({
+                'confirm_url': url,
+                'order': order
+            })
+            mail = EmailMessage(
+                'Dulceria Funes',
+                message,
                 settings.EMAIL_HOST_USER,
                 [email],
-                fail_silently=False,)
+                )
+            mail.content_subtype = 'html'
+            mail.send()
+            messages.success(request, f'Se ha enviado un email a esta direccion de correo para confirmar su pedido {email}')
             return HttpResponseRedirect(reverse('index'))
     context = {"form": form}
     return render(request, 'inventario_app/email_confirmation.html', context)
+
+class ConfirmRegistrationView(View):
+    def get(self, request, order_id, token):
+        products = Product.objects.all()
+        featured = products.order_by("-views")[:4]
+        order_id = force_text(urlsafe_base64_decode(order_id))
+        
+        order = Order.objects.get(id=order_id)
+
+        context = {
+          'message': 'Se ha generado un error.',
+          'order': order,
+          'products': products,
+          'featured': featured,
+        }
+
+        if order and order_tokenizer.check_token(order, token):
+            order.complete = True
+            order.save()
+            del request.session['cart_id']
+            context['message'] = 'Orden confirmada. Uno de nuestros empleados se comunicara con vos via telefono para completar la orden.'
+
+        return render(request, 'inventario_app/index.html', context)
 
 
         
