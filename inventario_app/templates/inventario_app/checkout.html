@@ -3,45 +3,42 @@
 {% block body %}
 
 		<div class="row">
-	 
-		<div class="col-lg-6">
-			<div class="box-element">
-				{% if not order.complete %}
-				<a  class="btn btn-outline-dark" href="{% url 'index' %}">&#x2190; Inicio</a>
-				{% if order.get_cart_items > 0 %}
-				<a  class="btn btn-outline-dark float-right" href="{% url 'email-confirmation' %}">Continuar &#x2192;</a>
-				{% endif %}
-				<hr>
-				<h3>Resumen de orden</h3>
-				<hr>
-				{% for item in order.items.all %}
-				{% if item.quantity > 0 %}
-				<div class="row">
-					<div class='col-lg-4'>
-						<p style="display: inline-block;">{{item.product.name}}</p><hr>
+			<div class="col-lg-6">
+				<div class="box-element">
+					{% if not order.complete %}
+					<a  class="btn btn-outline-dark" href="{% url 'index' %}">&#x2190; Inicio</a>
+					{% if order.get_cart_items > 0 %}
+					<a  class="btn btn-outline-dark float-right" href="{% url 'email-confirmation' %}">Continuar &#x2192;</a>
+					{% endif %}
+					<hr>
+					<h3>Resumen de orden</h3>
+					<hr>
+					{% for item in order.items.all %}
+					{% if item.quantity > 0 %}
+					<div class="row">
+						<div class='col-lg-4'>
+							<p style="display: inline-block;">{{item.product.name}}</p><hr>
+						</div>
+						<div class='col-lg-4'>
+							<p style="display: inline-block;">${{item.product.price|floatformat:2}}</p><hr>
+						</div>
+						<div class='col-lg-4'>
+							<p style="display: inline-block;">
+								<a href="{% url 'remove-from-cart' item.product.id %}"><i class="fas fa-minus mr-1"></i>
+								</a>{{item.quantity}}<a href="{% url 'add-to-cart' item.product.id %}"><i class="fas fa-plus ml-1"></i></a>
+							</p><hr>
+						</div>
+						<!-- <div style="flex:2"><img class="img-thumbnail2" src="{{item.product.image.url}}"></div> -->
 					</div>
-					<div class='col-lg-4'>
-						<p style="display: inline-block;">${{item.product.price|floatformat:2}}</p><hr>
-					</div>
-					<div class='col-lg-4'>
-						<p style="display: inline-block;">
-							<a href="{% url 'remove-from-cart' item.product.id %}"><i class="fas fa-minus mr-1"></i>
-							</a>{{item.quantity}}<a href="{% url 'add-to-cart' item.product.id %}"><i class="fas fa-plus ml-1"></i></a>
-						</p><hr>
-					</div>
-					<!-- <div style="flex:2"><img class="img-thumbnail2" src="{{item.product.image.url}}"></div> -->
-				</div>
 				{% endif %}
 				{% endfor %}
 				<h5>Cantidad:   {{order.get_cart_items}} unidades</h5>
 				<h5>Total:   ${{order.get_cart_total|floatformat:2}}</h5>
 			</div>
 			{% endif %}
-	</div>
+		</div>
 
-
-
-{% endblock body %}
+{% endblock %}
 
 
  

@@ -3,7 +3,7 @@
 
 <a  class="btn btn-outline-dark" href="{% url 'index' %}">&#x2190; Inicio</a>
 
-<div class="card mt-5 mx-auto" style="width: 20rem;">
+<div class="card mt-5 mb-5 mx-auto" style="width: 20rem;">
     <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap">
     <div class="card-body">
         <h3>{{product.name}}</h3>
@@ -12,7 +12,7 @@
         <a href="{% url 'search-view' %}?q={{cat}}"><span class="badge badge-info">{{cat}}</span></a>
         {% endfor %} <hr>
       <p class="card-text">{{product.description}}</p>
-      <a href="{% url 'add-to-cart' id=product.id%}" class="btn btn-primary">Agregar</a>
+      <a href="{% url 'add-to-cart' id=product.id%}" class="btn btn-primary">Lo Quiero!</a>
       <!-- <a href=><button class="btn btn-outline-secondary add-btn update-cart">Agregar </button></a> -->
     </div>
   </div>
