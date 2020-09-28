@@ -1,18 +1,25 @@
 {% extends 'inventario_app/base.html' %}
 {% block body%}
 
-<div class='row justify-content-md-center'>
-    <div class='col-6'>
-        <img class="img-thumbnail" src="{{product.image.url}}">
-        <p>precio: ${{product.price}}</p>
-        <h2>{{product.name}}</h2>
+<a  class="btn btn-outline-dark" href="{% url 'index' %}">&#x2190; Inicio</a>
+
+<div class="card mt-5 mx-auto" style="width: 20rem;">
+    <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap">
+    <div class="card-body">
+        <h3>{{product.name}}</h3>
+        <p>precio p/u: ${{product.price}}</p>
         {% for cat in product.category.all %}
         <a href="{% url 'search-view' %}?q={{cat}}"><span class="badge badge-info">{{cat}}</span></a>
         {% endfor %} <hr>
-        <p>{{product.description}}</p>
-        <a class='btn btn-primary' href="{% url 'index' %}">Volver al inicio</a>
-        <a href="{% url 'add-to-cart' id=product.id%}"><button class="btn btn-outline-secondary add-btn update-cart">Agregar </button></a>
+      <p class="card-text">{{product.description}}</p>
+      <a href="{% url 'add-to-cart' id=product.id%}" class="btn btn-primary">Agregar</a>
+      <!-- <a href=><button class="btn btn-outline-secondary add-btn update-cart">Agregar </button></a> -->
     </div>
-</div>
+  </div>
 
 {% endblock %}
+
+
+
+
+  
