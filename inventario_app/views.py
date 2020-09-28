@@ -29,7 +29,6 @@ class CreateProductView(CreateView):
     fields = ['name','price','description','category','image']
     success_url = 'success'
 
-
 def detail(request, id):
     qs = get_object_or_404(Product, id=id)
     context = {'product': qs}
@@ -102,13 +101,20 @@ def addToCart(request, id):
 
 def cart(request):
     key = 'cart_id'
+    products = Product.objects.all()
+    featured = products.order_by("-views")[:4]
+    context = {
+        'products': products,
+        'featured': featured,
+    }
     try:
         session_id = request.session[key]
         order = get_object_or_404(Order, id=session_id)
         context = {"order": order}
         return render(request, 'inventario_app/checkout.html', context)
     except:
-        return HttpResponse('Tu carrito esta vacio')
+        messages.warning(request,'No tienes una orden abierta. Necesitas agregar el primer producto para abrir una orden.')
+        return render(request, 'inventario_app/index.html', context)
 
 def email_confirmation(request):
     form = EmailConfirmationForm()
@@ -136,7 +142,7 @@ def email_confirmation(request):
                 )
             mail.content_subtype = 'html'
             mail.send()
-            messages.success(request, f'Se ha enviado un email a esta direccion de correo para confirmar su pedido {customer_email}')
+            messages.info(request, f'Se ha enviado un email a esta direccion de correo para confirmar su pedido {customer_email}')
             return HttpResponseRedirect(reverse('index'))
     context = {"form": form}
     return render(request, 'inventario_app/email_confirmation.html', context)
@@ -150,7 +156,6 @@ class ConfirmRegistrationView(View):
         order = Order.objects.get(id=order_id)
     
         context = {
-          'message': 'Se ha generado un error.',
           'order': order,
           'products': products,
           'featured': featured,
@@ -162,8 +167,7 @@ class ConfirmRegistrationView(View):
             order.save()
             message = get_template('inventario_app/email_confirmation_final.html').render({
                 'order': order,
-                'customer_info': customer_info,
-                
+                'customer_info': customer_info,  
             })
             mail = EmailMessage(
                 'Dulceria Funes',
@@ -174,7 +178,9 @@ class ConfirmRegistrationView(View):
             mail.content_subtype = 'html'
             mail.send()
             del request.session['cart_id'], request.session['customer_info']
-            messages.success(request, 'Orden confirmada. Uno de nuestros empleados se comunicara con usted via telefono para completar la orden.')
+            messages.success(request, 'Orden confirmada. Uno de nuestros empleados se comunicara con usted via telefono para definir detalles de pago.')
+        else: 
+            messages.error(request, 'Ha ocurrido un problema con el link. Por favor intentelo de nuevo.')
         return render(request, 'inventario_app/index.html', context)
 
 

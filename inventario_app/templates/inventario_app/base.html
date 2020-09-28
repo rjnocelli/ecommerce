@@ -10,12 +10,15 @@
     <title>Document</title>
 </head>
 <body style="background-color: rgb(224, 253, 255)">
-    <!-- {% if messages %}
-        {% for message in messages %}
-        <p {% if message.tags %} class="{{ message.tags }} alert alert-success"{% endif %}>{{ message }}</p>
-        {% endfor %}{% endif %} -->
+    
 
     {% include "inventario_app/navbar.html" %}
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'error' %} <p class="alert alert-danger">{{ message }} </p>
+        {% else %} <p class="alert alert-{{message.tags}}"> {{ message }}</p> {% endif %}
+         
+    {% endfor %}{% endif %}
     <div style="margin-top: 30px; background-color: rgb(224, 253, 255)" class="container">
         {% block body %}
         {% endblock %}
