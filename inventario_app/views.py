@@ -103,6 +103,7 @@ def addToCart(request, id):
         orderitem_object = OrderItem.objects.create(product=item)
         order.items.add(orderitem_object)
         context = {"order": order}
+    print(request.method)
     return HttpResponseRedirect(reverse('cart'))
 
 def cart(request):
