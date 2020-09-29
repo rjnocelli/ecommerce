@@ -78,7 +78,8 @@ def removeFromCart(request, id):
             orderitem_object.quantity -= 1
             orderitem_object.save()
     context = {'order':order}
-    return render(request, 'inventario_app/checkout.html', context)
+    return HttpResponseRedirect(reverse('cart'))
+
 
 def addToCart(request, id):
     item = get_object_or_404(Product, id = id)
@@ -96,14 +97,13 @@ def addToCart(request, id):
             orderitem_object.product.save()
             order.items.add(orderitem_object)
         context = {"order": order}
-        return render(request, 'inventario_app/checkout.html',context)
     else:
         order = Order.objects.create()
         request.session[key] = order.id
         orderitem_object = OrderItem.objects.create(product=item)
         order.items.add(orderitem_object)
         context = {"order": order}
-        return render(request, 'inventario_app/checkout.html', context)
+    return HttpResponseRedirect(reverse('cart'))
 
 def cart(request):
     key = 'cart_id'
