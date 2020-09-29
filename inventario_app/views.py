@@ -2,7 +2,7 @@ from django.conf import settings
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.db.models import Q
 from django.contrib import messages
 
@@ -19,17 +19,20 @@ from django.views.generic import FormView, CreateView, DetailView, View
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+
 
 def Index(request):
     products = Product.objects.all()
     featured = products.order_by("-views")[:4]
     return render(request, 'inventario_app/index.html', context={'products': products, 'featured':featured})
 
-class CreateProductView(LoginRequiredMixin, CreateView):
+class CreateProductView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'inventario_app/create_product.html'
     model = Product
     fields = ['name','price','description','category','image']
-    success_url = 'success'
+    success_url = reverse_lazy('index')
+    success_message = f'Has agregado un nuevo producto a la base de datos'
 
 def detail(request, id):
     qs = get_object_or_404(Product, id=id)

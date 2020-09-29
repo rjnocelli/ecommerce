@@ -10,7 +10,6 @@ from inventario_app.views import (
     addToCart,
     removeFromCart,
     update,
-    Success,
 )
 
 urlpatterns = [
@@ -21,7 +20,6 @@ urlpatterns = [
     path('email-confirmation/', views.email_confirmation, name='email-confirmation'),
     path('confirm-email/<str:order_id>/<str:token>/', views.ConfirmRegistrationView.as_view(), name='confirm_email'),
     path('create/', CreateProductView.as_view(), name='create'),
-    path('create/success/', views.Success, name='success'),
     path('product/<id>/', views.detail, name='detail'),
     path('product/<id>/add/', views.addToCart, name='add-to-cart'),
     path('product/<id>/remove/', views.removeFromCart, name='remove-from-cart'),
