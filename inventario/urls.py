@@ -3,16 +3,29 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from inventario_app import views
-from inventario_app.views import ConfirmRegistrationView
+from inventario_app.views import (
+    ConfirmRegistrationView,
+    CreateProductView,
+    detail,
+    addToCart,
+    removeFromCart,
+    update,
+    Success,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.Index, name='index'),
-    path('product/', include('inventario_app.urls')),
     path('cart/', views.cart, name='cart'),
     path('search/', views.SearchProducts, name='search-view'),
     path('email-confirmation/', views.email_confirmation, name='email-confirmation'),
-    path('confirm-email/<str:order_id>/<str:token>/', views.ConfirmRegistrationView.as_view(), name='confirm_email')
+    path('confirm-email/<str:order_id>/<str:token>/', views.ConfirmRegistrationView.as_view(), name='confirm_email'),
+    path('create/', CreateProductView.as_view(), name='create'),
+    path('create/success/', views.Success, name='success'),
+    path('product/<id>/', views.detail, name='detail'),
+    path('product/<id>/add/', views.addToCart, name='add-to-cart'),
+    path('product/<id>/remove/', views.removeFromCart, name='remove-from-cart'),
+    path('product/<id>/update/', views.update, name='update'),
 ]
 
 if settings.DEBUG:

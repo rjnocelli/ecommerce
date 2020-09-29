@@ -17,13 +17,15 @@ from .models import Product, OrderItem, Order
 from .forms import CreateProductForm, EmailConfirmationForm
 from django.views.generic import FormView, CreateView, DetailView, View
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def Index(request):
     products = Product.objects.all()
     featured = products.order_by("-views")[:4]
     return render(request, 'inventario_app/index.html', context={'products': products, 'featured':featured})
 
-class CreateProductView(CreateView):
+class CreateProductView(LoginRequiredMixin, CreateView):
     template_name = 'inventario_app/create_product.html'
     model = Product
     fields = ['name','price','description','category','image']
@@ -34,6 +36,7 @@ def detail(request, id):
     context = {'product': qs}
     return render(request, 'inventario_app/detail_view.html', context)
 
+@login_required
 def update(request, id):
     qs = get_object_or_404(Product, id=id)
     form = CreateProductForm(instance = qs)
@@ -186,7 +189,6 @@ class ConfirmRegistrationView(View):
 
         
     
-
 
 
 
