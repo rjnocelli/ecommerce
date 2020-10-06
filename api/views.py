@@ -29,12 +29,12 @@ def orderDetail(request, pk):
     serializer = OrderSerializer(order)
     return Response(serializer.data)
 
-# @api_view(['POST'])
-# def taskCreate(request):
-#     serializer = TaskSerializer(data=request.data)
-#     if serializer.is_valid():
-#         serializer.save()
-#     return Response(serializer.data)
+@api_view(['POST'])
+def orderCreate(request):
+    serializer = OrderSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
 
 # @api_view(['POST'])
 # def taskUpdate(request, id):
