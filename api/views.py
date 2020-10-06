@@ -23,11 +23,11 @@ def orderList(request):
     serializer = OrderSerializer(orders, many=True)
     return Response(serializer.data)
 
-# @api_view(['GET'])
-# def taskDetail(request, id):
-#     task = Task.objects.get(id=id)
-#     serializer = TaskSerializer(task)
-#     return Response(serializer.data)
+@api_view(['GET'])
+def orderDetail(request, pk):
+    order = Order.objects.get(id=pk)
+    serializer = OrderSerializer(order)
+    return Response(serializer.data)
 
 # @api_view(['POST'])
 # def taskCreate(request):
