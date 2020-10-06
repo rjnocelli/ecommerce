@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'inventario_app',
     'bootstrap4',
     'crispy_forms',
+    'rest_framework',
 ]
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True

@@ -14,9 +14,9 @@
         </div>
         <div class="row">
             {% for product in featured %}
-            <div class="col-lg-3 col-md-3 col-sm-3">
+            <div class="p-3 col-lg-3 col-md-3 col-sm-3">
                 <a href="{% url 'detail' id=product.id%}"><img class="img-thumbnail" src="{{product.image.url}}"></a>
-                <div class="box-element product">
+                <div class="box-element product p-3">
                     <h6 class="pt-2" style="display: inline-block; float: right">${{product.price}}</h6>
                     <a href="{% url 'detail' id=product.id%}"><h6 class="pt-2" style="display: inline-block"><strong>{{product.name}}</strong></h6></a>
                     <!-- <a class="btn btn-outline-primary btn-sm" href="{% url 'detail' id=product.id%}">Detalles</a> -->

@@ -15,6 +15,7 @@ from inventario_app.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.Index, name='index'),
+    path('api/', include('api.urls')),
     path('cart/', views.cart, name='cart'),
     path('search/', views.SearchProducts, name='search-view'),
     path('email-confirmation/', views.email_confirmation, name='email-confirmation'),

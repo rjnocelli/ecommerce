@@ -4,7 +4,7 @@
 
 		<div class="row">
 			<div class="col-lg-6">
-				<div class="box-element">
+				<div class="box-element p-4">
 					{% if not order.complete %}
 					<a  class="btn btn-outline-dark" href="{% url 'index' %}">&#x2190; Inicio</a>
 					{% if order.get_cart_items > 0 %}
