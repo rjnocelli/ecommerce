@@ -20,7 +20,7 @@ class Category(models.Model):
         return self.name
 
 class OrderItem(models.Model):
-    product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True)
+    product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True, related_name='product')
     quantity = models.IntegerField(default=1, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
@@ -37,7 +37,7 @@ class OrderItem(models.Model):
         self.quantity += 1
     
 class Order(models.Model):
-    items = models.ManyToManyField("OrderItem")
+    items = models.ManyToManyField("OrderItem", related_name='products')
     date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False)
 
