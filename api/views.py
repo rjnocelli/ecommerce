@@ -36,13 +36,13 @@ def orderCreate(request):
         serializer.save()
     return Response(serializer.data)
 
-# @api_view(['POST'])
-# def taskUpdate(request, id):
-#     task = Task.objects.get(id=id)
-#     serializer = TaskSerializer(instance=task, data=request.data)
-#     if serializer.is_valid():
-#         serializer.save()
-#     return Response(serializer.data)
+@api_view(['POST'])
+def orderUpdate(request, id):
+    order = Order.objects.get(id=id)
+    serializer = OrderSerializer(instance=order, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
 
 # @api_view(['DELETE'])
 # def taskDelete(request, id):
