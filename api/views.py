@@ -44,9 +44,8 @@ def orderUpdate(request, id):
         serializer.save()
     return Response(serializer.data)
 
-# @api_view(['DELETE'])
-# def taskDelete(request, id):
-#     task = Task.objects.get(id=id)
-#     print(task)
-#     task.delete()
-#     return Response("Y se borro!!!!")
+@api_view(['DELETE'])
+def orderDelete(request, id):
+    order = Order.objects.get(id=id)
+    order.delete()
+    return JsonResponse("Y se borro!!!!")
