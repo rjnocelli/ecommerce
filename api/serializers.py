@@ -17,5 +17,5 @@ class OrderSerializer(serializers.ModelSerializer):
     # order_items = OrderItemSerializer(many=True, read_only=True)
     class Meta:
         model = Order
-        fields = ('id','complete','date_ordered','items')
-        depth = 1
+        fields = ('id','complete','date_ordered','items','active')
+        depth = 2

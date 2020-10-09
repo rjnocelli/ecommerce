@@ -81,12 +81,34 @@ def removeFromCart(request, id):
     return HttpResponseRedirect(reverse('cart'))
 
 
+# def add_to_cart(request, id):
+#     item = get_object_or_404(Product, id = id)
+#     key = 'cart_id'
+#     if key in request.session:
+#         session_id = request.session[key] 
+#         order = get_object_or_404(Order, id = session_id)
+#         if order.items.filter(product__id = item.id).exists():
+#             orderitem_object = order.items.filter(product__id = item.id)[0]
+#             orderitem_object.quantity += 1
+#             orderitem_object.save()
+#         else:
+#             orderitem_object = OrderItem.objects.create(product=item)
+#             orderitem_object.product.views += 1
+#             orderitem_object.product.save()
+#             order.items.add(orderitem_object)
+#         context = {"order": order}
+#     else:
+#         order = Order.objects.create(active=True)
+#         request.session[key] = order.id
+#         orderitem_object = OrderItem.objects.create(product=item)
+#         order.items.add(orderitem_object)
+#         context = {"order": order}
+#     return HttpResponseRedirect(reverse('cart'))
+
 def addToCart(request, id):
     item = get_object_or_404(Product, id = id)
-    key = 'cart_id'
-    if key in request.session:
-        session_id = request.session[key] 
-        order = get_object_or_404(Order, id = session_id)
+    try:
+        order = Order.objects.get(active=True)
         if order.items.filter(product__id = item.id).exists():
             orderitem_object = order.items.filter(product__id = item.id)[0]
             orderitem_object.quantity += 1
@@ -97,30 +119,27 @@ def addToCart(request, id):
             orderitem_object.product.save()
             order.items.add(orderitem_object)
         context = {"order": order}
-    else:
-        order = Order.objects.create()
-        request.session[key] = order.id
+    except:
+        order = Order.objects.create(active=True)
         orderitem_object = OrderItem.objects.create(product=item)
         order.items.add(orderitem_object)
         context = {"order": order}
-    print(request.method)
     return HttpResponseRedirect(reverse('cart'))
 
+        
 def cart(request):
-    key = 'cart_id'
-    products = Product.objects.all()
-    featured = products.order_by("-views")[:4]
-    context = {
-        'products': products,
-        'featured': featured,
-    }
     try:
-        session_id = request.session[key]
-        order = get_object_or_404(Order, id=session_id)
+        order = Order.objects.get(active=True)
         context = {"order": order}
         return render(request, 'inventario_app/checkout.html', context)
     except:
         messages.warning(request,'No tienes una orden abierta. Necesitas agregar el primer producto para abrir una orden.')
+        products = Product.objects.all()
+        featured = products.order_by("-views")[:4]
+        context = {
+            'products': products,
+            'featured': featured,
+        }
         return render(request, 'inventario_app/index.html', context)
 
 def email_confirmation(request):
@@ -191,17 +210,8 @@ class ConfirmRegistrationView(View):
         return render(request, 'inventario_app/index.html', context)
 
 
-        
-    
-
-
-
-
-
-
-
-
-
+def checkOut(request):
+    return render(request, 'inventario_app/checkout.html')
         
  
         

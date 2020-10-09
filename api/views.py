@@ -1,10 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from .serializers import OrderSerializer
 from inventario_app.models import Order
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
+
 
 @api_view(['GET'])
 def apiOverview(request):
@@ -18,9 +20,12 @@ def apiOverview(request):
     return Response(api_urls)
 
 @api_view(['GET'])
-def orderList(request):
-    orders = Order.objects.all().order_by('-id')
-    serializer = OrderSerializer(orders, many=True)
+def getActiveOrder(request):
+    try:
+        order = Order.objects.get(active = True)
+        serializer = OrderSerializer(order)
+    except:
+        order = None
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -48,4 +53,4 @@ def orderUpdate(request, id):
 def orderDelete(request, id):
     order = Order.objects.get(id=id)
     order.delete()
-    return JsonResponse("Y se borro!!!!")
+    return Response(status=status.HTTP_204_NO_CONTENT)

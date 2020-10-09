@@ -13,10 +13,10 @@
 					<hr>
 					<h3>Resumen de orden</h3>
 					<hr>
-					{% for item in order.items.all %}
-					{% if item.quantity > 0 %}
-					<div class="row">
-						<div class='col-lg-4'>
+					<!-- {% for item in order.items.all %}
+					{% if item.quantity > 0 %} -->
+					<div id="items-div" class="row">
+						<!-- <div class='col-lg-4'>
 							<p style="display: inline-block;">{{item.product.name}}</p><hr>
 						</div>
 						<div class='col-lg-4'>
@@ -26,18 +26,62 @@
 							<p style="display: inline-block;">
 								<a href="{% url 'remove-from-cart' item.product.id %}"><i class="fas fa-minus mr-1"></i>
 								</a>{{item.quantity}}<a href="{% url 'add-to-cart' item.product.id %}"><i class="fas fa-plus ml-1"></i></a>
-							</p><hr>
+							</p><hr> -->
 						</div>
+						<div id="order-items">
+							<ol>
+
+							</ol>
+						</div>
+						<div id='total'>
+
+						</div>
+						
 						<!-- <div style="flex:2"><img class="img-thumbnail2" src="{{item.product.image.url}}"></div> -->
 					</div>
-				{% endif %}
-				{% endfor %}
-				<h5>Cantidad:   {{order.get_cart_items}} unidades</h5>
-				<h5>Total:   ${{order.get_cart_total|floatformat:2}}</h5>
+				<!-- {% endif %}
+				{% endfor %} -->
+				
 			</div>
 			{% endif %}
 		</div>
+<script>
+	buildProductsList()
+	function buildProductsList(){
+		const wrapper = document.getElementById('items-div')
+		const url = 'http://127.0.0.1:8000/api/order-list/'
+		fetch(url)
+		.then(response => response.json())
+		.then(function(data){
+			console.log('Data:', data)
+			order = data
+			let order_item_objs = order.items
+			let order_items_total_quantity = 0 
+			let order_items_total_price = 0
+			order_item_objs.forEach(function(item){
+				order_items_total_quantity += item.quantity
+				order_items_total_price += item.quantity * item.product.price
+			});
 
+			order_item_objs.map(function(item){
+				wrapper.innerHTML += `
+				<div class='col-lg-4'>
+					<p style="display: inline-block;">${item.product.name}</p><hr>
+				</div>
+				<div class='col-lg-4'>
+					<p style="display: inline-block;">$${item.product.price}</p><hr>
+				</div>
+				<div class='col-lg-4'>
+					<p> ${item.quantity} </p>
+				</div>`
+			});
+			const total = document.getElementById('total')
+			total.innerHTML += `
+				<h5>Cantidad Total: ${order_items_total_quantity} unidades</h5>
+				<h5>Precio Final: $ ${order_items_total_price}</h5>`
+		});
+	}
+</script>
 {% endblock %}
 
 
