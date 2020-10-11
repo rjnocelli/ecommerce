@@ -46,7 +46,14 @@
 			{% endif %}
 		</div>
 <script>
+	
 	buildProductsList()
+
+	function substractQuantity(item){
+		return item -= 1
+	}
+
+
 	function buildProductsList(){
 		const wrapper = document.getElementById('items-div')
 		const url = 'http://127.0.0.1:8000/api/order-list/'
@@ -58,11 +65,17 @@
 			let order_item_objs = order.items
 			let order_items_total_quantity = 0 
 			let order_items_total_price = 0
+
 			order_item_objs.forEach(function(item){
 				order_items_total_quantity += item.quantity
 				order_items_total_price += item.quantity * item.product.price
 			});
 
+			localStorage.setItem('current_order', JSON.stringify(data))
+			current_order = localStorage.getItem('current_order')
+
+			order_item_objs = JSON.parse(current_order).items
+			
 			order_item_objs.map(function(item){
 				wrapper.innerHTML += `
 				<div class='col-lg-4'>
@@ -72,9 +85,37 @@
 					<p style="display: inline-block;">$${item.product.price}</p><hr>
 				</div>
 				<div class='col-lg-4'>
-					<p> ${item.quantity} </p>
+					<p> <i id='minus-quantity ${item.id}' class="fas fa-minus mr-1"></i>${item.quantity} <i id='plus-quantity ${item.id}' class="fas fa-plus mr-1"></i></p>
 				</div>`
+			
 			});
+
+			function a(){
+				order_item_objs.forEach((item) => {
+					item_id = JSON.stringify(item.id)
+					minus_id = 'minus-quantity ' + item_id
+					minus = document.getElementById(minus_id)
+	
+					minus.addEventListener('click', () => {
+						item.quantity -= 1
+						console.log(item.quantity)
+					})
+					
+					plus_id = 'plus-quantity ' + item_id
+					plus = document.getElementById(plus_id)
+	
+					plus.addEventListener('click', () => {
+						item.quantity += 1
+						console.log(item.quantity)
+					})
+		
+				});
+				localStorage.setItem('current_order', JSON.stringify(order_item_objs))
+			}
+
+			a()
+			
+			
 			const total = document.getElementById('total')
 			total.innerHTML += `
 				<h5>Cantidad Total: ${order_items_total_quantity} unidades</h5>
