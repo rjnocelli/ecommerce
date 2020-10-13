@@ -49,10 +49,6 @@
 
 	buildProductsList()
 
-	function substractQuantity(item){
-		return item -= 1
-	}
-
 	function addHtmlForItemQuantitySelection(order_item_objs) {
 		itemsDiv = document.getElementById('items-div');
 		order_item_objs.map(function(item){
@@ -75,7 +71,7 @@
 	}
 
 	function onOrderListFetched(order) {
-			console.log('Data:', order)
+			console.log(order)
 			let order_item_objs = order.items
 			let order_items_total_quantity = 0
 			let order_items_total_price = 0
@@ -93,12 +89,21 @@
 				item_id = JSON.stringify(item.id)
 				minus_id = 'minus-quantity ' + item_id
 				minus = document.getElementById(minus_id)
+				total_quanity_span = document.getElementById('total-quantity')
+				total_price_span = document.getElementById('total-price')
+
+				
+
 
 				minus.addEventListener('click', () => {
 					item.quantity -= 1;
 					console.log(item.quantity);
 					document.getElementById('item-quantity ' + item.id).innerHTML = item.quantity
-				})
+					order_items_total_price -= item.product.price
+					order_items_total_quantity -= 1
+					document.querySelector('#total-price').innerHTML = order_items_total_price
+					document.querySelector('#total-quantity').innerHTML = order_items_total_quantity		
+				});
 
 				plus_id = 'plus-quantity ' + item_id
 				plus = document.getElementById(plus_id)
@@ -107,13 +112,19 @@
 					item.quantity += 1
 					console.log(item.quantity);
 					document.getElementById('item-quantity ' + item.id).innerHTML = item.quantity
-				})
+					order_items_total_price += parseInt(item.product.price)
+					order_items_total_quantity += 1
+					document.querySelector('#total-price').innerHTML = order_items_total_price
+					document.querySelector('#total-quantity').innerHTML = order_items_total_quantity
+				});
+
+				
 
 			});
 			const total = document.getElementById('total')
 			total.innerHTML += `
-				<h5>Cantidad Total: ${order_items_total_quantity} unidades</h5>
-				<h5>Precio Final: $ ${order_items_total_price}</h5>`
+				<h5>Cantidad Total: <span id='total-quantity'>${order_items_total_quantity}</span> unidades</h5>
+				<h5>Precio Final: $ <span id='total-price'>${order_items_total_price}</span></h5>`
 		}
 
 
