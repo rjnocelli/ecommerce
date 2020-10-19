@@ -2,6 +2,7 @@
 {% load static %}
 {% block body %}
 
+
 		<div class="row">
 			<div class="col-lg-6">
 				<div class="box-element p-4">
@@ -45,7 +46,10 @@
 			</div>
 			{% endif %}
 		</div>
+		
 <script>
+
+	
 
 	buildProductsList()
 
@@ -60,7 +64,7 @@
 				<p style="display: inline-block;">$${item.product.price}</p><hr>
 			</div>
 			<div class='col-lg-4'>
-				<p>
+				<p id='cart-data'>
 					<i id='minus-quantity ${item.id}' class="fas fa-minus mr-1"></i>
 					<span id='item-quantity ${item.id}'>${item.quantity}</span>
 					<i id='plus-quantity ${item.id}' class="fas fa-plus mr-1"></i>
@@ -71,56 +75,66 @@
 	}
 
 	function onOrderListFetched(order) {
-			console.log(order)
 			let order_item_objs = order.items
 			let order_items_total_quantity = 0
 			let order_items_total_price = 0
+
+			addHtmlForItemQuantitySelection(order_item_objs);
 
 			order_item_objs.forEach(function(item){
 				order_items_total_quantity += item.quantity
 				order_items_total_price += item.quantity * item.product.price
 			});
 
-			order_item_objs = order.items
-
-			addHtmlForItemQuantitySelection(order_item_objs);
+			function substractQuantity(item) {
+				if(item.quantity > 0){
+					if(minus.classList.value.includes("disabled")){
+						minus.classList.remove("disabled")
+					}
+					console.log(item.price)
+					item.quantity -= 1;
+					order_items_total_price -= parseInt(item.product.price);
+					order_items_total_quantity -= 1;
+				}else{
+		
+					minus.classList.add("disabled")
+					alert('Cantidad no puede ser menor que 0')
+				}
+		
+				document.getElementById('item-quantity ' + item.id).innerHTML = item.quantity
+				document.querySelector('#total-price').innerHTML = order_items_total_price
+				document.querySelector('#total-quantity').innerHTML = order_items_total_quantity
+		
+			}
+		
+			function addQuantity(item) {
+				item.quantity += 1;
+				if(item.quantity > 0){
+					if(minus.classList.value.includes("disabled")){
+						minus.classList.remove("disabled")
+					}
+					order_items_total_price += item.product.price;
+					order_items_total_quantity += 1;
+				}
+		
+				document.getElementById('item-quantity ' + item.id).innerHTML = item.quantity
+				document.querySelector('#total-price').innerHTML = order_items_total_price
+				document.querySelector('#total-quantity').innerHTML = order_items_total_quantity
+			}
 
 			order_item_objs.forEach((item) => {
-				item_id = JSON.stringify(item.id)
-				minus_id = 'minus-quantity ' + item_id
-				minus = document.getElementById(minus_id)
-				total_quanity_span = document.getElementById('total-quantity')
-				total_price_span = document.getElementById('total-price')
-
+					item_id = JSON.stringify(item.id);
+					minus_id = 'minus-quantity ' + item_id;
+					minus = document.getElementById(minus_id);
+					plus_id = 'plus-quantity ' + item_id;
+						plus = document.getElementById(plus_id);
 				
+					minus.addEventListener('click', () => substractQuantity(item))
 
-
-				minus.addEventListener('click', () => {
-					item.quantity -= 1;
-					console.log(item.quantity);
-					document.getElementById('item-quantity ' + item.id).innerHTML = item.quantity
-					order_items_total_price -= item.product.price
-					order_items_total_quantity -= 1
-					document.querySelector('#total-price').innerHTML = order_items_total_price
-					document.querySelector('#total-quantity').innerHTML = order_items_total_quantity		
-				});
-
-				plus_id = 'plus-quantity ' + item_id
-				plus = document.getElementById(plus_id)
-
-				plus.addEventListener('click', () => {
-					item.quantity += 1
-					console.log(item.quantity);
-					document.getElementById('item-quantity ' + item.id).innerHTML = item.quantity
-					order_items_total_price += parseInt(item.product.price)
-					order_items_total_quantity += 1
-					document.querySelector('#total-price').innerHTML = order_items_total_price
-					document.querySelector('#total-quantity').innerHTML = order_items_total_quantity
-				});
-
-				
+					plus.addEventListener('click', () => addQuantity(item))
 
 			});
+			
 			const total = document.getElementById('total')
 			total.innerHTML += `
 				<h5>Cantidad Total: <span id='total-quantity'>${order_items_total_quantity}</span> unidades</h5>
@@ -136,6 +150,15 @@
 			.then(onOrderListFetched);
 	}
 </script>
+
+<style>
+	.disabled {
+		cursor: not-allowed;
+		opacity: 0.65;
+		filter: alpha(opacity=65);
+		box-shadow: none;
+	}
+</style>
 {% endblock %}
 
 
