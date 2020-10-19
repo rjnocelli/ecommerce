@@ -46,10 +46,10 @@
 			</div>
 			{% endif %}
 		</div>
-		
+
 <script>
 
-	
+
 
 	buildProductsList()
 
@@ -87,28 +87,25 @@
 			});
 
 			function substractQuantity(item) {
+				minus = document.getElementById('minus-quantity ' + item.id);
 				if(item.quantity > 0){
-					if(minus.classList.value.includes("disabled")){
-						minus.classList.remove("disabled")
-					}
 					console.log(item.price)
 					item.quantity -= 1;
 					order_items_total_price -= parseInt(item.product.price);
 					order_items_total_quantity -= 1;
-				}else{
-		
-					minus.classList.add("disabled")
-					alert('Cantidad no puede ser menor que 0')
+					if (item.quantity == 0) {
+						minus.classList.add("disabled");
+					}
 				}
-		
+
 				document.getElementById('item-quantity ' + item.id).innerHTML = item.quantity
 				document.querySelector('#total-price').innerHTML = order_items_total_price
 				document.querySelector('#total-quantity').innerHTML = order_items_total_quantity
-		
 			}
-		
+
 			function addQuantity(item) {
 				item.quantity += 1;
+				minus = document.getElementById('minus-quantity ' + item.id);
 				if(item.quantity > 0){
 					if(minus.classList.value.includes("disabled")){
 						minus.classList.remove("disabled")
@@ -116,7 +113,7 @@
 					order_items_total_price += item.product.price;
 					order_items_total_quantity += 1;
 				}
-		
+
 				document.getElementById('item-quantity ' + item.id).innerHTML = item.quantity
 				document.querySelector('#total-price').innerHTML = order_items_total_price
 				document.querySelector('#total-quantity').innerHTML = order_items_total_quantity
@@ -128,13 +125,12 @@
 					minus = document.getElementById(minus_id);
 					plus_id = 'plus-quantity ' + item_id;
 						plus = document.getElementById(plus_id);
-				
-					minus.addEventListener('click', () => substractQuantity(item))
 
+					minus.addEventListener('click', () => substractQuantity(item))
 					plus.addEventListener('click', () => addQuantity(item))
 
 			});
-			
+
 			const total = document.getElementById('total')
 			total.innerHTML += `
 				<h5>Cantidad Total: <span id='total-quantity'>${order_items_total_quantity}</span> unidades</h5>
