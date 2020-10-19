@@ -110,7 +110,7 @@
 					if(minus.classList.value.includes("disabled")){
 						minus.classList.remove("disabled")
 					}
-					order_items_total_price += item.product.price;
+					order_items_total_price += parseInt(item.product.price);
 					order_items_total_quantity += 1;
 				}
 
@@ -124,7 +124,7 @@
 					minus_id = 'minus-quantity ' + item_id;
 					minus = document.getElementById(minus_id);
 					plus_id = 'plus-quantity ' + item_id;
-						plus = document.getElementById(plus_id);
+					plus = document.getElementById(plus_id);
 
 					minus.addEventListener('click', () => substractQuantity(item))
 					plus.addEventListener('click', () => addQuantity(item))
