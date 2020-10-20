@@ -1,8 +1,6 @@
 {% extends 'inventario_app/base.html' %}
 {% load static %}
 {% block body %}
-
-
 		<div class="row">
 			<div class="col-lg-6">
 				<div class="box-element p-4">
@@ -16,19 +14,9 @@
 					<hr>
 					<!-- {% for item in order.items.all %}
 					{% if item.quantity > 0 %} -->
-					<div id="items-div" class="row">
-						<!-- <div class='col-lg-4'>
-							<p style="display: inline-block;">{{item.product.name}}</p><hr>
-						</div>
-						<div class='col-lg-4'>
-							<p style="display: inline-block;">${{item.product.price|floatformat:2}}</p><hr>
-						</div>
-						<div class='col-lg-4'>
-							<p style="display: inline-block;">
-								<a href="{% url 'remove-from-cart' item.product.id %}"><i class="fas fa-minus mr-1"></i>
-								</a>{{item.quantity}}<a href="{% url 'add-to-cart' item.product.id %}"><i class="fas fa-plus ml-1"></i></a>
-							</p><hr> -->
-						</div>
+					<div id="items-div">
+
+					</div>
 						<div id="order-items">
 							<ol>
 
@@ -55,22 +43,28 @@
 
 	function addHtmlForItemQuantitySelection(order_item_objs) {
 		itemsDiv = document.getElementById('items-div');
+		itemsDiv.innerHTML = ``
 		order_item_objs.map(function(item){
 			itemsDiv.innerHTML += `
-			<div class='col-lg-4'>
-				<p style="display: inline-block;">${item.product.name}</p><hr>
+			<div id='item-row ${item.id}' class='row'>
+				<div class='col-lg-4'>
+					<p style="display: inline-block;">${item.product.name}</p><hr>
+				</div>
+				<div class='col-lg-4'>
+					<p style="display: inline-block;">$${item.product.price}</p><hr><span></span>
+				</div>
+				<div class='col-lg-4'>
+					<p id='cart-data'>
+						<i id='minus-quantity ${item.id}' class="fas fa-minus mr-1"></i>
+						<span id='item-quantity ${item.id}'>${item.quantity}</span>
+						<i id='plus-quantity ${item.id}' class="fas fa-plus mr-1"></i>
+						<i id='trash-can ${item.id}' class="fa fa-trash ml-5" aria-hidden="true"></i>
+					</p>
+				<div class='col-lg-4'>
+				</div>
+				</div>
 			</div>
-			<div class='col-lg-4'>
-				<p style="display: inline-block;">$${item.product.price}</p><hr>
-			</div>
-			<div class='col-lg-4'>
-				<p id='cart-data'>
-					<i id='minus-quantity ${item.id}' class="fas fa-minus mr-1"></i>
-					<span id='item-quantity ${item.id}'>${item.quantity}</span>
-					<i id='plus-quantity ${item.id}' class="fas fa-plus mr-1"></i>
-				</p>
-			</div>`
-
+			`
 		});
 	}
 
@@ -79,6 +73,8 @@
 			let order_items_total_quantity = 0
 			let order_items_total_price = 0
 
+			console.log(order_item_objs)
+			array_1 = order_item_objs
 			addHtmlForItemQuantitySelection(order_item_objs);
 
 			order_item_objs.forEach(function(item){
@@ -86,10 +82,26 @@
 				order_items_total_price += item.quantity * item.product.price
 			});
 
+			function deleteProduct(item) {
+				for(var i=0; i < order_item_objs.length; i++){
+					if(order_item_objs[i].id == item.id){
+						order_item_objs.splice(i, 1)
+						order_items_total_price -= item.product.price
+						order_items_total_quantity -= item.quantity
+
+					}
+				}
+				for(var i=0; i<itemsDiv.children.length; i++){
+					if(itemsDiv.children[i].id === ('item-row ' + item.id)){
+						itemsDiv.children[i].remove()
+					}
+				}
+
+			}
+
 			function substractQuantity(item) {
 				minus = document.getElementById('minus-quantity ' + item.id);
 				if(item.quantity > 0){
-					console.log(item.price)
 					item.quantity -= 1;
 					order_items_total_price -= parseInt(item.product.price);
 					order_items_total_quantity -= 1;
@@ -113,7 +125,7 @@
 					order_items_total_price += parseInt(item.product.price);
 					order_items_total_quantity += 1;
 				}
-
+			
 				document.getElementById('item-quantity ' + item.id).innerHTML = item.quantity
 				document.querySelector('#total-price').innerHTML = order_items_total_price
 				document.querySelector('#total-quantity').innerHTML = order_items_total_quantity
@@ -125,9 +137,11 @@
 					minus = document.getElementById(minus_id);
 					plus_id = 'plus-quantity ' + item_id;
 					plus = document.getElementById(plus_id);
+					trash_can = document.getElementById("trash-can " + item.id)
 
 					minus.addEventListener('click', () => substractQuantity(item))
 					plus.addEventListener('click', () => addQuantity(item))
+					trash_can.addEventListener('click', () => deleteProduct(item))
 
 			});
 
