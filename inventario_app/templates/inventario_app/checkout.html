@@ -82,21 +82,28 @@
 				order_items_total_price += item.quantity * item.product.price
 			});
 
+			function renderTotalPriceAndQuantity(){
+				const total = document.getElementById('total')
+				total.innerHTML = ``
+				total.innerHTML += `
+				<h5>Cantidad Total: <span id='total-quantity'>${order_items_total_quantity}</span> unidades</h5>
+				<h5>Precio Final: $ <span id='total-price'>${order_items_total_price}</span></h5>`
+			}
+
 			function deleteProduct(item) {
 				for(var i=0; i < order_item_objs.length; i++){
 					if(order_item_objs[i].id == item.id){
 						order_item_objs.splice(i, 1)
-						order_items_total_price -= item.product.price
+						order_items_total_price -= item.product.price * item.quantity
 						order_items_total_quantity -= item.quantity
-
 					}
 				}
-				for(var i=0; i<itemsDiv.children.length; i++){
+				for(var i=0; i < itemsDiv.children.length; i++){
 					if(itemsDiv.children[i].id === ('item-row ' + item.id)){
 						itemsDiv.children[i].remove()
 					}
 				}
-
+				renderTotalPriceAndQuantity()
 			}
 
 			function substractQuantity(item) {
@@ -145,12 +152,9 @@
 
 			});
 
-			const total = document.getElementById('total')
-			total.innerHTML += `
-				<h5>Cantidad Total: <span id='total-quantity'>${order_items_total_quantity}</span> unidades</h5>
-				<h5>Precio Final: $ <span id='total-price'>${order_items_total_price}</span></h5>`
+			renderTotalPriceAndQuantity()
+			
 		}
-
 
 	function buildProductsList(){
 		const url = '/api/order-list/'
