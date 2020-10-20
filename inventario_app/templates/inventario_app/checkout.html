@@ -12,31 +12,20 @@
 					<hr>
 					<h3>Resumen de orden</h3>
 					<hr>
-					<!-- {% for item in order.items.all %}
-					{% if item.quantity > 0 %} -->
 					<div id="items-div">
-
 					</div>
 						<div id="order-items">
 							<ol>
-
 							</ol>
 						</div>
 						<div id='total'>
-
 						</div>
-
-						<!-- <div style="flex:2"><img class="img-thumbnail2" src="{{item.product.image.url}}"></div> -->
 					</div>
-				<!-- {% endif %}
-				{% endfor %} -->
-
 			</div>
 			{% endif %}
 		</div>
 
 <script>
-
 
 
 	buildProductsList()
@@ -73,13 +62,23 @@
 			let order_items_total_quantity = 0
 			let order_items_total_price = 0
 
-			console.log(order_item_objs)
-			array_1 = order_item_objs
+			localStorage.setItem('order', JSON.stringify(order))
+			localStorage.setItem('total_quantity', '0')
+			localStorage.setItem('total_price', '0')
+
+			function updateLocalStorage(){
+				localStorage.setItem('order', JSON.stringify(order_item_objs))
+				localStorage.setItem('total_quantity', JSON.stringify(order_items_total_quantity))
+				localStorage.setItem('total_price', JSON.stringify(order_items_total_price))
+			}
+			
 			addHtmlForItemQuantitySelection(order_item_objs);
 
 			order_item_objs.forEach(function(item){
-				order_items_total_quantity += item.quantity
-				order_items_total_price += item.quantity * item.product.price
+				order_items_total_quantity += item.quantity;
+				order_items_total_price += item.quantity * item.product.price;
+				localStorage.setItem('total_quantity', JSON.stringify(order_items_total_quantity))
+				localStorage.setItem('total_price', JSON.stringify(order_items_total_price))
 			});
 
 			function renderTotalPriceAndQuantity(){
@@ -93,9 +92,10 @@
 			function deleteProduct(item) {
 				for(var i=0; i < order_item_objs.length; i++){
 					if(order_item_objs[i].id == item.id){
-						order_item_objs.splice(i, 1)
-						order_items_total_price -= item.product.price * item.quantity
-						order_items_total_quantity -= item.quantity
+						order_item_objs.splice(i, 1);
+						order_items_total_price -= item.product.price * item.quantity;
+						order_items_total_quantity -= item.quantity;
+						updateLocalStorage()
 					}
 				}
 				for(var i=0; i < itemsDiv.children.length; i++){
@@ -112,6 +112,7 @@
 					item.quantity -= 1;
 					order_items_total_price -= parseInt(item.product.price);
 					order_items_total_quantity -= 1;
+					updateLocalStorage()
 					if (item.quantity == 0) {
 						minus.classList.add("disabled");
 					}
@@ -131,6 +132,7 @@
 					}
 					order_items_total_price += parseInt(item.product.price);
 					order_items_total_quantity += 1;
+					updateLocalStorage();
 				}
 			
 				document.getElementById('item-quantity ' + item.id).innerHTML = item.quantity
