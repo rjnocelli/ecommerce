@@ -1,5 +1,11 @@
 from django.urls import path
 from . import views
+from rest_framework import routers
+
+router = routers.SimpleRouter()
+router.register(r'product-list', views.productList2, 'Products')
+
+
 
 urlpatterns = [
     path('', views.apiOverview, name='api'),
@@ -10,3 +16,5 @@ urlpatterns = [
     path('order-delete/<str:pk>/', views.orderDelete, name='order-delete'),
 
 ]
+
+urlpatterns += router.urls

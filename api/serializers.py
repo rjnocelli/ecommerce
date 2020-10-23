@@ -3,12 +3,12 @@ from rest_framework import serializers
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    # product = ProductSerializer(many=True)
     class Meta:
         model = Product
-        fields = ('id','name','price')
+        fields = ('id','name','price','views', 'image')
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    # product = ProductSerializer(read_only=True)
     class Meta:
         model = OrderItem
         fields = ('id','quantity','date_added','product')
