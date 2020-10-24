@@ -19,3 +19,13 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ('id','complete','date_ordered','items','active')
         depth = 2
+
+class JointProductSerializer(serializers.Serializer):
+    """
+    Joins two serializers together and puts them in a JSON dictionary under
+    different keys:
+      - most_popular: Holds the most popular products according to their views.
+      - all_products: Holds all products.
+    """
+    most_popular = ProductSerializer(read_only=True, many=True)
+    all_products = ProductSerializer(read_only=True, many=True)

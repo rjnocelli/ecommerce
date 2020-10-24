@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
-from .serializers import OrderSerializer, ProductSerializer
+from api.serializers import OrderSerializer, ProductSerializer, JointProductSerializer
 from inventario_app.models import Order, Product
 
 from itertools import *
@@ -20,7 +20,7 @@ def apiOverview(request):
         'Update': '/order-update/<str:pk>/',
         'Delete': '/order-delete/<str:pk>/',
 
-        'Product-List': '/product-list/'        
+        'Product-List': '/product-list/'
     }
     return Response(api_urls)
 
@@ -62,6 +62,24 @@ def orderDelete(request, id):
     order.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
 
+@api_view(['GET'])
+def getAllProducts(request):
+    return Response(ProductSerializer(Product.objects.all()).data)
+
+@api_view(['GET'])
+def getMostPopularProducts(request):
+    """
+    Returns a JSON file containing the 4 most popular products ordered by views
+    and all products.
+    """
+    # TODO: Modify this function so that it only returns a list with the most
+    #     popular products. Like so:
+    # return Response(ProductSerializer(Product.objects.all().order_by("-views")[:4]).data)
+    data = {}
+    data['most_popular'] = Product.objects.all().order_by("-views")[:4]
+    data['all_products'] = Product.objects.all()
+    return Response(JointProductSerializer(data).data)
+
 # PRODUCT VIEWS -----
 
 # @api_view(['GET'])
@@ -83,5 +101,5 @@ class productList2(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
 
- 
+
 

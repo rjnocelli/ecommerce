@@ -9,7 +9,7 @@ class Product(models.Model):
     image = models.ImageField(default='chocolate.jpg',blank=True, null=True, verbose_name='imagen')
     category = models.ManyToManyField("Category", verbose_name='categoria', blank=True)
     views = models.IntegerField(default = 0, null=True, blank=True)
-    
+
     def __str__(self):
         return self.name
 
@@ -28,14 +28,14 @@ class OrderItem(models.Model):
     def get_total(self):
         total = self.product.price * self.quantity
         return total
-    
+
     @property
     def add(self):
         self.quantity += 1
     @property
     def take(self):
         self.quantity += 1
-    
+
 class Order(models.Model):
     items = models.ManyToManyField("OrderItem", related_name='products')
     date_ordered = models.DateTimeField(auto_now_add=True)
@@ -49,19 +49,10 @@ class Order(models.Model):
     def get_cart_total(self):
         orderitems = self.items.all()
         total = sum([item.get_total for item in orderitems])
-        return total 
+        return total
 
     @property
     def get_cart_items(self):
         orderitems = self.items.all()
         total = sum([item.quantity for item in orderitems])
         return total
-
-
-
-
-
-
-
-    
-   

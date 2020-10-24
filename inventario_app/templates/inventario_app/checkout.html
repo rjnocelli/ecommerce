@@ -70,7 +70,7 @@
 				localStorage.setItem('total_quantity', JSON.stringify(order_items_total_quantity))
 				localStorage.setItem('total_price', JSON.stringify(order_items_total_price))
 			}
-			
+
 			addHtmlForItemQuantitySelection(order_item_objs);
 
 			for(var key in order_item_objs){
@@ -114,7 +114,7 @@
 					document.getElementById('item-quantity ' + item.id).innerHTML = item.quantity
 					document.querySelector('#total-price').innerHTML = order_items_total_price
 					document.querySelector('#total-quantity').innerHTML = order_items_total_quantity
-				}				
+				}
 				renderTotalPriceAndQuantity()
 
 			}
@@ -130,10 +130,16 @@
 					order_items_total_quantity += 1;
 					updateLocalStorage();
 				}
-			
+
 				document.getElementById('item-quantity ' + item.id).innerHTML = item.quantity
 				document.querySelector('#total-price').innerHTML = order_items_total_price
 				document.querySelector('#total-quantity').innerHTML = order_items_total_quantity
+			}
+
+			function callbackClosure(i, callback) {
+			  return function() {
+			    return callback(i);
+			  }
 			}
 
 			for(var key in order_item_objs){
@@ -145,14 +151,15 @@
 					plus = document.getElementById(plus_id);
 					trash_can = document.getElementById("trash-can " + item_id)
 
-					minus.addEventListener('click', () => substractQuantity(order_item_objs[key]))
-					plus.addEventListener('click', () => addQuantity(order_item_objs[key]))
-					trash_can.addEventListener('click', () => deleteProduct(order_item_objs[key]))
+					item = order_item_objs[key]
+					minus.addEventListener('click', callbackClosure(item, (i) => substractQuantity(i)))
+					plus.addEventListener('click', callbackClosure(item, (i) => addQuantity(i)))
+					trash_can.addEventListener('click', callbackClosure(item, (i) => deleteProduct(i)))
 
 			};
 
 			renderTotalPriceAndQuantity()
-			
+
 		}
 
 	function buildProductsList(){

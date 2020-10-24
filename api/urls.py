@@ -15,6 +15,7 @@ urlpatterns = [
     path('order-update/<str:pk>/', views.orderUpdate, name='order-update'),
     path('order-delete/<str:pk>/', views.orderDelete, name='order-delete'),
 
+    path('popular-products', views.getMostPopularProducts, name='popular-products')
 ]
 
 urlpatterns += router.urls
