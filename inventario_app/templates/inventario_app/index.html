@@ -59,11 +59,10 @@
             lo_quiero_atag = document.getElementById('lo-quiero ' + product.id)
             lo_quiero_atag.addEventListener('click', (a) => {
                 a.preventDefault()
-                return addProductOrcreateOrder(product)
+                return addProductOrCreateOrder(product)
             });
 
         });
-
 
         function addProductOrCreateOrder(product){
             console.log(product.id)

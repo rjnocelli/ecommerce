@@ -33,36 +33,35 @@
 	function addHtmlForItemQuantitySelection(order_item_objs) {
 		itemsDiv = document.getElementById('items-div');
 		itemsDiv.innerHTML = ``
-		order_item_objs.map(function(item){
+		for(var key in order_item_objs){
 			itemsDiv.innerHTML += `
-			<div id='item-row ${item.id}' class='row'>
+			<div id='item-row ${order_item_objs[key].id}' class='row'>
 				<div class='col-lg-4'>
-					<p style="display: inline-block;">${item.product.name}</p><hr>
+					<p style="display: inline-block;">${order_item_objs[key].name}</p><hr>
 				</div>
 				<div class='col-lg-4'>
-					<p style="display: inline-block;">$${item.product.price}</p><hr><span></span>
+					<p style="display: inline-block;">$${order_item_objs[key].price}</p><hr><span></span>
 				</div>
 				<div class='col-lg-4'>
 					<p id='cart-data'>
-						<i id='minus-quantity ${item.id}' class="fas fa-minus mr-1"></i>
-						<span id='item-quantity ${item.id}'>${item.quantity}</span>
-						<i id='plus-quantity ${item.id}' class="fas fa-plus mr-1"></i>
-						<i id='trash-can ${item.id}' class="fa fa-trash ml-4" aria-hidden="true"></i>
+						<i id='minus-quantity ${order_item_objs[key].id}' class="fas fa-minus mr-1"></i>
+						<span id='item-quantity ${order_item_objs[key].id}'>${order_item_objs[key].quantity}</span>
+						<i id='plus-quantity ${order_item_objs[key].id}' class="fas fa-plus mr-1"></i>
+						<i id='trash-can ${order_item_objs[key].id}' class="fa fa-trash ml-4" aria-hidden="true"></i>
 					</p>
 				<div class='col-lg-4'>
 				</div>
 				</div>
 			</div>
 			`
-		});
+		};
 	}
 
 	function onOrderListFetched(order) {
-			let order_item_objs = order.items
+			let order_item_objs = order
 			let order_items_total_quantity = 0
 			let order_items_total_price = 0
 
-			localStorage.setItem('order', JSON.stringify(order))
 			localStorage.setItem('total_quantity', '0')
 			localStorage.setItem('total_price', '0')
 
@@ -74,12 +73,12 @@
 			
 			addHtmlForItemQuantitySelection(order_item_objs);
 
-			order_item_objs.forEach(function(item){
-				order_items_total_quantity += item.quantity;
-				order_items_total_price += item.quantity * item.product.price;
+			for(var key in order_item_objs){
+				order_items_total_quantity += order_item_objs[key].quantity;
+				order_items_total_price += order_item_objs[key].quantity * order_item_objs[key].price;
 				localStorage.setItem('total_quantity', JSON.stringify(order_items_total_quantity))
 				localStorage.setItem('total_price', JSON.stringify(order_items_total_price))
-			});
+			};
 
 			function renderTotalPriceAndQuantity(){
 				const total = document.getElementById('total')
@@ -90,37 +89,34 @@
 			}
 
 			function deleteProduct(item) {
-				for(var i=0; i < order_item_objs.length; i++){
-					if(order_item_objs[i].id == item.id){
-						order_item_objs.splice(i, 1);
-						order_items_total_price -= item.product.price * item.quantity;
-						order_items_total_quantity -= item.quantity;
-						updateLocalStorage()
-					}
-				}
-				for(var i=0; i < itemsDiv.children.length; i++){
+					order_items_total_price -= item.price * item.quantity;
+					order_items_total_quantity -= item.quantity;
+					delete order_item_objs[item.name]
+					updateLocalStorage()
+				for(var i = 0; i < itemsDiv.children.length; i ++){
 					if(itemsDiv.children[i].id === ('item-row ' + item.id)){
-						itemsDiv.children[i].remove()
+						itemsDiv.children[i].remove()}
 					}
+					renderTotalPriceAndQuantity()
+
 				}
-				renderTotalPriceAndQuantity()
-			}
 
 			function substractQuantity(item) {
-				minus = document.getElementById('minus-quantity ' + item.id);
+				minus = document.getElementById('minus-quantity ' + JSON.stringify(item.id));
 				if(item.quantity > 0){
 					item.quantity -= 1;
-					order_items_total_price -= parseInt(item.product.price);
+					order_items_total_price -= parseInt(item.price);
 					order_items_total_quantity -= 1;
 					updateLocalStorage()
 					if (item.quantity == 0) {
 						minus.classList.add("disabled");
 					}
-				}
+					document.getElementById('item-quantity ' + item.id).innerHTML = item.quantity
+					document.querySelector('#total-price').innerHTML = order_items_total_price
+					document.querySelector('#total-quantity').innerHTML = order_items_total_quantity
+				}				
+				renderTotalPriceAndQuantity()
 
-				document.getElementById('item-quantity ' + item.id).innerHTML = item.quantity
-				document.querySelector('#total-price').innerHTML = order_items_total_price
-				document.querySelector('#total-quantity').innerHTML = order_items_total_quantity
 			}
 
 			function addQuantity(item) {
@@ -130,7 +126,7 @@
 					if(minus.classList.value.includes("disabled")){
 						minus.classList.remove("disabled")
 					}
-					order_items_total_price += parseInt(item.product.price);
+					order_items_total_price += parseInt(item.price);
 					order_items_total_quantity += 1;
 					updateLocalStorage();
 				}
@@ -140,30 +136,32 @@
 				document.querySelector('#total-quantity').innerHTML = order_items_total_quantity
 			}
 
-			order_item_objs.forEach((item) => {
-					item_id = JSON.stringify(item.id);
+			for(var key in order_item_objs){
+					console.log(order_item_objs[key], order_item_objs[key].id)
+					item_id = JSON.stringify(order_item_objs[key].id);
 					minus_id = 'minus-quantity ' + item_id;
 					minus = document.getElementById(minus_id);
 					plus_id = 'plus-quantity ' + item_id;
 					plus = document.getElementById(plus_id);
-					trash_can = document.getElementById("trash-can " + item.id)
+					trash_can = document.getElementById("trash-can " + item_id)
 
-					minus.addEventListener('click', () => substractQuantity(item))
-					plus.addEventListener('click', () => addQuantity(item))
-					trash_can.addEventListener('click', () => deleteProduct(item))
+					minus.addEventListener('click', () => substractQuantity(order_item_objs[key]))
+					plus.addEventListener('click', () => addQuantity(order_item_objs[key]))
+					trash_can.addEventListener('click', () => deleteProduct(order_item_objs[key]))
 
-			});
+			};
 
 			renderTotalPriceAndQuantity()
 			
 		}
 
 	function buildProductsList(){
-		const url = '/api/order-list/'
-
-		fetch(url)
-			.then(function(response) { return response.json(); })
-			.then(onOrderListFetched);
+		if(localStorage.getItem('order')){
+			order = localStorage.getItem('order')
+			onOrderListFetched(JSON.parse(order))
+		}else{
+			alert('No hay orden creada. Agregue el primer producto al carro.')
+		}
 	}
 </script>
 
