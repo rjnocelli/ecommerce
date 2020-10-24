@@ -65,25 +65,18 @@
         });
 
 
-        function addProductOrcreateOrder(product){
+        function addProductOrCreateOrder(product){
             console.log(product.id)
             if(localStorage.getItem('order')){
-                console.log('order esta creada')
                 order = JSON.parse(localStorage.getItem('order'))
-                for(var i = 0; i < order.length; i++){
-                    console.log(order[i])
-                    if(product.id === order[i].id){
-                        console.log('it has the same id')
-                        order[i].quantity += 1
+                    if(order[product.name]){
+                        order[product.name].quantity += 1
                     }else{
-                        new_product = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}
-                        order.unshift(new_product)
+                        order[product.name] = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}
                     }
-                }
             }else{
-                order = []
-                new_product = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}
-                order.unshift(new_product)
+                order = {}
+                order[product.name] = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}
             }
         localStorage.setItem('order', JSON.stringify(order))
         };
