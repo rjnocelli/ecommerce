@@ -5,7 +5,7 @@
    
     <div style='background-color:#abb7b7' class="jumbotron text-center expand">
         <h1 class="">Bienvenidos a Funes Dulceria</h1>
-        <p class="lead text-muted">Elegí  lo que quieras y te lo enviamos a tu casa<p>
+        <p class="lead text-muted">Elegí lo que quieras y te lo enviamos a tu casa<p>
     </div>
 
     <div style="padding: 10px" class="row shadow-lg border boder-light">
@@ -47,28 +47,12 @@
             .then(updateProducts);
     
         }
-    
+
+        
     function updateProducts(products){
         console.log(products)
         localStorage.setItem('products', JSON.stringify(products))
-
-        function addProductOrcreateOrder(product){
-            if(localStorage.getItem('order')){
-                order = JSON.parse(localStorage.getItem('order'))
-                console.log('hay orden')
-                if(order[product.name]){
-                    order[product.name].quantity += 1
-                }else{
-                    order[product.name] = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}
-                }
-            }else{
-                order = {}
-                order[product.name] = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}
-                console.log('orden creada')
-            }
-        localStorage.setItem('order', JSON.stringify(order))
-        };
-
+        
         renderProducts(products)
 
         products.forEach((product) => {
@@ -79,6 +63,31 @@
             });
 
         });
+
+
+        function addProductOrcreateOrder(product){
+            console.log(product.id)
+            if(localStorage.getItem('order')){
+                console.log('order esta creada')
+                order = JSON.parse(localStorage.getItem('order'))
+                for(var i = 0; i < order.length; i++){
+                    console.log(order[i])
+                    if(product.id === order[i].id){
+                        console.log('it has the same id')
+                        order[i].quantity += 1
+                    }else{
+                        new_product = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}
+                        order.unshift(new_product)
+                    }
+                }
+            }else{
+                order = []
+                new_product = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}
+                order.unshift(new_product)
+            }
+        localStorage.setItem('order', JSON.stringify(order))
+        };
+       
 
         function renderProducts(products) {
             p = products
