@@ -20,7 +20,9 @@ def apiOverview(request):
         'Update': '/order-update/<str:pk>/',
         'Delete': '/order-delete/<str:pk>/',
 
-        'Product-List': '/product-list/'
+        'Product-List': '/product-list/',
+        'Popular-Products': '/popular-products/',
+
     }
     return Response(api_urls)
 
@@ -64,7 +66,7 @@ def orderDelete(request, id):
 
 @api_view(['GET'])
 def getAllProducts(request):
-    return Response(ProductSerializer(Product.objects.all()).data)
+    return Response(ProductSerializer(Product.objects.all(), many=True).data)
 
 @api_view(['GET'])
 def getMostPopularProducts(request):
@@ -75,10 +77,7 @@ def getMostPopularProducts(request):
     # TODO: Modify this function so that it only returns a list with the most
     #     popular products. Like so:
     # return Response(ProductSerializer(Product.objects.all().order_by("-views")[:4]).data)
-    data = {}
-    data['most_popular'] = Product.objects.all().order_by("-views")[:4]
-    data['all_products'] = Product.objects.all()
-    return Response(JointProductSerializer(data).data)
+    return Response(ProductSerializer(Product.objects.all().order_by("-views")[:4], many=True).data)
 
 # PRODUCT VIEWS -----
 
@@ -96,10 +95,6 @@ def getMostPopularProducts(request):
 #         products = Product.objects.all()
 #         most_popular = Product.objects.all().order_by("-views")[:4]
 #         return list(chain(products, most_popular))
-
-class productList2(viewsets.ModelViewSet):
-    serializer_class = ProductSerializer
-    queryset = Product.objects.all()
 
 
 

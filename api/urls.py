@@ -2,9 +2,6 @@ from django.urls import path
 from . import views
 from rest_framework import routers
 
-router = routers.SimpleRouter()
-router.register(r'product-list', views.productList2, 'Products')
-
 
 
 urlpatterns = [
@@ -15,7 +12,8 @@ urlpatterns = [
     path('order-update/<str:pk>/', views.orderUpdate, name='order-update'),
     path('order-delete/<str:pk>/', views.orderDelete, name='order-delete'),
 
-    path('popular-products', views.getMostPopularProducts, name='popular-products')
+    path('product-list/', views.getAllProducts, name='product-list'),
+    path('popular-products/', views.getMostPopularProducts, name='popular-products'),
+    
 ]
 
-urlpatterns += router.urls

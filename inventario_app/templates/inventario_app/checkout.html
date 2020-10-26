@@ -143,7 +143,6 @@
 			}
 
 			for(var key in order_item_objs){
-					console.log(order_item_objs[key], order_item_objs[key].id)
 					item_id = JSON.stringify(order_item_objs[key].id);
 					minus_id = 'minus-quantity ' + item_id;
 					minus = document.getElementById(minus_id);
@@ -152,9 +151,9 @@
 					trash_can = document.getElementById("trash-can " + item_id)
 
 					item = order_item_objs[key]
-					minus.addEventListener('click', callbackClosure(item, (i) => substractQuantity(i)))
-					plus.addEventListener('click', callbackClosure(item, (i) => addQuantity(i)))
-					trash_can.addEventListener('click', callbackClosure(item, (i) => deleteProduct(i)))
+					minus.addEventListener('click', callbackClosure(item, substractQuantity))
+					plus.addEventListener('click', callbackClosure(item, addQuantity))
+					trash_can.addEventListener('click', callbackClosure(item, deleteProduct))
 
 			};
 
