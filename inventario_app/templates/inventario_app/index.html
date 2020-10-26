@@ -12,21 +12,8 @@
         <div class='d-inline-flex'>
             <h3>MAS POPULARES</h3>
         </div>
-        <div class="row">
-            {% for product in featured %}
-            <div class=" p-3 col-lg-3 col-md-3 col-sm-3">
-                <a href="{% url 'detail' id=product.id%}"><img class="img-thumbnail" src="{{product.image.url}}"></a>
-                <div class="box-element product p-3">
-                    <h6 class="pt-2" style="display: inline-block; float: right">${{product.price}}</h6>
-                    <a href="{% url 'detail' id=product.id%}"><h6 class="pt-2" style="display: inline-block"><strong>{{product.name}}</strong></h6></a>
-                    <!-- <a class="btn btn-outline-primary btn-sm" href="{% url 'detail' id=product.id%}">Detalles</a> -->
-                    {% if user.is_authenticated %}
-                    <a class="btn btn-outline-secondary btn-sm" href="{% url 'update' id=product.id%}">Actualizar</a>
-                    {% endif %}
-                </div>
-                <br>
-            </div>
-            {% endfor %}
+        <div id='most-popular' class="row">
+            
         </div> 
     </div>
     <hr>
@@ -38,6 +25,15 @@
    <script>
 
     buildProductsList()
+    buildMostPouplarProductsList()
+
+    function buildMostPouplarProductsList(){
+        const url = '/api/popular-products/'
+
+        fetch(url)
+            .then(function(response){ return response.json() })
+            .then(fetchMostPopularProducts)
+    }
 
     function buildProductsList(){
 		const url = '/api/product-list/'
@@ -48,6 +44,26 @@
     
         }
 
+    function fetchMostPopularProducts(products){
+        popular_products_div = document.getElementById('most-popular')
+        popular_products_div.innerHTML = ``
+        products.forEach((product) => {
+            popular_products_div.innerHTML += `
+            <div id='popular-product ${product.id}' class=" p-3 col-lg-3 col-md-3 col-sm-3">
+                <a href=""><img class="img-thumbnail" src="${product.image}"></a>
+                <div class="box-element product p-3">
+                    <h6 class="pt-2" style="display: inline-block; float: right">$ ${product.price}</h6>
+                    <a href=""><h6 class="pt-2" style="display: inline-block"><strong>${product.name}</strong></h6></a>
+                    {% if user.is_authenticated %}
+                    <a class="btn btn-outline-secondary btn-sm" href="">A</a>
+                    {% endif %}
+                </div>
+                <br>
+            </div>
+            `
+        });
+
+    }
         
     function updateProducts(products){
         console.log(products)
@@ -82,7 +98,6 @@
        
 
         function renderProducts(products) {
-            p = products
             products_row = document.getElementById('product-details');
             products.forEach((product) => {
                 products_row.innerHTML += `
