@@ -24,6 +24,35 @@
     </div>
    <script>
 
+    const addLoQuieroTag = (products, first_half_id) => {
+        products.forEach((product) => {
+            lo_quiero_atag = document.getElementById(`${first_half_id} ${product.id}`)
+            console.log(lo_quiero_atag)
+            lo_quiero_atag.addEventListener('click', (a) => {
+                a.preventDefault()
+                addProductOrCreateOrder(product)
+            });
+    
+        });
+    }
+
+    const addProductOrCreateOrder = (product) => {
+        if(localStorage.getItem('order')){
+            order = JSON.parse(localStorage.getItem('order'))
+                if(order[product.name]){
+                    order[product.name].quantity += 1
+                }else{
+                    order[product.name] = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}
+                }
+        }else{
+            order = {}
+            order[product.name] = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}
+        }
+    
+    localStorage.setItem('order', JSON.stringify(order))
+    alert('Producto agregado al carrito')
+    };
+
     buildProductsList()
     buildMostPouplarProductsList()
 
@@ -54,6 +83,7 @@
                 <div class="box-element product p-3">
                     <h6 class="pt-2" style="display: inline-block; float: right">$ ${product.price}</h6>
                     <a href=""><h6 class="pt-2" style="display: inline-block"><strong>${product.name}</strong></h6></a>
+                    <br><a id='lo-quiero-mp ${product.id}' class="btn btn-success btn-sm" href="">Lo Quiero</a> 
                     {% if user.is_authenticated %}
                     <a class="btn btn-outline-secondary btn-sm" href="">A</a>
                     {% endif %}
@@ -62,40 +92,18 @@
             </div>
             `
         });
+    
+    addLoQuieroTag(products, "lo-quiero-mp")
 
     }
-        
+
     function updateProducts(products){
         console.log(products)
         localStorage.setItem('products', JSON.stringify(products))
         
         renderProducts(products)
 
-        products.forEach((product) => {
-            lo_quiero_atag = document.getElementById('lo-quiero ' + product.id)
-            lo_quiero_atag.addEventListener('click', (a) => {
-                a.preventDefault()
-                return addProductOrCreateOrder(product)
-            });
-
-        });
-
-        function addProductOrCreateOrder(product){
-            console.log(product.id)
-            if(localStorage.getItem('order')){
-                order = JSON.parse(localStorage.getItem('order'))
-                    if(order[product.name]){
-                        order[product.name].quantity += 1
-                    }else{
-                        order[product.name] = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}
-                    }
-            }else{
-                order = {}
-                order[product.name] = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}
-            }
-        localStorage.setItem('order', JSON.stringify(order))
-        };
-       
+        addLoQuieroTag(products, "lo-quiero")
 
         function renderProducts(products) {
             products_row = document.getElementById('product-details');

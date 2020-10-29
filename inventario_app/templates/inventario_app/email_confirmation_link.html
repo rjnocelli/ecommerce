@@ -8,33 +8,6 @@
 <body>
     <h1>Bienvenidos a Funes Dulceria</h1>
     <p>Usted ha realizado la siguiente compra</p>
-    
-    <table class="table">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Producto</th>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Precio x unidad</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% for item in order.items.all %}
-          <tr>
-            <th scope="row">{{ forloop.counter }}</th>
-            <td>{{ item.product.name }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ item.product.price }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-        <tbody>
-        <tr>
-            <td ><h2>Cantidad: {{order.get_cart_items}} unidades</h2></td><br>
-            <td ><h2>Total: ${{order.get_cart_total|floatformat:2}}</h2></td>
-        </tr>
-        </tbody>
-      </table>
 
     <p>Por favor clickee sobre este link para confirmar su direccion de email y completar su orden.</p>
     <h4><a href="{{ confirm_url }}">{{ confirm_url }}</h4></p>
