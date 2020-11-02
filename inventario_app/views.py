@@ -21,6 +21,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 
+from django.views.decorators.csrf import csrf_exempt
+
+
 
 def Index(request):
     products = Product.objects.all()
@@ -140,35 +143,38 @@ def cart(request):
             'products': products,
             'featured': featured,
         }
-        return render(request, 'inventario_app/index.html', context)
+        # changed template from index.html for testing
+        return render(request, 'inventario_app/checkout.html', context) 
 
+@csrf_exempt
 def email_confirmation(request):
     form = EmailConfirmationForm()
     if request.method == 'POST':
         form = EmailConfirmationForm(request.POST)
         if form.is_valid():
-            session_id = request.session['cart_id']
-            customer_info = form.cleaned_data
-            customer_email = customer_info['email']
-            request.session['customer_info'] = customer_info
-            order = get_object_or_404(Order, id=session_id)
-            order_id = urlsafe_base64_encode(force_bytes(order.id))            
-            token = order_tokenizer.make_token(order)
-            url = 'http://localhost:8000' + reverse('confirm_email', kwargs={'order_id': order_id,'token': token})
-            message = get_template('inventario_app/email_confirmation_link.html').render({
-                'confirm_url': url,
-                'order': order,
-                'customer_info': customer_info
-            })
-            mail = EmailMessage(
-                'Dulceria Funes',
-                message,
-                settings.EMAIL_HOST_USER,
-                [customer_email],
-                )
-            mail.content_subtype = 'html'
-            mail.send()
-            messages.info(request, f'Se ha enviado un email a esta direccion de correo para confirmar su pedido {customer_email}')
+
+    #         session_id = request.session['cart_id']
+    #         customer_info = form.cleaned_data
+    #         customer_email = customer_info['email']
+    #         request.session['customer_info'] = customer_info
+    #         order = get_object_or_404(Order, id=session_id)
+    #         order_id = urlsafe_base64_encode(force_bytes(order.id))            
+    #         token = order_tokenizer.make_token(order)
+    #         url = 'http://localhost:8000' + reverse('confirm_email', kwargs={'order_id': order_id,'token': token})
+    #         message = get_template('inventario_app/email_confirmation_link.html').render({
+    #             'confirm_url': url,
+    #             'order': order,
+    #             'customer_info': customer_info
+    #         })
+    #         mail = EmailMessage(
+    #             'Dulceria Funes',
+    #             message,
+    #             settings.EMAIL_HOST_USER,
+    #             [customer_email],
+    #             )
+    #         mail.content_subtype = 'html'
+    #         mail.send()
+    #         messages.info(request, f'Se ha enviado un email a esta direccion de correo para confirmar su pedido {customer_email}')  
             return HttpResponseRedirect(reverse('index'))
     context = {"form": form}
     return render(request, 'inventario_app/email_confirmation.html', context)

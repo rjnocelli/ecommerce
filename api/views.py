@@ -31,8 +31,8 @@ def apiOverview(request):
 @api_view(['GET'])
 def getActiveOrder(request):
     try:
-        order = Order.objects.get(active = True)
-        serializer = OrderSerializer(order)
+        order = Order.objects.all()
+        serializer = OrderSerializer(order, many=True)
     except:
         order = None
     return Response(serializer.data)

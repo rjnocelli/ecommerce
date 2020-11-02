@@ -40,6 +40,8 @@ class Order(models.Model):
     items = models.ManyToManyField("OrderItem", related_name='products')
     date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False)
+    customer_name = models.CharField(max_length=100, blank=True)
+    customer_email = models.CharField(max_length=100, blank=True)
     active = models.BooleanField(default=False)
 
     def __str__(self):

@@ -6,9 +6,9 @@
 				<div class="box-element p-4">
 					{% if not order.complete %}
 					<a  class="btn btn-outline-dark" href="{% url 'index' %}">&#x2190; Inicio</a>
-					{% if order.get_cart_items > 0 %}
+					
 					<a  class="btn btn-outline-dark float-right" href="{% url 'email-confirmation' %}">Continuar &#x2192;</a>
-					{% endif %}
+					
 					<hr>
 					<h3>Resumen de orden</h3>
 					<hr>
@@ -158,6 +158,7 @@
 			};
 
 			renderTotalPriceAndQuantity()
+			console.log(JSON.parse(localStorage.getItem('order')))
 
 		}
 

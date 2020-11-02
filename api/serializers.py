@@ -17,8 +17,19 @@ class OrderSerializer(serializers.ModelSerializer):
     # order_items = OrderItemSerializer(many=True, read_only=True)
     class Meta:
         model = Order
-        fields = ('id','complete','date_ordered','items','active')
+        fields = ('id','complete','date_ordered','items','active','customer_name','customer_email')
         depth = 2
+
+    # def create(self, validated_data):
+    #     # order_items = validated_data.pop('items')
+    #     print(validated_data)
+    #     order_items_array = []
+    #     # for i in order_items:
+    #     #     orderItem = OrderItem.objects.create(quantity = i.quantity, product = i.product)
+    #     #     order_items_array.append(orderItem)
+    #     # print(order_items_array)
+    #     order = Order.objects.create(items = order_items_array, **validated_data)
+    #     return order
 
 class JointProductSerializer(serializers.Serializer):
     """
