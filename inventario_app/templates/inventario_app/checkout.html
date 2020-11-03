@@ -1,14 +1,11 @@
 {% extends 'inventario_app/base.html' %}
 {% load static %}
 {% block body %}
-		<div class="row">
+		<div id="order-row" class="row">
 			<div class="col-lg-6">
-				<div class="box-element p-4">
-					{% if not order.complete %}
-					<a  class="btn btn-outline-dark" href="{% url 'index' %}">&#x2190; Inicio</a>
-					
-					<a  class="btn btn-outline-dark float-right" href="{% url 'email-confirmation' %}">Continuar &#x2192;</a>
-					
+				<div id="order-div" class="box-element p-4">
+					<a id='inicio' class="btn btn-outline-dark" href="{% url 'index' %}">&#x2190; Inicio</a>
+					<a class='continue-button btn btn-outline-dark float-right' href="{% url 'email-confirmation' %}">Continuar &#x2192</a>
 					<hr>
 					<h3>Resumen de orden</h3>
 					<hr>
@@ -22,7 +19,6 @@
 						</div>
 					</div>
 			</div>
-			{% endif %}
 		</div>
 
 <script src='{% static "js/checkout.js"%}'> </script>

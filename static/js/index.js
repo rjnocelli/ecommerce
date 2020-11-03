@@ -48,7 +48,8 @@ const updateCart = () =>{
     total_price += parseInt(product.price)
     updateCart()
     updateLocalStorage()
-    alert('Producto agregado al carrito')
+    let message = document.querySelector('#add-item-message')
+    message.classList.add('show')
     };
 
     buildProductsList()

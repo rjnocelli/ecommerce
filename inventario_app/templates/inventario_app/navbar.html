@@ -1,6 +1,6 @@
 {% load static %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<link rel='stylesheet' href='{% static "css/navbar.css" %}'> 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark ml-auto shadow sticky-top tp-0">
   <div class="container d-flex justify-content-between">
@@ -40,6 +40,15 @@
       </form>
     </div>
   </nav> 
+  <div id='order-empty-message' class="alert alert-danger alert-dismissible message fade" role="alert">
+      <strong>Tu orden esta vacia!</strong> Por favor agregue producto al carro para continuar.
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <!-- <div id='add-item-message' class="alert alert-warning alert-dismissible message fade" role="alert">
+    <strong>Producto agregado al carro!</strong>
+  </div> -->
   <script>
     const addCartHtml = () => {
       total_items = localStorage.getItem('total_quantity')
@@ -78,4 +87,8 @@
 	    </div>
 	  </div>
   </nav> -->
+
+  <script>
+    console.log('js funking')
+  </script>
   

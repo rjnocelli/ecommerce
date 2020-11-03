@@ -22,6 +22,7 @@ order = JSON.parse(localStorage.getItem('order'))
 
     
     function createOrderItem(order){
+        console.log('Esta es la funcion createOrderItem')
         
         const url = '/api/order-create/'
 
@@ -38,12 +39,17 @@ order = JSON.parse(localStorage.getItem('order'))
     
     }
     document.getElementById('enviar-button').addEventListener('click', (event) => {
-        const name = form.getElementsByTagName('input')[1].value
-        const last_name = form.getElementsByTagName('input')[2].value
-        const email = form.getElementsByTagName('input')[3].value
-        final_order.customer_name = `${name} ${last_name}`
-        final_order.customer_email = email
-
-        
-        createOrderItem(final_order)
+        if(JSON.parse(localStorage.getItem('total_quantity')) >0 ){
+            const name = form.getElementsByTagName('input')[1].value
+            const last_name = form.getElementsByTagName('input')[2].value
+            const email = form.getElementsByTagName('input')[3].value
+            final_order.customer_name = `${name} ${last_name}`
+            final_order.customer_email = email
+            createOrderItem(final_order)
+        }else{
+            event.preventDefault()
+            let message = document.querySelector('#order-empty-message')
+            message.classList.add('show')
+            console.log('la orden esta vacia')
+        }
     });
