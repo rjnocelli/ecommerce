@@ -2,12 +2,11 @@
 {% load static %}
 
     {% block body %}
-   
     <div style='background-color:#abb7b7' class="jumbotron text-center expand">
         <h1 class="">Bienvenidos a Funes Dulceria</h1>
         <p class="lead text-muted">Elegí lo que quieras y te lo enviamos a tu casa<p>
     </div>
-    <div style="padding: 10px" class="row shadow-lg border boder-light">
+    <div id='main-div' style="padding: 10px" class="row shadow-lg border boder-light">
         <div class='d-inline-flex'>
             <h3>MAS POPULARES</h3>
         </div>
@@ -21,111 +20,8 @@
 		
 		</div>
     </div>
-   <script>
-
-    const addLoQuieroTag = (products, first_half_id) => {
-        products.forEach((product) => {
-            lo_quiero_atag = document.getElementById(`${first_half_id} ${product.id}`)
-            console.log(lo_quiero_atag)
-            lo_quiero_atag.addEventListener('click', (a) => {
-                a.preventDefault()
-                addProductOrCreateOrder(product)
-            });
     
-        });
-    }
+   
+ <script src="{% static 'js/index.js' %}"></script>
 
-    const addProductOrCreateOrder = (product) => {
-        if(localStorage.getItem('order')){
-            order = JSON.parse(localStorage.getItem('order'))
-                if(order[product.name]){
-                    order[product.name].quantity += 1
-                }else{
-                    order[product.name] = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}
-                }
-        }else{
-            order = {}
-            order[product.name] = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}
-        }
-    
-    localStorage.setItem('order', JSON.stringify(order))
-    alert('Producto agregado al carrito')
-    };
-
-    buildProductsList()
-    buildMostPouplarProductsList()
-
-    function buildMostPouplarProductsList(){
-        const url = '/api/popular-products/'
-
-        fetch(url)
-            .then(function(response){ return response.json() })
-            .then(fetchMostPopularProducts)
-    }
-
-    function buildProductsList(){
-		const url = '/api/product-list/'
-
-		fetch(url)
-			.then(function(response) { return response.json(); })
-            .then(updateProducts);
-    
-        }
-
-    function fetchMostPopularProducts(products){
-        popular_products_div = document.getElementById('most-popular')
-        popular_products_div.innerHTML = ``
-        products.forEach((product) => {
-            popular_products_div.innerHTML += `
-            <div id='popular-product ${product.id}' class=" p-3 col-lg-3 col-md-3 col-sm-3">
-                <a href=""><img class="img-thumbnail" src="${product.image}"></a>
-                <div class="box-element product p-3">
-                    <h6 class="pt-2" style="display: inline-block; float: right">$ ${product.price}</h6>
-                    <a href=""><h6 class="pt-2" style="display: inline-block"><strong>${product.name}</strong></h6></a>
-                    <br><a id='lo-quiero-mp ${product.id}' class="btn btn-success btn-sm" href="">Lo Quiero</a> 
-                    {% if user.is_authenticated %}
-                    <a class="btn btn-outline-secondary btn-sm" href="">A</a>
-                    {% endif %}
-                </div>
-                <br>
-            </div>
-            `
-        });
-    
-    addLoQuieroTag(products, "lo-quiero-mp")
-
-    }
-
-    function updateProducts(products){
-        console.log(products)
-        localStorage.setItem('products', JSON.stringify(products))
-        
-        renderProducts(products)
-
-        addLoQuieroTag(products, "lo-quiero")
-
-        function renderProducts(products) {
-            products_row = document.getElementById('product-details');
-            products.forEach((product) => {
-                products_row.innerHTML += `
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <a href=""><img class="img-thumbnail" src=${product.image}></a>
-                    <div class="box-element product">
-                        <a href=""><h6 class="pt-2" style="display: inline-block"><strong>${product.name}</strong></h6></a>
-                        <h6 class="pt-2" style="display: inline-block; float:right">${product.price}</h6>				
-                        <br><a id='lo-quiero ${product.id}' class="btn btn-success btn-sm" href="">Lo Quiero</a>
-                        {% if user.is_authenticated %}
-                        <a class="btn btn-outline-secondary btn-sm" href="">A</a>
-                        {% endif %}
-                    </div>
-                    <br>
-                </div>
-                `
-            });
-        };
-
-    }
-    
-
-   </script>
     {% endblock body %}
