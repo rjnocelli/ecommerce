@@ -31,7 +31,7 @@
     const updateCart = () =>{
         cart = document.querySelector('#cart span')
         cart.innerHTML = ` `
-        cart.innerHTML = ` ${total_quantity} `
+        cart.innerHTML = ` ${localStorage.getItem('total_quantity')} `
     }
 
 	function onOrderListFetched(order) {
