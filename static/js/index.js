@@ -1,4 +1,4 @@
-console.log('index.js loaded...')   
+console.log('index.js loaded yeahhh...')   
 
 const updateCart = () =>{
     cart = document.querySelector('#cart span')
@@ -108,7 +108,7 @@ const updateCart = () =>{
                     <a href=""><img class="img-thumbnail" src=${product.image}></a>
                     <div class="box-element product">
                         <a href=""><h6 class="pt-2" style="display: inline-block"><strong>${product.name}</strong></h6></a>
-                        <h6 class="pt-2" style="display: inline-block; float:right">${product.price}</h6>				
+                        <h6 class="pt-2" style="display: inline-block; float:right">$ ${product.price}</h6>				
                         <br><a id='lo-quiero ${product.id}' class="btn btn-success btn-sm" href="">Lo Quiero</a>
                     </div>
                     <br>
@@ -117,5 +117,5 @@ const updateCart = () =>{
             });
         };
 
-    }
+    };
     
