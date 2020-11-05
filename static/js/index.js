@@ -1,5 +1,23 @@
 console.log('index.js loaded yeahhh...')   
 
+const renderDetailView = (product) => {
+    const main_div = document.getElementById('main-div')
+    main_div.innerHTML = ``
+    main_div.innerHTML = `
+    
+    <div class="card mt-5 mb-5 mx-auto p-2" style="width: 20rem;">
+        <img class="card-img-top" src="${product.image}" alt="Card image cap">
+            <div class="card-body">
+             <h3>${product.name}</h3>
+        <p>precio p/u: ${product.price}</p>
+      <p class="card-text">${product.description}</p>
+      <a id='lo-quiero ${product.id}' class="btn btn-success">Lo Quiero!</a>
+  </div>`
+
+  addLoQuieroTag(product, 'lo-quiero')  
+  
+}
+
 const updateCart = () =>{
     cart = document.querySelector('#cart span')
     cart.innerHTML = ` `
@@ -13,15 +31,24 @@ const updateCart = () =>{
     }
     
     const addLoQuieroTag = (products, first_half_id) => {
-        products.forEach((product) => {
-            lo_quiero_atag = document.getElementById(`${first_half_id} ${product.id}`)
-            lo_quiero_atag.addEventListener('click', (a) => {
-                a.preventDefault()
-                addProductOrCreateOrder(product)
+        if(products.length > 1){
+            products.forEach((product) => {
+                lo_quiero_atag = document.getElementById(`${first_half_id} ${product.id}`)
+                lo_quiero_atag.addEventListener('click', (event) => {
+                    event.preventDefault()
+                    addProductOrCreateOrder(product)
+                });
             });
-    
-        });
-    }
+        
+        }else{
+            console.log('este es')
+            lo_quiero_atag = document.getElementById(`${first_half_id} ${products.id}`)
+                lo_quiero_atag.addEventListener('click', (event) => {
+                    event.preventDefault()
+                    addProductOrCreateOrder(products)
+                });
+        } 
+    };
 
     const addProductOrCreateOrder = (product) => {
         if(localStorage.getItem('total_price') && localStorage.getItem('total_quantity')){
@@ -48,8 +75,8 @@ const updateCart = () =>{
     total_price += parseInt(product.price)
     updateCart()
     updateLocalStorage()
-    let message = document.querySelector('#add-item-message')
-    message.classList.add('show')
+    // let message = document.querySelector('#add-item-message')
+    // message.classList.add('show')
     };
 
     buildProductsList()
@@ -78,7 +105,7 @@ const updateCart = () =>{
         products.forEach((product) => {
             popular_products_div.innerHTML += `
             <div id='popular-product ${product.id}' class=" p-3 col-lg-3 col-md-3 col-sm-3">
-                <a href=""><img class="img-thumbnail" src="${product.image}"></a>
+                <a id='img-atag-mp ${product.id}' href=""><img class="img-thumbnail" src="${product.image}"></a>
                 <div class="box-element product p-3">
                     <h6 class="pt-2" style="display: inline-block; float: right">$ ${product.price}</h6>
                     <a href=""><h6 class="pt-2" style="display: inline-block"><strong>${product.name}</strong></h6></a>
@@ -90,6 +117,14 @@ const updateCart = () =>{
         });
     
     addLoQuieroTag(products, "lo-quiero-mp")
+
+    products.forEach((product)=>{
+        const product_a_tag = document.getElementById('img-atag-mp '+ product.id)
+        product_a_tag.addEventListener('click', ()=>{
+            event.preventDefault()
+            renderDetailView(product)
+        });
+    });
 
     }
 
@@ -106,7 +141,7 @@ const updateCart = () =>{
             products.forEach((product) => {
                 products_row.innerHTML += `
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <a href=""><img class="img-thumbnail" src=${product.image}></a>
+                    <a href=""><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
                     <div class="box-element product">
                         <a href=""><h6 class="pt-2" style="display: inline-block"><strong>${product.name}</strong></h6></a>
                         <h6 class="pt-2" style="display: inline-block; float:right">$ ${product.price}</h6>				
@@ -116,7 +151,17 @@ const updateCart = () =>{
                 </div>
                 `
             });
+
+            products.forEach((product)=>{
+                const product_a_tag = document.getElementById('img-atag '+ product.id)
+                product_a_tag.addEventListener('click', ()=>{
+                    event.preventDefault()
+                    renderDetailView(product)
+                });
+            });
+
         };
+        
 
     };
     

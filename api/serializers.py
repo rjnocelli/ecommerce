@@ -5,7 +5,7 @@ from rest_framework import serializers
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('id','name','price','views', 'image')
+        fields = ('id','name','price','views', 'image','description')
 
 class OrderItemSerializer(serializers.ModelSerializer):
     product = ProductSerializer()
@@ -22,16 +22,16 @@ class OrderSerializer(serializers.ModelSerializer):
 
     # def create(self, validated_data):
     #     print(validated_data)
-    #     # order_items = validated_data.pop('items')
-    #     # print(order_items)
-    # #     print(validated_data)
-    # #     order_items_array = []
-    # #     # for i in order_items:
-    # #     #     orderItem = OrderItem.objects.create(quantity = i.quantity, product = i.product)
-    # #     #     order_items_array.append(orderItem)
-    # #     # print(order_items_array)
-    # #     order = Order.objects.create(items = order_items_array, **validated_data)
-    #     return validated_data
+    #     order_items = validated_data.pop('items')
+    #     print(order_items)
+    #     print(validated_data)
+    #     order_items_array = []
+    #     # for i in order_items:
+    #     #     orderItem = OrderItem.objects.create(quantity = i.quantity, product = i.product)
+    #     #     order_items_array.append(orderItem)
+    #     # print(order_items_array)
+    #     # order = Order.objects.create(items = order_items_array, **validated_data)
+    #     return print(validated_data)
 
 class JointProductSerializer(serializers.Serializer):
     """

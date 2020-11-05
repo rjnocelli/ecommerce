@@ -1,5 +1,4 @@
 order = JSON.parse(localStorage.getItem('order'))
-    console.log(order)
 
     final_order = {
         "complete": false,
@@ -10,9 +9,8 @@ order = JSON.parse(localStorage.getItem('order'))
     }
 
     Object.values(order).forEach((i) =>{
-        final_order.items.push(
-                i.id,
-            );
+        console.log("item", i)
+        final_order.items.push(i)
         });
     
     console.log('final order', final_order)
