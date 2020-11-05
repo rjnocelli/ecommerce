@@ -6,25 +6,27 @@ const renderDetailView = (product) => {
     main_div.innerHTML = `
     
     <div class="card mt-5 mb-5 mx-auto p-2" style="width: 20rem;">
-        <img class="card-img-top" src="${product.image}" alt="Card image cap">
-            <div class="card-body">
-             <h3>${product.name}</h3>
-        <p>precio p/u: ${product.price}</p><hr>
-      <p class="card-text">${product.description}</p>
-      <a id='lo-quiero ${product.id}' class="btn btn-success">Lo Quiero!</a>
+        <img class="card-img-top img-thumbnail" src="${product.image}" alt="Card image cap">
+        <div class="card-body">
+        <h3>${product.name}</h3>
+        <p>precio p/u: <span class='float-right'>$${product.price}</span></p>
+        <hr>
+        <p class="card-text">${product.description}</p>
+        <a id='lo-quiero ${product.id}' class="btn btn-success">Lo Quiero!</a>
+      </div>
   </div>`
 
   addLoQuieroTag(product, 'lo-quiero')  
   
 }
 
-const updateCart = () =>{
+const updateCart = () => {
     cart = document.querySelector('#cart span')
     cart.innerHTML = ` `
     cart.innerHTML = ` ${total_quantity} `
 
 }
-    function updateLocalStorage(){
+    function updateLocalStorage() {
         localStorage.setItem('order', JSON.stringify(order))
         localStorage.setItem('total_quantity', JSON.stringify(total_quantity))
         localStorage.setItem('total_price', JSON.stringify(total_price))
@@ -81,7 +83,7 @@ const updateCart = () =>{
     buildProductsList()
     buildMostPouplarProductsList()
 
-    function buildMostPouplarProductsList(){
+    function buildMostPouplarProductsList() {
         const url = '/api/popular-products/'
 
         fetch(url)
@@ -89,7 +91,7 @@ const updateCart = () =>{
             .then(fetchMostPopularProducts)
     }
 
-    function buildProductsList(){
+    function buildProductsList() {
 		const url = '/api/product-list/'
 
 		fetch(url)
@@ -98,7 +100,7 @@ const updateCart = () =>{
     
         }
 
-    function fetchMostPopularProducts(products){
+    function fetchMostPopularProducts(products) {
         popular_products_div = document.getElementById('most-popular')
         popular_products_div.innerHTML = ``
         products.forEach((product) => {
@@ -117,9 +119,9 @@ const updateCart = () =>{
     
     addLoQuieroTag(products, "lo-quiero-mp")
 
-    products.forEach((product)=>{
+    products.forEach((product)=> {
         const product_a_tag = document.getElementById('img-atag-mp '+ product.id)
-        product_a_tag.addEventListener('click', ()=>{
+        product_a_tag.addEventListener('click', ()=> {
             event.preventDefault()
             renderDetailView(product)
         });
@@ -127,7 +129,7 @@ const updateCart = () =>{
 
     }
 
-    function updateProducts(products){
+    function updateProducts(products) {
         console.log(products)
         localStorage.setItem('products', JSON.stringify(products))
         
@@ -151,16 +153,14 @@ const updateCart = () =>{
                 `
             });
 
-            products.forEach((product)=>{
+            products.forEach((product)=> {
                 const product_a_tag = document.getElementById('img-atag '+ product.id)
-                product_a_tag.addEventListener('click', ()=>{
+                product_a_tag.addEventListener('click', ()=> {
                     event.preventDefault()
                     renderDetailView(product)
                 });
             });
 
         };
-        
-
     };
     
