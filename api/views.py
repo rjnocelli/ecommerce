@@ -48,6 +48,8 @@ def orderCreate(request):
     serializer = OrderSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
+    else:
+        print("SANTI: La validacion fallo")
     return Response(serializer.data)
 
 @api_view(['POST'])
