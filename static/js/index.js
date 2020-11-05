@@ -9,7 +9,7 @@ const renderDetailView = (product) => {
         <img class="card-img-top" src="${product.image}" alt="Card image cap">
             <div class="card-body">
              <h3>${product.name}</h3>
-        <p>precio p/u: ${product.price}</p>
+        <p>precio p/u: ${product.price}</p><hr>
       <p class="card-text">${product.description}</p>
       <a id='lo-quiero ${product.id}' class="btn btn-success">Lo Quiero!</a>
   </div>`
@@ -41,7 +41,6 @@ const updateCart = () =>{
             });
         
         }else{
-            console.log('este es')
             lo_quiero_atag = document.getElementById(`${first_half_id} ${products.id}`)
                 lo_quiero_atag.addEventListener('click', (event) => {
                     event.preventDefault()

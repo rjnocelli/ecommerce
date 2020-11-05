@@ -51,9 +51,12 @@
   </div> -->
   <script>
     const addCartHtml = () => {
-      total_items = localStorage.getItem('total_quantity')
+      total_quantity = localStorage.getItem('total_quantity')
+      if(total_quantity === null){
+        total_quantity = '0'
+      }
       document.getElementById('cart').innerHTML +=`
-      <a style="color: white; font-family: Arial, Helvetica, sans-serif" href="{% url 'cart' %}"><i style="vertical-align: middle" class="fas fa-shopping-cart"><span> ${total_items} <span></i>
+      <a style="color: white; font-family: Arial, Helvetica, sans-serif" href="{% url 'cart' %}"><i style="vertical-align: middle" class="fas fa-shopping-cart"><span> ${total_quantity} <span></i>
       </a> 
       `
     }
