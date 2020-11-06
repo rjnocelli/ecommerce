@@ -17,6 +17,8 @@ const renderDetailView = (product) => {
   </div>`
 
   addLoQuieroTag(product, 'lo-quiero')  
+
+  window.scrollTo(200,300)
   
 }
 
