@@ -10,7 +10,10 @@ final_order = {
 
 Object.values(order).forEach((i) =>{
     console.log("item", i)
-    final_order.items.push(i)
+    final_order.items.push({
+        'id': i.id,
+        'quantity': i.quantity,
+        })
     });
 
 console.log('final order', final_order)

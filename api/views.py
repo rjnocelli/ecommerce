@@ -1,6 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
-from api.serializers import OrderSerializer, ProductSerializer, JointProductSerializer
+from api.serializers import (
+    OrderSerializer, 
+    ProductSerializer, 
+    ServerToClientProductSerializer,
+    ServerToClientOrderSerializer)
 from inventario_app.models import Order, Product
 
 from itertools import *
@@ -8,8 +12,6 @@ from itertools import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import generics, viewsets, status
-
-
 
 @api_view(['GET'])
 def apiOverview(request):
@@ -32,7 +34,7 @@ def apiOverview(request):
 def getActiveOrder(request):
     try:
         order = Order.objects.all()
-        serializer = OrderSerializer(order, many=True)
+        serializer = ServerToClientOrderSerializer(order, many=True)
     except:
         order = None
     return Response(serializer.data)
@@ -68,7 +70,7 @@ def orderDelete(request, id):
 
 @api_view(['GET'])
 def getAllProducts(request):
-    return Response(ProductSerializer(Product.objects.all(), many=True).data)
+    return Response(ServerToClientProductSerializer(Product.objects.all(), many=True).data)
 
 @api_view(['GET'])
 def getMostPopularProducts(request):
@@ -76,10 +78,7 @@ def getMostPopularProducts(request):
     Returns a JSON file containing the 4 most popular products ordered by views
     and all products.
     """
-    # TODO: Modify this function so that it only returns a list with the most
-    #     popular products. Like so:
-    # return Response(ProductSerializer(Product.objects.all().order_by("-views")[:4]).data)
-    return Response(ProductSerializer(Product.objects.all().order_by("-views")[:4], many=True).data)
+    return Response(ServerToClientProductSerializer(Product.objects.all().order_by("-views")[:4], many=True).data)
 
 # PRODUCT VIEWS -----
 
