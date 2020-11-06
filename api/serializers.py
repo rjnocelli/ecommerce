@@ -1,37 +1,59 @@
 from inventario_app.models import Order, Product, OrderItem
 from rest_framework import serializers
+from rest_framework.serializers import CharField, BooleanField, IntegerField
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class ServerToClientProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ('id','name','price','views', 'image','description')
 
-class OrderItemSerializer(serializers.ModelSerializer):
-    product = ProductSerializer()
-    class Meta:
-        model = OrderItem
-        fields = ('id','quantity','date_added','product')
 
-class OrderSerializer(serializers.ModelSerializer):
-    # items = OrderItemSerializer(many=True)
+class ServerToClientOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('id','complete','date_ordered','items','active','customer_name','customer_email')
-        depth = 3
+        fields = "__all__"
+        depth = 2
 
-    # def create(self, validated_data):
-    #     print(validated_data)
-    #     order_items = validated_data.pop('items')
-    #     print(order_items)
-    #     print(validated_data)
-    #     order_items_array = []
-    #     # for i in order_items:
-    #     #     orderItem = OrderItem.objects.create(quantity = i.quantity, product = i.product)
-    #     #     order_items_array.append(orderItem)
-    #     # print(order_items_array)
-    #     # order = Order.objects.create(items = order_items_array, **validated_data)
-    #     return print(validated_data)
+class ServerToClientOrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = 'quantity'
+
+#    ----------------------
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = 'id'
+
+class OrderItemSerializer(serializers.Serializer):
+    id = IntegerField()
+    quantity = IntegerField()
+
+    def create(self, validated_data):
+        return OrderItem(product=validated_data["id"],
+                         quantity=validated_data["quantity"])
+
+# Client to server serializer
+class OrderSerializer(serializers.Serializer):
+   
+    items = OrderItemSerializer(many=True)
+    complete = BooleanField()
+    customer_name = CharField()
+    customer_email = CharField()
+    
+    def create(self, validated_data):
+        order_item_data = validated_data.pop("items")
+        order_items = []
+        for element in order_item_data:
+            order_item = OrderItem(product=Product.objects.get(id = element["id"]),
+                                         quantity=element["quantity"])
+            order_item.save()
+            order_items.append(order_item)
+        order = Order.objects.create(**validated_data)
+        order.items.set(order_items)
+        return order
 
 class JointProductSerializer(serializers.Serializer):
     """
@@ -40,5 +62,5 @@ class JointProductSerializer(serializers.Serializer):
       - most_popular: Holds the most popular products according to their views.
       - all_products: Holds all products.
     """
-    most_popular = ProductSerializer(read_only=True, many=True)
-    all_products = ProductSerializer(read_only=True, many=True)
+    most_popular = ServerToClientOrderSerializer(read_only=True, many=True)
+    all_products = ServerToClientOrderSerializer(read_only=True, many=True)
