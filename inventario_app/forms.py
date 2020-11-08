@@ -10,11 +10,7 @@ class CreateProductForm(ModelForm):
 
 class EmailConfirmationForm(forms.Form):
     name = forms.CharField(max_length=100, required=True, label='Nombre')
-    surename = forms.CharField(max_length=100, required=True, label='Apellido')
+    surname = forms.CharField(max_length=100, required=True, label='Apellido')
     email = forms.EmailField(required=True)
     phone_number = forms.CharField(max_length=20, label='Telefono')
-
-
-       
-
-        
+    order_items = forms.JSONField(widget=forms.HiddenInput())

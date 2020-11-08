@@ -23,7 +23,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 from django.views.decorators.csrf import csrf_exempt
 
-
+from api import serializers
 
 def Index(request):
     products = Product.objects.all()
@@ -61,12 +61,12 @@ def SearchProducts(request):
             Q(name__icontains=query) |
             Q(description__icontains=query) |
             Q(category__name__icontains=query)
-        ).distinct()    
+        ).distinct()
     context = {
         'products': queryset
     }
     return render(request, 'inventario_app/search_results.html', context)
-    
+
 def Success(request):
     return render(request, 'inventario_app/success.html')
 
@@ -74,7 +74,7 @@ def removeFromCart(request, id):
     item = get_object_or_404(Product, id = id)
     key = 'cart_id'
     if key in request.session:
-        session_id = request.session[key] 
+        session_id = request.session[key]
         order = get_object_or_404(Order, id = session_id)
         if order.items.filter(product__id = item.id).exists():
             orderitem_object = order.items.filter(product__id = item.id)[0]
@@ -88,7 +88,7 @@ def removeFromCart(request, id):
 #     item = get_object_or_404(Product, id = id)
 #     key = 'cart_id'
 #     if key in request.session:
-#         session_id = request.session[key] 
+#         session_id = request.session[key]
 #         order = get_object_or_404(Order, id = session_id)
 #         if order.items.filter(product__id = item.id).exists():
 #             orderitem_object = order.items.filter(product__id = item.id)[0]
@@ -129,7 +129,7 @@ def addToCart(request, id):
         context = {"order": order}
     return HttpResponseRedirect(reverse('cart'))
 
-        
+
 def cart(request):
     try:
         order = Order.objects.get(active=True)
@@ -144,7 +144,7 @@ def cart(request):
             'featured': featured,
         }
         # changed template from index.html for testing
-        return render(request, 'inventario_app/checkout.html', context) 
+        return render(request, 'inventario_app/checkout.html', context)
 
 @csrf_exempt
 def email_confirmation(request):
@@ -152,30 +152,45 @@ def email_confirmation(request):
     if request.method == 'POST':
         form = EmailConfirmationForm(request.POST)
         if form.is_valid():
-
-    #         session_id = request.session['cart_id']
-    #         customer_info = form.cleaned_data
-    #         customer_email = customer_info['email']
-    #         request.session['customer_info'] = customer_info
-    #         order = get_object_or_404(Order, id=session_id)
-    #         order_id = urlsafe_base64_encode(force_bytes(order.id))            
-    #         token = order_tokenizer.make_token(order)
-    #         url = 'http://localhost:8000' + reverse('confirm_email', kwargs={'order_id': order_id,'token': token})
-    #         message = get_template('inventario_app/email_confirmation_link.html').render({
-    #             'confirm_url': url,
-    #             'order': order,
-    #             'customer_info': customer_info
-    #         })
-    #         mail = EmailMessage(
-    #             'Dulceria Funes',
-    #             message,
-    #             settings.EMAIL_HOST_USER,
-    #             [customer_email],
-    #             )
-    #         mail.content_subtype = 'html'
-    #         mail.send()
-    #         messages.info(request, f'Se ha enviado un email a esta direccion de correo para confirmar su pedido {customer_email}')  
+            order_items = []
+            for element in form.cleaned_data["order_items"]:
+                order_item = OrderItem(
+                    product=Product.objects.get(id = element["id"]),
+                    quantity=element["quantity"])
+                order_item.save()
+                order_items.append(order_item)
+            customer_name = f"{form.cleaned_data['name']} {form.cleaned_data['surname']}"
+            order = Order.objects.create(
+                customer_name=customer_name,
+                customer_email=form.cleaned_data["email"])
+            order.items.set(order_items)
+            order.save()
+            # TODO: At this point we need to clear the local storage.
             return HttpResponseRedirect(reverse('index'))
+            # TODO: Send e-mail in order to confirm the provided address.
+            #    session_id = request.session['cart_id']
+            #    customer_info = form.cleaned_data
+            #    customer_email = customer_info['email']
+            #    request.session['customer_info'] = customer_info
+            #    order = get_object_or_404(Order, id=session_id)
+            #    order_id = urlsafe_base64_encode(force_bytes(order.id))
+            #    token = order_tokenizer.make_token(order)
+            #    url = 'http://localhost:8000' + reverse('confirm_email', kwargs={'order_id': order_id,'token': token})
+            #    message = get_template('inventario_app/email_confirmation_link.html').render({
+            #        'confirm_url': url,
+            #        'order': order,
+            #        'customer_info': customer_info
+            #    })
+            #    mail = EmailMessage(
+            #        'Dulceria Funes',
+            #        message,
+            #        settings.EMAIL_HOST_USER,
+            #        [customer_email],
+            #        )
+            #    mail.content_subtype = 'html'
+            #    mail.send()
+            #        messages.info(request, f'Se ha enviado un email a esta direccion de correo para confirmar su pedido {customer_email}')
+            #
     context = {"form": form}
     return render(request, 'inventario_app/email_confirmation.html', context)
 
@@ -184,9 +199,9 @@ class ConfirmRegistrationView(View):
         products = Product.objects.all()
         featured = products.order_by("-views")[:4]
         order_id = force_text(urlsafe_base64_decode(order_id))
-        
+
         order = Order.objects.get(id=order_id)
-    
+
         context = {
           'order': order,
           'products': products,
@@ -199,7 +214,7 @@ class ConfirmRegistrationView(View):
             order.save()
             message = get_template('inventario_app/email_confirmation_final.html').render({
                 'order': order,
-                'customer_info': customer_info,  
+                'customer_info': customer_info,
             })
             mail = EmailMessage(
                 'Dulceria Funes',
@@ -211,23 +226,23 @@ class ConfirmRegistrationView(View):
             mail.send()
             del request.session['cart_id'], request.session['customer_info']
             messages.success(request, 'Orden confirmada. Uno de nuestros empleados se comunicara con usted via telefono para definir detalles de pago.')
-        else: 
+        else:
             messages.error(request, 'Ha ocurrido un problema con el link. Por favor intentelo de nuevo.')
         return render(request, 'inventario_app/index.html', context)
 
 
 def checkOut(request):
     return render(request, 'inventario_app/checkout.html')
-        
- 
-        
-        
 
 
 
-    
 
-    
+
+
+
+
+
+
 
 
 

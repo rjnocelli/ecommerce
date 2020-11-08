@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from api.serializers import (
-    OrderSerializer, 
-    ProductSerializer, 
+    OrderSerializer,
+    ProductSerializer,
     ServerToClientProductSerializer,
     ServerToClientOrderSerializer)
 from inventario_app.models import Order, Product
@@ -43,15 +43,6 @@ def getActiveOrder(request):
 def orderDetail(request, pk):
     order = Order.objects.get(id=pk)
     serializer = OrderSerializer(order)
-    return Response(serializer.data)
-
-@api_view(['POST'])
-def orderCreate(request):
-    serializer = OrderSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    else:
-        print("SANTI: La validacion fallo")
     return Response(serializer.data)
 
 @api_view(['POST'])
@@ -96,6 +87,3 @@ def getMostPopularProducts(request):
 #         products = Product.objects.all()
 #         most_popular = Product.objects.all().order_by("-views")[:4]
 #         return list(chain(products, most_popular))
-
-
-
