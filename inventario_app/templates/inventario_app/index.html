@@ -7,7 +7,13 @@
 {% endblock head %}
 
     {% block body %}
-    
+
+    {% if messages %}
+                {% for message in messages %}
+                    <h5 class="alert alert-{{message.tags}}">{{ message }}</h5>
+                {% endfor %}
+    {% endif %}
+
     <div style='background-color:#abb7b7' class="jumbotron text-center expand">
         <h1 class="">Bienvenidos a Funes Dulceria</h1>
         <p class="lead text-muted">Elegí lo que quieras y te lo enviamos a tu casa<p>
@@ -27,7 +33,7 @@
 		
 		</div>
     </div>
-{% if request.session.order_sent %}
+{% if order_sent %}
 <script>
     localStorage.removeItem('order')
     localStorage.removeItem('total_quantity')

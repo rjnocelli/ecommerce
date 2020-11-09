@@ -165,8 +165,8 @@ def email_confirmation(request):
                 customer_email=form.cleaned_data["email"])
             order.items.set(order_items)
             order.save()            
-            request.session['order_sent'] = True
-            return HttpResponseRedirect(reverse('index'))
+            messages.success(request, f'La orden ha sido enviada. Se ha enviado un link de confirmacion a {form.cleaned_data["email"]}')
+            return render(request, 'inventario_app/index.html', {'order_sent': True})
             # TODO: Send e-mail in order to confirm the provided address.
             #    session_id = request.session['cart_id']
             #    customer_info = form.cleaned_data
