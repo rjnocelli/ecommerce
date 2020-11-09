@@ -164,8 +164,8 @@ def email_confirmation(request):
                 customer_name=customer_name,
                 customer_email=form.cleaned_data["email"])
             order.items.set(order_items)
-            order.save()
-            # TODO: At this point we need to clear the local storage.
+            order.save()            
+            request.session['order_sent'] = True
             return HttpResponseRedirect(reverse('index'))
             # TODO: Send e-mail in order to confirm the provided address.
             #    session_id = request.session['cart_id']

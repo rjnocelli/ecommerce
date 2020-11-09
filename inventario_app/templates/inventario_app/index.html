@@ -27,8 +27,19 @@
 		
 		</div>
     </div>
+{% if request.session.order_sent %}
+<script>
+    localStorage.removeItem('order')
+    localStorage.removeItem('total_quantity')
+    localStorage.removeItem('total_price')
+    cart = document.querySelector('#cart span')
+    cart.innerHTML = ` 0`
+</script>
+{% endif %}
+
+ <script src="{% static 'js/index.js' %}">
     
-   
- <script src="{% static 'js/index.js' %}"></script>
+
+</script>
 
     {% endblock body %}

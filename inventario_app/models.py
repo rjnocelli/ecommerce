@@ -42,7 +42,7 @@ class Order(models.Model):
     complete = models.BooleanField(default=False)
     customer_name = models.CharField(max_length=100, blank=True)
     customer_email = models.CharField(max_length=100, blank=True)
-    active = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.id)
