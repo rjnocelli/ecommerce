@@ -1,4 +1,3 @@
-
     buildProductsList()
     
     // const addContinueButton = () => {

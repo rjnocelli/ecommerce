@@ -1,13 +1,18 @@
-from inventario_app.models import Order, Product, OrderItem
+from inventario_app.models import Order, Product, OrderItem, Category
 from rest_framework import serializers
 from rest_framework.serializers import CharField, BooleanField, IntegerField
 
+class ServerToClientCategorySerializer(serializers.ModelSerializer):
+     class Meta:
+        model = Category
+        fields = "__all__"
 
 class ServerToClientProductSerializer(serializers.ModelSerializer):
+    category = ServerToClientCategorySerializer(many=True)
     class Meta:
         model = Product
-        fields = ('id','name','price','views', 'image','description')
-
+        fields = "__all__"
+        
 
 class ServerToClientOrderSerializer(serializers.ModelSerializer):
     class Meta:
