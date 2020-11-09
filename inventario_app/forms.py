@@ -15,4 +15,3 @@ class EmailConfirmationForm(forms.Form):
     phone_number = forms.CharField(max_length=20, label='Telefono')
     gift = forms.BooleanField(label='Para Regalar!', required=False)
     order_items = forms.JSONField(widget=forms.HiddenInput()) 
-    
