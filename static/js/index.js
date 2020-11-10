@@ -13,7 +13,7 @@ const renderDetailView = (product) => {
         <p>precio p/u: <span class='float-right'>$${product.price}</span></p>
         <hr>
         <p class="card-text">${product.description}</p>
-        <a id='lo-quiero ${product.id}' class="btn btn-success">Lo Quiero!</a>
+        <a id='lo-quiero ${product.id}' class="btn btn-success">Lo Quiero! <span class='far fa-candy-cane'></span></a>
       </div>
   </div>`
   let cat_div = document.getElementById('cat-div')
@@ -117,7 +117,7 @@ const updateCart = () => {
                 <div class="box-element product p-3">
                     <h6 class="pt-2" style="display: inline-block; float: right">$ ${product.price}</h6>
                     <a href=""><h6 class="pt-2" style="display: inline-block"><strong>${product.name}</strong></h6></a>
-                    <br><a id='lo-quiero-mp ${product.id}' class="btn btn-success btn-sm" href="">Lo Quiero!</a> 
+                    <br><a id='lo-quiero-mp ${product.id}' class="btn btn-success btn-sm" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a> 
                 </div>
                 <br>
             </div>
@@ -153,7 +153,7 @@ const updateCart = () => {
                     <div class="box-element product">
                         <a href=""><h6 class="pt-2" style="display: inline-block"><strong>${product.name}</strong></h6></a>
                         <h6 class="pt-2" style="display: inline-block; float:right">$ ${product.price}</h6>				
-                        <br><a id='lo-quiero ${product.id}' class="btn btn-success btn-sm" href="">Lo Quiero!</a>
+                        <br><a id='lo-quiero ${product.id}' class="btn btn-success btn-sm" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
                     </div>
                     <br>
                 </div>
