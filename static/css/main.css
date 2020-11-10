@@ -1,7 +1,15 @@
+
 body{
 	padding-top: 20px;
 	background-color: hsl(0, 0%, 98%);
+	font-family: 'Emilys Candy', cursive!important;
+	font-size: 20px;
+
 }
+
+/* .card-body {
+	font-size: 20px;
+} */
 
 h1,h2,h3,h4,h5,h6{
 	color:hsl(0, 0%, 30%);
@@ -12,6 +20,7 @@ h1,h2,h3,h4,h5,h6{
 	background-color: #fff;
 	border-radius: 4px;
 	padding: 10px;
+	font-size: 20px;
 }
 
 .thumbnail{
@@ -103,4 +112,6 @@ h1,h2,h3,h4,h5,h6{
 	display: none!important;
 }
 
-
+#main-div {
+	font-size: 20px;
+}
