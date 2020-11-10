@@ -71,13 +71,13 @@
     const search_input = document.getElementsByName('q')
     const form_submit_button = document.getElementById('search-submit')
 
-    console.log(form_submit_button)
-
     const products = JSON.parse(localStorage.getItem('products'))
-
+  
     function filterItems(query) {
       return products.filter(function(el) {
-          return (el.name.toLowerCase().indexOf(query.toLowerCase()) > -1) || (el.description.toLowerCase().indexOf(query.toLowerCase()) > -1);          
+          return ((el.name.toLowerCase().indexOf(query.toLowerCase()) > -1) 
+          || (el.description.toLowerCase().indexOf(query.toLowerCase()) > -1) 
+          || (el.category.map((i) => {return i.name.toLowerCase()}).join(" ").includes(query)));          
       })
     }
 
@@ -108,13 +108,10 @@
 
   form_submit_button.addEventListener('click', (e) => {
     e.preventDefault()
-    let search_input = document.getElementsByName('q')[0].value
-    products_filtered = filterItems(search_input)
-    console.log(search_input)
-    console.log('search working')
+    let query = document.getElementsByName('q')[0].value
+    products_filtered = filterItems(query.toLowerCase())
     renderSearchResults(products_filtered)
   })
-
 
     console.log('js funking')
 </script>
