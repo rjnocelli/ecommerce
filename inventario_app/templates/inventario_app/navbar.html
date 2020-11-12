@@ -20,13 +20,7 @@
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Chocolates
           </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{% url 'search-view' %}?q=Almendras">Almendras</a>
-            <a class="dropdown-item" href="{% url 'search-view' %}?q=Nueces">Nueces</a>
-            <a class="dropdown-item" href="{% url 'search-view' %}?q=Blanco">Blanco</a>
-            <a class="dropdown-item" href="{% url 'search-view' %}?q=En Rama">En Rama</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
+          <div id='dropdown-cats-list' class="dropdown-menu" aria-labelledby="navbarDropdown">
           </div>
         </li>
         
@@ -62,9 +56,7 @@
     }
     addCartHtml()
   </script>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  
 <script>
   const search_input = document.getElementsByName('q')
   const form_submit_button = document.getElementById('search-submit')
@@ -112,6 +104,25 @@ form_submit_button.addEventListener('click', (e) => {
   renderSearchResults(products_filtered)
   addLoQuieroTag(products_filtered,'lo-quiero')
 });
+
+
+// --------- Fetch all categories -------
+function displayCatsOnNavbar(response){
+  const cats_div = document.getElementById('dropdown-cats-list')
+  response.forEach((cat)=>{
+    const node = `<a class="dropdown-item" href="">${cat.name}</a>`
+    cats_div.insertAdjacentHTML('afterbegin', node)
+  });
+}
+
+function buildCategoriesList() {
+  const url = '/api/categories-list/'
+
+  fetch(url)
+      .then(function(response) { return response.json(); })
+      .then(displayCatsOnNavbar);
+  }
+  buildCategoriesList()
 
 </script>
   

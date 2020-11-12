@@ -4,8 +4,9 @@ from api.serializers import (
     OrderSerializer,
     ProductSerializer,
     ServerToClientProductSerializer,
-    ServerToClientOrderSerializer)
-from inventario_app.models import Order, Product
+    ServerToClientOrderSerializer,
+    ServerToClientCategorySerializer)
+from inventario_app.models import Order, Product, Category
 
 from itertools import *
 
@@ -25,13 +26,14 @@ def apiOverview(request):
         'Product-List': '/product-list/',
         'Popular-Products': '/popular-products/',
 
+        'Categories-List': '/categories-list/',
     }
     return Response(api_urls)
 
 # ORDER VIEWS -----
 
 @api_view(['GET'])
-def getActiveOrder(request):
+def getAllOrders(request):
     try:
         order = Order.objects.all()
         serializer = ServerToClientOrderSerializer(order, many=True)
@@ -72,6 +74,13 @@ def getMostPopularProducts(request):
     return Response(ServerToClientProductSerializer(Product.objects.all().order_by("-views")[:4], many=True).data)
 
 # PRODUCT VIEWS -----
+
+
+# CATEGORIES VIEW
+
+@api_view(['GET'])
+def getAllCategories(request):
+    return Response(ServerToClientCategorySerializer(Category.objects.all(), many=True).data)
 
 # @api_view(['GET'])
 # def productList(request):
