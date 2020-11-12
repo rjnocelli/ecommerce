@@ -80,8 +80,7 @@
     base_div.innerHTML = title
     base_div.innerHTML += base_div_row
     const base_div_row_el = document.getElementById('base-div-row')
-    
-    products.forEach((product) => {
+      products.forEach((product) => {
         base_div_row_el.innerHTML += `
         <div class="col-lg-3 col-md-3 col-sm-3">
             <a href=""><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
@@ -94,26 +93,37 @@
         </div>
         `
     });
-    
+    addLoQuieroTag(products,'lo-quiero')
   };
-  
-form_submit_button.addEventListener('click', (e) => {
-  e.preventDefault()
-  let query = document.getElementsByName('q')[0].value
-  products_filtered = filterItems(query.toLowerCase())
-  renderSearchResults(products_filtered)
-  addLoQuieroTag(products_filtered,'lo-quiero')
-});
+
+  addEventListenerToBuscarButton()
+
+
+function addEventListenerToBuscarButton(){
+  form_submit_button.addEventListener('click', (e) => {
+    e.preventDefault()
+    let query = document.getElementsByName('q')[0].value
+    let products_filtered = filterItems(query.toLowerCase())
+    renderSearchResults(products_filtered)
+  });
+}
 
 
 // --------- Fetch all categories -------
 function displayCatsOnNavbar(response){
   const cats_div = document.getElementById('dropdown-cats-list')
   response.forEach((cat)=>{
-    const node = `<a class="dropdown-item" href="">${cat.name}</a>`
+    const node = `<a id='cat ${cat.id}' class="dropdown-item" href="">${cat.name}</a>`
     cats_div.insertAdjacentHTML('afterbegin', node)
+    document.getElementById('cat ' + cat.id).addEventListener('click', (e)=>{
+      e.preventDefault()
+      console.log("RECONOCE EL PRODUCTO", cat.id)
+      let products_filtered = filterItems(cat.name.toLowerCase())
+      console.log(products_filtered)
+      renderSearchResults(products_filtered)
+    });
   });
-}
+};
 
 function buildCategoriesList() {
   const url = '/api/categories-list/'

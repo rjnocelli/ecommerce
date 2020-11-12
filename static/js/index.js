@@ -21,15 +21,17 @@ const addLoQuieroTag = (products, first_half_id) =>{
         });
     
     }else{
-        lo_quiero_atag = document.getElementById(`${first_half_id} ${products.id}`)
+        product = products[0]
+        lo_quiero_atag = document.getElementById(`${first_half_id} ${product.id}`)
             lo_quiero_atag.addEventListener('click', (event) => {
                 event.preventDefault()
-                addProductOrCreateOrder(products)
+                addProductOrCreateOrder(product)
             });
-    } 
+    }; 
 };
 
 const addProductOrCreateOrder = (product) => {
+    console.log(product.name)
     if(localStorage.getItem('total_price') && localStorage.getItem('total_quantity')){
         total_quantity = parseInt(localStorage.getItem('total_quantity'))
         total_price = parseInt(localStorage.getItem('total_price'))
@@ -68,7 +70,7 @@ const renderDetailView = (product) => {
             </div>
             <p>precio p/u: <span class='float-right'>$${product.price}</span></p><hr>
             <p class="card-text">${product.description}</p>
-            <a id='lo-quiero ${product.id}' class="btn btn-success">Lo Quiero! <span class='far fa-candy-cane'></span></a>
+            <a id='lo-quiero ${product.id}' class="btn btn-success btn-block">Lo Quiero! <span class='far fa-candy-cane'></span></a>
       </div>
   </div>`
 
@@ -110,9 +112,9 @@ function buildProductsList() {
             <div id='popular-product ${product.id}' class=" p-3 col-lg-3 col-md-3 col-sm-3">
                 <a id='img-atag-mp ${product.id}' href=""><img class="img-thumbnail" src="${product.image}"></a>
                 <div class="box-element product p-3">
-                    <h6 class="pt-2" style="display: inline-block; float: right">$ ${product.price}</h6>
+                    <h6 class="pt-2" style="display: inline-block; float: right">$ ${product.price} p/u</h6>
                     <a href=""><h6 class="pt-2" style="display: inline-block"><strong>${product.name}</strong></h6></a>
-                    <br><a id='lo-quiero-mp ${product.id}' class="btn btn-success btn-sm" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a> 
+                    <br><a id='lo-quiero-mp ${product.id}' class="btn btn-success btn-block btn-sm" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a> 
                 </div>
                 <br>
             </div>
@@ -126,10 +128,8 @@ function buildProductsList() {
         product_a_tag.addEventListener('click', ()=> {
             event.preventDefault()
             renderDetailView(product)
+            });
         });
-
-    });
-
     };
 
     function updateProducts(products) {
@@ -148,8 +148,8 @@ function renderProducts(products) {
             <a href=""><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
             <div class="box-element product">
                 <a href=""><h6 class="pt-2" style="display: inline-block"><strong>${product.name}</strong></h6></a>
-                <h6 class="pt-2" style="display: inline-block; float:right">$ ${product.price}</h6>				
-                <br><a id='lo-quiero ${product.id}' class="btn btn-success btn-sm" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
+                <h6 class="pt-2" style="display: inline-block; float:right">$ ${product.price} p/u</h6>				
+                <br><a id='lo-quiero ${product.id}' class="btn btn-success btn-block btn-sm" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
             </div>
             <br>
         </div>
