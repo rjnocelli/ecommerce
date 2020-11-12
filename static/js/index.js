@@ -105,7 +105,7 @@ function buildProductsList() {
     }
 
     function fetchMostPopularProducts(products) {
-        popular_products_div = document.getElementById('most-popular-container')
+        popular_products_div = document.getElementById('most-popular-row')
         popular_products_div.innerHTML = ``
         products.forEach((product) => {
             popular_products_div.innerHTML += `

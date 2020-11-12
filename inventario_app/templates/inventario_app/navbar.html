@@ -117,7 +117,6 @@ function displayCatsOnNavbar(response){
     cats_div.insertAdjacentHTML('afterbegin', node)
     document.getElementById('cat ' + cat.id).addEventListener('click', (e)=>{
       e.preventDefault()
-      console.log("RECONOCE EL PRODUCTO", cat.id)
       let products_filtered = filterItems(cat.name.toLowerCase())
       console.log(products_filtered)
       renderSearchResults(products_filtered)
