@@ -1,11 +1,15 @@
 
 body{
+	font-family: 'Emilys Candy', cursive;
 	padding-top: 20px;
 	background-color: hsl(0, 0%, 98%);
-	font-family: 'Emilys Candy', cursive!important;
+	/* background: #D3CCE3;  fallback for old browsers */
+	/* background: -webkit-linear-gradient(to right, #E9E4F0, #D3CCE3);  Chrome 10-25, Safari 5.1-6 */
+	/* background: linear-gradient(to right, #E9E4F0, #D3CCE3); W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 	font-size: 20px;
-
 }
+
+/* #base-div { }  */
 
 /* .card-body {
 	font-size: 20px;
@@ -17,7 +21,7 @@ h1,h2,h3,h4,h5,h6{
 
 .box-element{
 	box-shadow:hsl(0, 0%, 80%) 0 0 16px;
-	background-color: #fff;
+	/* background-color: #fff; */
 	border-radius: 4px;
 	padding: 10px;
 	font-size: 20px;
@@ -114,4 +118,9 @@ h1,h2,h3,h4,h5,h6{
 
 #main-div {
 	font-size: 20px;
+}
+
+.img-thumbnail {
+	height:200px;
+    width:100%;
 }

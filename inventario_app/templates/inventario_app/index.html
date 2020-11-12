@@ -3,10 +3,9 @@
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/index.css' %}">
-
 {% endblock head %}
 
-    {% block body %}
+{% block body %}
 
     {% if messages %}
                 {% for message in messages %}
@@ -14,24 +13,19 @@
                 {% endfor %}
     {% endif %}
 
-    <div id='full-page-div' style='background-color:#abb7b7' class="jumbotron text-center expand">
-        <h1 class="">Bienvenidos a Funes Dulceria</h1>
-        <p class="lead text-muted">Elegí lo que quieras y te lo enviamos a tu casa<p>
+<div id='jumbotron' style='background-color:#abb7b7' class="jumbotron text-center expand">
+    <h1 class="">Bienvenidos a Funes Dulceria</h1>
+    <p class="lead text-muted">Elegí lo que quieras y te lo enviamos a tu casa<p>
+</div>
+<div id='most-popular-container' style="padding: 10px" class="row shadow-lg border boder-light">
+    <div class='d-flex flex-row bd-highlight'>
+        <h3 style='display: flex; flex-direction:row;' class=''>Mas Populares</h3>
     </div>
-    <div id='main-div' style="padding: 10px" class="row shadow-lg border boder-light">
-        <div class='d-flex flex-row bd-highlight'>
-            <h3 style='display: flex; flex-direction:row;' class=''>Mas Populares</h3>
-        </div>
-        <div id='most-popular' class="row">
-            
-        </div> 
-    </div>
-    <hr>
+    <div id='most-popular-row' class="row"></div> 
+</div><hr>
+<div id='product-details' class="row"></div>
 
-    <div id='product-details' class="row">
-		
-		</div>
-    </div>
+
 {% if order_sent %}
 <script>
     localStorage.removeItem('order')
@@ -41,10 +35,11 @@
     cart.innerHTML = ` 0`
 </script>
 {% endif %}
+<script src="{% static 'js/index.js' %}"></script> 
 
- <script src="{% static 'js/index.js' %}">
-    
+<script type='module' src="{% static 'js/hola.js' %}"></script> 
+<script type='module' src="{% static 'js/functions.js' %}"></script> 
 
-</script>
 
-    {% endblock body %}
+
+{% endblock body %}

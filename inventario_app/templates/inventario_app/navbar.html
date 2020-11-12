@@ -65,54 +65,53 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script>
+  const search_input = document.getElementsByName('q')
+  const form_submit_button = document.getElementById('search-submit')
 
-  <script>
+  const products = JSON.parse(localStorage.getItem('products'))
 
-    const search_input = document.getElementsByName('q')
-    const form_submit_button = document.getElementById('search-submit')
-
-    const products = JSON.parse(localStorage.getItem('products'))
-  
-    function filterItems(query) {
-      return products.filter(function(el) {
-          return ((el.name.toLowerCase().indexOf(query.toLowerCase()) > -1) 
-          || (el.description.toLowerCase().indexOf(query.toLowerCase()) > -1) 
-          || (el.category.map((i) => {return i.name.toLowerCase()}).join(" ").includes(query)));          
-      })
-    }
-
-    function renderSearchResults(products) {
-      let search_input = document.getElementsByName('q')[0].value
-      const base_div = document.getElementById('base-div');
-      const title = `<div class='row'><h2>Resultados de la busqueda "${search_input}"</h2></div>`
-      const base_div_row = `<div class="row" id="base-div-row"></div>`
-      base_div.innerHTML = title
-      base_div.innerHTML += base_div_row
-      const base_div_row_el = document.getElementById('base-div-row')
-      
-      products.forEach((product) => {
-          base_div_row_el.innerHTML += `
-          <div class="col-lg-3 col-md-3 col-sm-3">
-              <a href=""><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
-              <div class="box-element product">
-                  <a href=""><h6 class="pt-2" style="display: inline-block"><strong>${product.name}</strong></h6></a>
-                  <h6 class="pt-2" style="display: inline-block; float:right">$ ${product.price}</h6>				
-                  <br><a id='lo-quiero ${product.id}' class="btn btn-success btn-sm" href="">Lo Quiero!</a>
-              </div>
-              <br>
-          </div>
-          `
-      });
-    }
     
+  function filterItems(query) {
+    return products.filter(function(el) {
+        return ((el.name.toLowerCase().indexOf(query.toLowerCase()) > -1) 
+        || (el.description.toLowerCase().indexOf(query.toLowerCase()) > -1) 
+        || (el.category.map((i) => {return i.name.toLowerCase()}).join(" ").includes(query)));          
+    })
+  }
 
-  form_submit_button.addEventListener('click', (e) => {
-    e.preventDefault()
-    let query = document.getElementsByName('q')[0].value
-    products_filtered = filterItems(query.toLowerCase())
-    renderSearchResults(products_filtered)
-  })
+  function renderSearchResults(products) {
+    let search_input = document.getElementsByName('q')[0].value
+    const base_div = document.getElementById('base-div');
+    const title = `<div class='row'><h2>Resultados de la busqueda "${search_input}"</h2></div>`
+    const base_div_row = `<div class="row" id="base-div-row"></div>`
+    base_div.innerHTML = title
+    base_div.innerHTML += base_div_row
+    const base_div_row_el = document.getElementById('base-div-row')
+    
+    products.forEach((product) => {
+        base_div_row_el.innerHTML += `
+        <div class="col-lg-3 col-md-3 col-sm-3">
+            <a href=""><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
+            <div class="box-element product">
+                <a href=""><h6 class="pt-2" style="display: inline-block"><strong>${product.name}</strong></h6></a>
+                <h6 class="pt-2" style="display: inline-block; float:right">$ ${product.price}</h6>				
+                <br><a id='lo-quiero ${product.id}' class="btn btn-success btn-sm" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
+            </div>
+            <br>
+        </div>
+        `
+    });
+    
+  };
+  
+form_submit_button.addEventListener('click', (e) => {
+  e.preventDefault()
+  let query = document.getElementsByName('q')[0].value
+  products_filtered = filterItems(query.toLowerCase())
+  renderSearchResults(products_filtered)
+  addLoQuieroTag(products_filtered,'lo-quiero')
+});
 
-    console.log('js funking')
 </script>
   
