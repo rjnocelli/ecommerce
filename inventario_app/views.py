@@ -26,9 +26,7 @@ from django.views.decorators.csrf import csrf_exempt
 from api import serializers
 
 def Index(request):
-    products = Product.objects.all()
-    featured = products.order_by("-views")[:4]
-    return render(request, 'inventario_app/index.html', context={'products': products, 'featured':featured})
+    return render(request, 'inventario_app/index.html')
 
 class CreateProductView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'inventario_app/create_product.html'
@@ -162,59 +160,43 @@ def email_confirmation(request):
             customer_name = f"{form.cleaned_data['name']} {form.cleaned_data['surname']}"
             order = Order.objects.create(
                 customer_name=customer_name,
-                customer_email=form.cleaned_data["email"])
+                customer_email=form.cleaned_data["email"],
+                customer_phone_number=form.cleaned_data["phone_number"],
+                gift=form.cleaned_data['gift'])
             order.items.set(order_items)
             order.save()            
-            messages.success(request, f'La orden esta siendo procesada. Se ha enviado un link de confirmacion a {form.cleaned_data["email"]}')
+            customer_email = form.cleaned_data['email']
+            order_id = urlsafe_base64_encode(force_bytes(order.id))
+            token = order_tokenizer.make_token(order)
+            url = 'http://localhost:8000' + reverse('confirm_email', kwargs={'order_id': order_id,'token': token})
+            message = get_template('inventario_app/email_confirmation_link.html').render({
+                'confirm_url': url,
+                'order': order,
+            })
+            mail = EmailMessage(
+                'Dulceria Funes',
+                message,
+                settings.EMAIL_HOST_USER,
+                [customer_email],
+                )
+            mail.content_subtype = 'html'
+            mail.send()
+            messages.info(request, f'Se ha enviado un email a esta direccion de correo para confirmar su pedido {form.cleaned_data["email"]}')
             return render(request, 'inventario_app/index.html', {'order_sent': True})
-            # TODO: Send e-mail in order to confirm the provided address.
-            #    session_id = request.session['cart_id']
-            #    customer_info = form.cleaned_data
-            #    customer_email = customer_info['email']
-            #    request.session['customer_info'] = customer_info
-            #    order = get_object_or_404(Order, id=session_id)
-            #    order_id = urlsafe_base64_encode(force_bytes(order.id))
-            #    token = order_tokenizer.make_token(order)
-            #    url = 'http://localhost:8000' + reverse('confirm_email', kwargs={'order_id': order_id,'token': token})
-            #    message = get_template('inventario_app/email_confirmation_link.html').render({
-            #        'confirm_url': url,
-            #        'order': order,
-            #        'customer_info': customer_info
-            #    })
-            #    mail = EmailMessage(
-            #        'Dulceria Funes',
-            #        message,
-            #        settings.EMAIL_HOST_USER,
-            #        [customer_email],
-            #        )
-            #    mail.content_subtype = 'html'
-            #    mail.send()
-            #        messages.info(request, f'Se ha enviado un email a esta direccion de correo para confirmar su pedido {customer_email}')
-            #
     context = {"form": form}
     return render(request, 'inventario_app/email_confirmation.html', context)
 
 class ConfirmRegistrationView(View):
     def get(self, request, order_id, token):
-        products = Product.objects.all()
-        featured = products.order_by("-views")[:4]
         order_id = force_text(urlsafe_base64_decode(order_id))
-
         order = Order.objects.get(id=order_id)
 
-        context = {
-          'order': order,
-          'products': products,
-          'featured': featured,
-        }
-
         if order and order_tokenizer.check_token(order, token):
-            customer_info = request.session['customer_info']
             order.complete = True
+            order.active = False
             order.save()
             message = get_template('inventario_app/email_confirmation_final.html').render({
                 'order': order,
-                'customer_info': customer_info,
             })
             mail = EmailMessage(
                 'Dulceria Funes',
@@ -224,11 +206,10 @@ class ConfirmRegistrationView(View):
                 )
             mail.content_subtype = 'html'
             mail.send()
-            del request.session['cart_id'], request.session['customer_info']
             messages.success(request, 'Orden confirmada. Uno de nuestros empleados se comunicara con usted via telefono para definir detalles de pago.')
         else:
             messages.error(request, 'Ha ocurrido un problema con el link. Por favor intentelo de nuevo.')
-        return render(request, 'inventario_app/index.html', context)
+        return render(request, 'inventario_app/index.html')
 
 
 def checkOut(request):

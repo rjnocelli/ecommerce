@@ -7,11 +7,12 @@
 </head>
 <body>
     <h1>Orden {{ order.id }}</h1>
-    <p>Cliente: {{ customer_info.name }} {{ customer_info.surename }}</p>
-    <p>Telefono: {{ customer_info.phone_number }}</p>
-    <p>Email: {{ customer_info.email }}</p>
+    <p>Cliente: {{ order.customer_name }}</p>
+    <p>Telefono: {{ order.customer_phone_number }}</p>
+    <p>Email: {{ order.customer_email }}</p>
+    {% if order.gift %} <p><strong>Para Regalar</strong></p>{% endif %}
     
-    <table class="table">
+    <table class="table table-striped">
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
