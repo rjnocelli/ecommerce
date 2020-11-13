@@ -34,12 +34,12 @@
       </form>
     </div>
   </nav> 
-  <div id='order-empty-message' class="alert alert-danger alert-dismissible message fade" role="alert">
+  <!-- <div id='order-empty-message' class="alert alert-danger alert-dismissible message fade" role="alert">
       <strong>Tu orden esta vacia!</strong> Por favor agregue producto al carro para continuar.
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
-  </div>
+  </div> -->
   <!-- <div id='add-item-message' class="alert alert-warning alert-dismissible message fade" role="alert">
     <strong>Producto agregado al carro!</strong>
   </div> -->
@@ -72,10 +72,12 @@
     })
   }
 
-  function renderSearchResults(products) {
-    let search_input = document.getElementsByName('q')[0].value
+  function renderSearchResults(products, query) {
+    if(query === undefined){
+      query = document.getElementsByName('q')[0].value
+    }
     const base_div = document.getElementById('base-div');
-    const title = `<div class='row'><h2>Resultados de la busqueda "${search_input}"</h2></div>`
+    const title = `<div class='row'><h2>Resultados de la busqueda "${query}"</h2></div>`
     const base_div_row = `<div class="row" id="base-div-row"></div>`
     base_div.innerHTML = title
     base_div.innerHTML += base_div_row
@@ -117,9 +119,10 @@ function displayCatsOnNavbar(response){
     cats_div.insertAdjacentHTML('afterbegin', node)
     document.getElementById('cat ' + cat.id).addEventListener('click', (e)=>{
       e.preventDefault()
-      let products_filtered = filterItems(cat.name.toLowerCase())
+      query = cat.name.toLowerCase()
+      let products_filtered = filterItems(query)
       console.log(products_filtered)
-      renderSearchResults(products_filtered)
+      renderSearchResults(products_filtered, query)
     });
   });
 };
