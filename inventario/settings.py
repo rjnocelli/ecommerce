@@ -20,6 +20,9 @@ ALLOWED_HOSTS = []
 
 CORS_ORIGIN_ALLOW_ALL = True 
 
+# CAPTCHA
+
+
 
 
 # Application definition
@@ -36,6 +39,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'rest_framework',
     'corsheaders',
+    'captcha',
 ]
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True

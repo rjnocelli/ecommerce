@@ -25,6 +25,8 @@ urlpatterns = [
     path('product/<id>/add/', views.addToCart, name='add-to-cart'),
     path('product/<id>/remove/', views.removeFromCart, name='remove-from-cart'),
     path('product/<id>/update/', views.update, name='update'),
+
+    path('captcha/', include('captcha.urls')),
 ]
 
 if settings.DEBUG:

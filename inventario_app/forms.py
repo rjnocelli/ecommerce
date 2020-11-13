@@ -2,6 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from inventario_app.models import Product
 from django.urls import reverse
+from captcha.fields import CaptchaField
 
 class CreateProductForm(ModelForm):
     class Meta:
@@ -15,3 +16,5 @@ class EmailConfirmationForm(forms.Form):
     phone_number = forms.CharField(max_length=20, label='Telefono')
     gift = forms.BooleanField(label='Para Regalar!', required=False)
     order_items = forms.JSONField(widget=forms.HiddenInput()) 
+    captcha = CaptchaField()
+    
