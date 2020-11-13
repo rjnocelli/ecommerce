@@ -20,14 +20,21 @@ const addLoQuieroTag = (products, first_half_id) =>{
             });
         });
     
-    }else{
+    }else if(products.length === 1){
         product = products[0]
         lo_quiero_atag = document.getElementById(`${first_half_id} ${product.id}`)
             lo_quiero_atag.addEventListener('click', (event) => {
                 event.preventDefault()
                 addProductOrCreateOrder(product)
             });
-    }; 
+    }else{
+        product = products
+        lo_quiero_atag = document.getElementById(`${first_half_id} ${product.id}`)
+            lo_quiero_atag.addEventListener('click', (event) => {
+                event.preventDefault()
+                addProductOrCreateOrder(product)
+            });
+    }
 };
 
 const addProductOrCreateOrder = (product) => {
@@ -59,6 +66,7 @@ updateLocalStorage()
 };
 
 const renderDetailView = (product) => {
+    console.log('PRODUCTO DETAIL VIEW', product.name)
     const main_div = document.getElementById('most-popular-container')
     main_div.innerHTML = ``
     main_div.innerHTML = `
@@ -73,16 +81,13 @@ const renderDetailView = (product) => {
             <a id='lo-quiero ${product.id}' class="btn btn-success btn-block">Lo Quiero! <span class='far fa-candy-cane'></span></a>
       </div>
   </div>`
-
   let cat_div = document.getElementById('cat-div')
   product.category.forEach((cat) => {
       cat_div.innerHTML += `<span class="badge badge-primary">${cat.name}</span>
       `
   });
-
   addLoQuieroTag(product, 'lo-quiero')  
   window.scrollTo(200,300)
-  
 };
     buildProductsList()
     buildMostPouplarProductsList()
@@ -141,7 +146,6 @@ function buildProductsList() {
 
 function renderProducts(products) {
     products_row = document.getElementById('product-details');
-    console.log(products_row)
     products.forEach((product) => {
         products_row.innerHTML += `
         <div class="col-lg-3 col-md-6 col-sm-4">
