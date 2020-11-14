@@ -4,7 +4,7 @@ from django.utils import timezone
 class Product(models.Model):
     name = models.CharField(max_length=50, verbose_name="nombre")
     price = models.DecimalField(max_digits = 5, decimal_places= 2, verbose_name="precio")
-    description = models.TextField(max_length=100, verbose_name="descripcion")
+    description = models.TextField(max_length=255, verbose_name="descripcion")
     timestamp = models.DateTimeField(default=timezone.now,blank=True, null=True)
     image = models.ImageField(default='chocolate.jpg',blank=True, null=True, verbose_name='imagen')
     category = models.ManyToManyField("Category", verbose_name='categoria', blank=True)
