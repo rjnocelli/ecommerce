@@ -7,7 +7,7 @@ from captcha.fields import CaptchaField
 class CreateProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = ['name','price','description','category','image']
+        fields = ['name','price','description','category','image', 'is_bundle', 'in_stock']
 
 class EmailConfirmationForm(forms.Form):
     name = forms.CharField(max_length=100, required=True, label='Nombre')

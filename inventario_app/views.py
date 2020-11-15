@@ -31,7 +31,7 @@ def Index(request):
 class CreateProductView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'inventario_app/create_product.html'
     model = Product
-    fields = ['name','price','description','category','image']
+    fields = ['name','price','description','category','image','in_stock','is_bundle']
     success_url = reverse_lazy('index')
     success_message = f'Has agregado un nuevo producto a la base de datos'
 
@@ -214,8 +214,6 @@ class ConfirmRegistrationView(View):
 
 def checkOut(request):
     return render(request, 'inventario_app/checkout.html')
-
-
 
 
 
