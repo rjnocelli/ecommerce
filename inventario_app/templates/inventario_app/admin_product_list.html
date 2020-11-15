@@ -1,0 +1,23 @@
+{% extends 'inventario_app/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block body %}
+<div class="row justify-content-md-center"><br>
+        <h2>Lista de Productos</h2> 
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col">
+            <ul>
+                {% for product in products %}
+                <li><a href="{% url 'update' product.id %}">{{product.name}}</a>
+                <a class="fas fa-trash-alt" href="{% url 'delete' product.id %}"></a></li>
+                {% endfor%}
+            </ul>
+        </div>
+    </div>
+</div>
+   
+    
+
+{% endblock %}

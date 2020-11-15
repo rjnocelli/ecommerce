@@ -142,15 +142,15 @@ function buildProductsList() {
             }
         });
     
-    addLoQuieroTag(products, "lo-quiero-mp")
+    // addLoQuieroTag(products, "lo-quiero-mp")
 
-    products.forEach((product)=> {
-        const product_a_tag = document.getElementById('img-atag-mp '+ product.id)
-        product_a_tag.addEventListener('click', ()=> {
-            event.preventDefault()
-            renderDetailView(product)
-            });
-        });
+    // products.forEach((product)=> {
+    //     const product_a_tag = document.getElementById('img-atag-mp '+ product.id)
+    //     product_a_tag.addEventListener('click', ()=> {
+    //         event.preventDefault()
+    //         renderDetailView(product)
+    //         });
+    //     });
     };
 
     function updateProducts(products) {

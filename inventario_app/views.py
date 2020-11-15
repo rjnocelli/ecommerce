@@ -15,7 +15,7 @@ from django.core.mail import EmailMessage
 
 from .models import Product, OrderItem, Order
 from .forms import CreateProductForm, EmailConfirmationForm
-from django.views.generic import FormView, CreateView, DetailView, View
+from django.views.generic import FormView, CreateView, DetailView, View, DeleteView
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -28,12 +28,25 @@ from api import serializers
 def Index(request):
     return render(request, 'inventario_app/index.html')
 
+# Admin UI Views
+
 class CreateProductView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
-    template_name = 'inventario_app/create_product.html'
+    template_name = 'inventario_app/admin_create_product.html'
     model = Product
     fields = ['name','price','description','category','image','in_stock','is_bundle']
     success_url = reverse_lazy('index')
     success_message = f'Has agregado un nuevo producto a la base de datos'
+
+class ProductDelete(DeleteView, LoginRequiredMixin, SuccessMessageMixin):
+    template_name = 'inventario_app/admin_delete_confirmation.html'
+    model = Product
+    success_url = reverse_lazy('index')
+    # success_message = f'Se ha borrado un {object} de la base de datos'
+
+@login_required
+def AdminProductListView(request):
+    products = Product.objects.all()
+    return render(request, 'inventario_app/admin_product_list.html', {'products': products})
 
 def detail(request, id):
     qs = get_object_or_404(Product, id=id)
