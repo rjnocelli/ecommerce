@@ -4,11 +4,18 @@ from django.utils import timezone
 class Product(models.Model):
     name = models.CharField(max_length=50, verbose_name="nombre")
     price = models.DecimalField(max_digits = 5, decimal_places= 2, verbose_name="precio")
-    description = models.TextField(max_length=100, verbose_name="descripcion")
+    description = models.TextField(max_length=255, verbose_name="descripcion")
     timestamp = models.DateTimeField(default=timezone.now,blank=True, null=True)
     image = models.ImageField(default='chocolate.jpg',blank=True, null=True, verbose_name='imagen')
     category = models.ManyToManyField("Category", verbose_name='categoria', blank=True)
     views = models.IntegerField(default = 0, null=True, blank=True)
+    is_bundle = models.BooleanField(default = False, verbose_name='Es Promocion')
+    in_stock = models.BooleanField(default = True, verbose_name='En Stock')
+
+    def save(self, *args, **kwargs):
+        if self.is_bundle:
+            self.views = 9999
+        return super(Product, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
