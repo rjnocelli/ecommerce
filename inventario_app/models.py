@@ -15,6 +15,8 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         if self.is_bundle:
             self.views = 9999
+        else:
+            self.views = 0
         return super(Product, self).save(*args, **kwargs)
 
     def __str__(self):

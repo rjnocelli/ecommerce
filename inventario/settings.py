@@ -1,11 +1,8 @@
-
-
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 STATIC_DIR = os.path.join(BASE_DIR,'static')
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -140,3 +137,5 @@ EMAIL_HOST_PASSWORD = '4k6j0clhi'
 EMAIL_PORT = 587
 PASSWORD_RESET_TIMEOUT_DAYS = 2
 
+LOGIN_URL = '/'
+LOGIN_REDIRECT_URL = '/'

@@ -58,7 +58,7 @@ def update(request, id):
     qs = get_object_or_404(Product, id=id)
     form = CreateProductForm(instance = qs)
     if request.method == "POST":
-        form = CreateProductForm(request.POST, instance = qs)
+        form = CreateProductForm(request.POST, request.FILES, instance = qs)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('index'))

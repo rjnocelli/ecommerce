@@ -11,6 +11,8 @@ from inventario_app.views import (
     removeFromCart,
     update,
 )
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +30,8 @@ urlpatterns = [
     path('product/<id>/remove/', views.removeFromCart, name='remove-from-cart'),
     path('product/<id>/update/', views.update, name='update'),
     path('product/<int:pk>/delete/', views.ProductDelete.as_view(), name='delete'),
+
+    path('accounts/login/', auth_views.LoginView.as_view()),
 
     path('captcha/', include('captcha.urls')),
 ]
