@@ -64,7 +64,7 @@ def orderDelete(request, id):
 # PRODUCT VIEWS ------
 @api_view(['GET'])
 def getAllProducts(request):
-    return Response(ServerToClientProductSerializer(Product.objects.filter(in_stock=True).order_by('-views'), many=True).data)
+    return Response(ServerToClientProductSerializer(Product.objects.filter(in_stock=True).order_by("-is_bundle", "-views"), many=True).data)
 
 @api_view(['GET'])
 def getMostPopularProducts(request):
@@ -72,7 +72,7 @@ def getMostPopularProducts(request):
     Returns a JSON file containing the 4 most popular products ordered by views
     and all products.
     """
-    return Response(ServerToClientProductSerializer(Product.objects.all().filter(in_stock=True).order_by("-views")[:4], many=True).data)
+    return Response(ServerToClientProductSerializer(Product.objects.all().filter(in_stock=True).order_by("-is_bundle", "-views")[:4], many=True).data)
 
 # PRODUCT VIEWS -----
 
