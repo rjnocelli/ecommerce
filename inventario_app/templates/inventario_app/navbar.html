@@ -19,7 +19,9 @@
           <a style='color:coral' class="nav-link" href="{% url 'admin-product-list' %}">Productos<span class="sr-only">(current)</span></a>
         </li>
         {% endif %}
-        
+        <li class="nav-item active ml-auto">
+          <a href=''class='nav-link' id='contacto'>Contacto<span class="sr-only"></span></a>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Categorias
@@ -27,9 +29,7 @@
           <div id='dropdown-cats-list' class="dropdown-menu" aria-labelledby="navbarDropdown">
           </div>
         </li>
-        
         <li id='cart' class="nav-item mr-auto">
-          
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0" method="">
@@ -64,9 +64,14 @@
 <script>
   const search_input = document.getElementsByName('q')
   const form_submit_button = document.getElementById('search-submit')
+  const contacto_at = document.getElementById('contacto')
 
   const products = JSON.parse(localStorage.getItem('products'))
 
+  contacto_at.addEventListener('click', (event) =>{
+    event.preventDefault()
+    window.scrollTo(1200,1200)
+  })
     
   function filterItems(query) {
     return products.filter(function(el) {
@@ -92,15 +97,20 @@
             <a href=""><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
             <div class="box-element product">
                 <a href=""><h6 class="pt-2" style="display: inline-block"><strong>${product.name}</strong></h6></a>
-                <h6 class="pt-2" style="display: inline-block; float:right">$ ${product.price}</h6>				
+                <h6 class="pt-2" style="display: inline-block; float:right">$ ${product.price}</h6>		
+                <p class="card-text">${product.description}</p>		
                 <br><a id='lo-quiero ${product.id}' class="btn btn-success btn-sm" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
             </div>
             <br>
         </div>
         `
+      
     });
     addLoQuieroTag(products,'lo-quiero')
-  };
+    window.scrollTo(0,0)
+    
+  }
+          
 
   addEventListenerToBuscarButton()
 
@@ -140,5 +150,23 @@ function buildCategoriesList() {
   }
   buildCategoriesList()
 
+
+function renderIndex(){
+  let base_div = document.getElementById('base-div');
+  console.log(base_div)
+  base_div = ``
+  base_div.insertAdjacentHTML('afterbegin',
+  `<div id='jumbotron' style='background-color:#abb7b7' class="jumbotron text-center expand">
+    <h1 class="">Bienvenidos a Funes Dulceria</h1>
+    <p class="lead text-muted">Elegí lo que quieras y te lo enviamos a tu casa<p>
+  </div>
+  <div id='most-popular-container' style="padding: 10px" class="row shadow-lg border boder-light">
+    <div id='most-popular-row' class="row"></div> 
+    </div><hr>
+  <div id='product-details' class="row"></div>
+  `) 
+}
+
 </script>
   
+

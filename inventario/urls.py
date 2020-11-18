@@ -4,11 +4,11 @@ from django.contrib import admin
 from django.urls import path, include
 from inventario_app import views
 from inventario_app.views import (
-    ConfirmRegistrationView,
+    # ConfirmRegistrationView,
     CreateProductView,
     detail,
-    addToCart,
-    removeFromCart,
+    # addToCart,
+    # removeFromCart,
     update,
 )
 from django.contrib.auth import views as auth_views
@@ -20,14 +20,14 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('cart/', views.cart, name='cart'),
     path('search/', views.SearchProducts, name='search-view'),
-    path('email-confirmation/', views.email_confirmation, name='email-confirmation'),
-    path('confirm-email/<str:order_id>/<str:token>/', views.ConfirmRegistrationView.as_view(), name='confirm_email'),
+    path('email-confirmation/', views.order_confirmation, name='email-confirmation'),
+    # path('confirm-email/<str:order_id>/<str:token>/', views.ConfirmRegistrationView.as_view(), name='confirm_email'),
 
-    path('create/', CreateProductView.as_view(), name='create'),
+    path('create/', views.CreateProductView, name='create'),
     path('admin-product-list', views.AdminProductListView, name='admin-product-list'),
     path('product/<id>/', views.detail, name='detail'),
-    path('product/<id>/add/', views.addToCart, name='add-to-cart'),
-    path('product/<id>/remove/', views.removeFromCart, name='remove-from-cart'),
+    # path('product/<id>/add/', views.addToCart, name='add-to-cart'),
+    # path('product/<id>/remove/', views.removeFromCart, name='remove-from-cart'),
     path('product/<id>/update/', views.update, name='update'),
     path('product/<int:pk>/delete/', views.ProductDelete.as_view(), name='delete'),
 

@@ -30,18 +30,21 @@ def Index(request):
 
 # Admin UI Views
 
-class CreateProductView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
-    template_name = 'inventario_app/admin_create_product.html'
-    model = Product
-    fields = ['name','price','description','category','image','in_stock','is_bundle']
-    success_url = reverse_lazy('index')
-    success_message = f'Has agregado un nuevo producto a la base de datos'
+@login_required
+def CreateProductView(request):
+    form = CreateProductForm()
+    if request.method == "POST":
+        form = CreateProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.info(request, 'Se ha agregado un nuevo producto a la base de datos')
+            return HttpResponseRedirect(reverse('index'))
+    return render(request, "inventario_app/admin_create_product.html", context = {"form": form})
 
-class ProductDelete(DeleteView, LoginRequiredMixin, SuccessMessageMixin):
+class ProductDelete(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     template_name = 'inventario_app/admin_delete_confirmation.html'
     model = Product
     success_url = reverse_lazy('index')
-    # success_message = f'Se ha borrado un {object} de la base de datos'
 
 @login_required
 def AdminProductListView(request):
@@ -78,9 +81,6 @@ def SearchProducts(request):
     }
     return render(request, 'inventario_app/search_results.html', context)
 
-def Success(request):
-    return render(request, 'inventario_app/success.html')
-
 def removeFromCart(request, id):
     item = get_object_or_404(Product, id = id)
     key = 'cart_id'
@@ -94,6 +94,105 @@ def removeFromCart(request, id):
     context = {'order':order}
     return HttpResponseRedirect(reverse('cart'))
 
+def cart(request):
+    return render(request, 'inventario_app/checkout.html')
+
+@csrf_exempt
+def order_confirmation(request):
+    form = EmailConfirmationForm()
+    if request.method == 'POST':
+        form = EmailConfirmationForm(request.POST)
+        if form.is_valid():
+            order_items = []
+            for element in form.cleaned_data["order_items"]:
+                order_item = OrderItem(
+                    product=Product.objects.get(id = element["id"]),
+                    quantity=element["quantity"])
+                order_item.save()
+                order_items.append(order_item)
+            customer_name = f"{form.cleaned_data['name']} {form.cleaned_data['surname']}"
+            order = Order.objects.create(
+                customer_name=customer_name,
+                customer_email=form.cleaned_data["email"],
+                customer_phone_number=form.cleaned_data["phone_number"],
+                gift=form.cleaned_data['gift'])
+            order.items.set(order_items)
+            order.save()   
+            message = get_template('inventario_app/email_confirmation_shop.html').render({
+                'order': order,
+            })
+            mail = EmailMessage(
+                'Dulceria Funes',
+                message,
+                settings.EMAIL_HOST_USER,
+                [settings.EMAIL_HOST_USER],
+                )
+            mail.content_subtype = 'html'
+            mail.send()
+            if form.cleaned_data['email']:         
+                customer_email = form.cleaned_data['email']
+                message = get_template('inventario_app/email_confirmation_customer.html').render({
+                    'order': order,
+                })
+                mail = EmailMessage(
+                    'Dulceria Funes',
+                    message,
+                    settings.EMAIL_HOST_USER,
+                    [customer_email],
+                    )
+                mail.content_subtype = 'html'
+                mail.send()
+                messages.info(request, f'Se ha enviado un email a tu {form.cleaned_data["email"]} de correo con su pedido detallado.')
+            messages.info(request, f'Orden confirmada. Nos comunicaremos via teléfono para confirmar sus datos')
+            return render(request, 'inventario_app/index.html', {'order_sent': True})
+    context = {"form": form}
+    return render(request, 'inventario_app/email_confirmation.html', context)
+
+# def addToCart(request, id):
+#     item = get_object_or_404(Product, id = id)
+#     try:
+#         order = Order.objects.get(active=True)
+#         if order.items.filter(product__id = item.id).exists():
+#             orderitem_object = order.items.filter(product__id = item.id)[0]
+#             orderitem_object.quantity += 1
+#             orderitem_object.save()
+#         else:
+#             orderitem_object = OrderItem.objects.create(product=item)
+#             orderitem_object.product.views += 1
+#             orderitem_object.product.save()
+#             order.items.add(orderitem_object)
+#         context = {"order": order}
+#     except:
+#         order = Order.objects.create(active=True)
+#         orderitem_object = OrderItem.objects.create(product=item)
+#         order.items.add(orderitem_object)
+#         context = {"order": order}
+#     return HttpResponseRedirect(reverse('cart'))
+
+# class ConfirmRegistrationView(View):
+#     def get(self, request, order_id, token):
+#         order_id = force_text(urlsafe_base64_decode(order_id))
+#         order = Order.objects.get(id=order_id)
+
+#         if order and order_tokenizer.check_token(order, token):
+#             order.complete = True
+#             order.active = False
+#             order.save()
+#             message = get_template('inventario_app/email_confirmation_final.html').render({
+#                 'order': order,
+#             })
+#             mail = EmailMessage(
+#                 'Dulceria Funes',
+#                 message,
+#                 settings.EMAIL_HOST_USER,
+#                 [settings.EMAIL_HOST_USER],
+#                 )
+#             mail.content_subtype = 'html'
+#             mail.send()
+#             messages.success(request, 'Orden confirmada. Uno de nuestros empleados se comunicara con usted via telefono para definir detalles de pago.')
+#         else:
+#             messages.error(request, 'Ha ocurrido un problema con el link. Por favor intentelo de nuevo.')
+#         return render(request, 'inventario_app/index.html')
 
 # def add_to_cart(request, id):
 #     item = get_object_or_404(Product, id = id)
@@ -119,124 +218,49 @@ def removeFromCart(request, id):
 #         context = {"order": order}
 #     return HttpResponseRedirect(reverse('cart'))
 
-def addToCart(request, id):
-    item = get_object_or_404(Product, id = id)
-    try:
-        order = Order.objects.get(active=True)
-        if order.items.filter(product__id = item.id).exists():
-            orderitem_object = order.items.filter(product__id = item.id)[0]
-            orderitem_object.quantity += 1
-            orderitem_object.save()
-        else:
-            orderitem_object = OrderItem.objects.create(product=item)
-            orderitem_object.product.views += 1
-            orderitem_object.product.save()
-            order.items.add(orderitem_object)
-        context = {"order": order}
-    except:
-        order = Order.objects.create(active=True)
-        orderitem_object = OrderItem.objects.create(product=item)
-        order.items.add(orderitem_object)
-        context = {"order": order}
-    return HttpResponseRedirect(reverse('cart'))
-
-
-def cart(request):
-    try:
-        order = Order.objects.get(active=True)
-        context = {"order": order}
-        return render(request, 'inventario_app/checkout.html', context)
-    except:
-        messages.warning(request,'No tienes una orden abierta. Necesitas agregar el primer producto para abrir una orden.')
-        products = Product.objects.all()
-        featured = products.order_by("-views")[:4]
-        context = {
-            'products': products,
-            'featured': featured,
-        }
-        # changed template from index.html for testing
-        return render(request, 'inventario_app/checkout.html', context)
-
-@csrf_exempt
-def email_confirmation(request):
-    form = EmailConfirmationForm()
-    if request.method == 'POST':
-        form = EmailConfirmationForm(request.POST)
-        if form.is_valid():
-            order_items = []
-            for element in form.cleaned_data["order_items"]:
-                order_item = OrderItem(
-                    product=Product.objects.get(id = element["id"]),
-                    quantity=element["quantity"])
-                order_item.save()
-                order_items.append(order_item)
-            customer_name = f"{form.cleaned_data['name']} {form.cleaned_data['surname']}"
-            order = Order.objects.create(
-                customer_name=customer_name,
-                customer_email=form.cleaned_data["email"],
-                customer_phone_number=form.cleaned_data["phone_number"],
-                gift=form.cleaned_data['gift'])
-            order.items.set(order_items)
-            order.save()            
-            customer_email = form.cleaned_data['email']
-            order_id = urlsafe_base64_encode(force_bytes(order.id))
-            token = order_tokenizer.make_token(order)
-            url = 'http://localhost:8000' + reverse('confirm_email', kwargs={'order_id': order_id,'token': token})
-            message = get_template('inventario_app/email_confirmation_link.html').render({
-                'confirm_url': url,
-                'order': order,
-            })
-            mail = EmailMessage(
-                'Dulceria Funes',
-                message,
-                settings.EMAIL_HOST_USER,
-                [customer_email],
-                )
-            mail.content_subtype = 'html'
-            mail.send()
-            messages.info(request, f'Se ha enviado un email a esta direccion de correo para confirmar su pedido {form.cleaned_data["email"]}')
-            return render(request, 'inventario_app/index.html', {'order_sent': True})
-    context = {"form": form}
-    return render(request, 'inventario_app/email_confirmation.html', context)
-
-class ConfirmRegistrationView(View):
-    def get(self, request, order_id, token):
-        order_id = force_text(urlsafe_base64_decode(order_id))
-        order = Order.objects.get(id=order_id)
-
-        if order and order_tokenizer.check_token(order, token):
-            order.complete = True
-            order.active = False
-            order.save()
-            message = get_template('inventario_app/email_confirmation_final.html').render({
-                'order': order,
-            })
-            mail = EmailMessage(
-                'Dulceria Funes',
-                message,
-                settings.EMAIL_HOST_USER,
-                [settings.EMAIL_HOST_USER],
-                )
-            mail.content_subtype = 'html'
-            mail.send()
-            messages.success(request, 'Orden confirmada. Uno de nuestros empleados se comunicara con usted via telefono para definir detalles de pago.')
-        else:
-            messages.error(request, 'Ha ocurrido un problema con el link. Por favor intentelo de nuevo.')
-        return render(request, 'inventario_app/index.html')
-
-
-def checkOut(request):
-    return render(request, 'inventario_app/checkout.html')
 
 
 
 
 
-
-
-
-
-
-
-
-
+# @csrf_exempt
+# def email_confirmation(request):
+#     form = EmailConfirmationForm()
+#     if request.method == 'POST':
+#         form = EmailConfirmationForm(request.POST)
+#         if form.is_valid():
+#             order_items = []
+#             for element in form.cleaned_data["order_items"]:
+#                 order_item = OrderItem(
+#                     product=Product.objects.get(id = element["id"]),
+#                     quantity=element["quantity"])
+#                 order_item.save()
+#                 order_items.append(order_item)
+#             customer_name = f"{form.cleaned_data['name']} {form.cleaned_data['surname']}"
+#             order = Order.objects.create(
+#                 customer_name=customer_name,
+#                 customer_email=form.cleaned_data["email"],
+#                 customer_phone_number=form.cleaned_data["phone_number"],
+#                 gift=form.cleaned_data['gift'])
+#             order.items.set(order_items)
+#             order.save()            
+#             customer_email = form.cleaned_data['email']
+#             order_id = urlsafe_base64_encode(force_bytes(order.id))
+#             token = order_tokenizer.make_token(order)
+#             url = 'http://localhost:8000' + reverse('confirm_email', kwargs={'order_id': order_id,'token': token})
+#             message = get_template('inventario_app/email_confirmation_link.html').render({
+#                 'confirm_url': url,
+#                 'order': order,
+#             })
+#             mail = EmailMessage(
+#                 'Dulceria Funes',
+#                 message,
+#                 settings.EMAIL_HOST_USER,
+#                 [customer_email],
+#                 )
+#             mail.content_subtype = 'html'
+#             mail.send()
+#             messages.info(request, f'Se ha enviado un email a esta direccion de correo para confirmar su pedido {form.cleaned_data["email"]}')
+#             return render(request, 'inventario_app/index.html', {'order_sent': True})
+#     context = {"form": form}
+#     return render(request, 'inventario_app/email_confirmation.html', context)

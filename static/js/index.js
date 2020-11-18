@@ -167,8 +167,8 @@ function renderProducts(products) {
         <div class="col-lg-3 col-md-6 col-sm-4">
             <a href=""><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
             <div class="box-element product">
-                <a href=""><h6 class="pt-2" style="display: inline-block"><strong>${product.name}</strong></h6></a>
-                <h6 class="pt-2" style="display: inline-block; float:right">$ ${product.price} p/u</h6>				
+                <a href=""><h6 class="pt-2" style="display: inline-block"><strong>${product.name}</strong></h6></a><br>
+                <h6 class="pt-2" style="display: inline-block; float:center">$ ${product.price} p/u</h6>				
                 <br><a id='lo-quiero ${product.id}' class="btn btn-success btn-block btn-sm" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
             </div>
             <br>

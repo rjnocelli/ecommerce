@@ -61,9 +61,10 @@ def orderDelete(request, id):
     order.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
 
+# PRODUCT VIEWS ------
 @api_view(['GET'])
 def getAllProducts(request):
-    return Response(ServerToClientProductSerializer(Product.objects.filter(in_stock=True), many=True).data)
+    return Response(ServerToClientProductSerializer(Product.objects.filter(in_stock=True).order_by('-views'), many=True).data)
 
 @api_view(['GET'])
 def getMostPopularProducts(request):

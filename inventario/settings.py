@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'captcha',
+    'phonenumber_field',
 ]
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -139,3 +140,5 @@ PASSWORD_RESET_TIMEOUT_DAYS = 2
 
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
+
+PHONENUMBER_DEFAULT_REGION = 'NATIONAL'
