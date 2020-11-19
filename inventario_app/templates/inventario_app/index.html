@@ -50,7 +50,7 @@
 </div><hr>
 <div id='product-details' class="row"></div>
 
-{% if order_sent %}
+{% if request.session.order_complete %}
 <script>
     localStorage.removeItem('order')
     localStorage.removeItem('total_quantity')

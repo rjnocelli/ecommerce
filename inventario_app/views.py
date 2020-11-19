@@ -145,7 +145,8 @@ def order_confirmation(request):
                     mail.content_subtype = 'html'
                     mail.send()
                 messages.info(request, 'Orden enviada. Nos contactaremos con usted para ultimar detalles del pedido.')
-                return render(request, 'inventario_app/index.html', {'order_sent': True})
+                request.session['order_complete'] = True
+                return HttpResponseRedirect(reverse('index'))
         else:
             messages.warning(request, 'No puede enviar una orden vacia.')
             return render(request, 'inventario_app/index.html')
