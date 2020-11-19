@@ -1,17 +1,25 @@
 {% extends 'inventario_app/base.html' %}
 {% load static %}
 
+
+{% block post-navbar %}
+    {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+    {% endif %}
+{% endblock %}
+
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/index.css' %}">
+
 {% endblock head %}
 
 {% block body %}
-
-    {% if messages %}
-                {% for message in messages %}
-                    <h5 class="alert alert-{{message.tags}}">{{ message }}</h5>
-                {% endfor %}
-    {% endif %}
 
 <div id='jumbotron' style='background-color:#abb7b7' class="jumbotron text-center expand">
     <h1 class="">Bienvenidos a Funes Dulceria</h1>
@@ -42,7 +50,6 @@
 </div><hr>
 <div id='product-details' class="row"></div>
 
-
 {% if order_sent %}
 <script>
     localStorage.removeItem('order')
@@ -50,13 +57,10 @@
     localStorage.removeItem('total_price')
     cart = document.querySelector('#cart span')
     cart.innerHTML = ` 0`
+
 </script>
 {% endif %}
 <script src="{% static 'js/index.js' %}"></script> 
-
 <script type='module' src="{% static 'js/hola.js' %}"></script> 
 <script type='module' src="{% static 'js/functions.js' %}"></script> 
-
-
-
 {% endblock body %}

@@ -1,4 +1,5 @@
 from django.conf import settings
+import json
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -103,48 +104,51 @@ def order_confirmation(request):
     if request.method == 'POST':
         form = EmailConfirmationForm(request.POST)
         if form.is_valid():
-            order_items = []
-            for element in form.cleaned_data["order_items"]:
-                order_item = OrderItem(
-                    product=Product.objects.get(id = element["id"]),
-                    quantity=element["quantity"])
-                order_item.save()
-                order_items.append(order_item)
-            customer_name = f"{form.cleaned_data['name']} {form.cleaned_data['surname']}"
-            order = Order.objects.create(
-                customer_name=customer_name,
-                customer_email=form.cleaned_data["email"],
-                customer_phone_number=form.cleaned_data["phone_number"],
-                gift=form.cleaned_data['gift'])
-            order.items.set(order_items)
-            order.save()   
-            message = get_template('inventario_app/email_confirmation_shop.html').render({
-                'order': order,
-            })
-            mail = EmailMessage(
-                'Dulceria Funes',
-                message,
-                settings.EMAIL_HOST_USER,
-                [settings.EMAIL_HOST_USER],
-                )
-            mail.content_subtype = 'html'
-            mail.send()
-            if form.cleaned_data['email']:         
-                customer_email = form.cleaned_data['email']
-                message = get_template('inventario_app/email_confirmation_customer.html').render({
+            if form.cleaned_data["order_items"]:
+                order_items = []
+                for element in form.cleaned_data["order_items"]:
+                    order_item = OrderItem(
+                        product=Product.objects.get(id = element["id"]),
+                        quantity=element["quantity"])
+                    order_item.save()
+                    order_items.append(order_item)
+                customer_name = f"{form.cleaned_data['name']} {form.cleaned_data['surname']}"
+                order = Order.objects.create(
+                    customer_name=customer_name,
+                    customer_email=form.cleaned_data["email"],
+                    customer_phone_number=form.cleaned_data["phone_number"],
+                    gift=form.cleaned_data['gift'])
+                order.items.set(order_items)
+                order.save()   
+                message = get_template('inventario_app/email_confirmation_shop.html').render({
                     'order': order,
                 })
                 mail = EmailMessage(
                     'Dulceria Funes',
                     message,
                     settings.EMAIL_HOST_USER,
-                    [customer_email],
+                    [settings.EMAIL_HOST_USER],
                     )
                 mail.content_subtype = 'html'
                 mail.send()
-                messages.info(request, f'Se ha enviado un email a tu {form.cleaned_data["email"]} de correo con su pedido detallado.')
-            messages.info(request, f'Orden confirmada. Nos comunicaremos via teléfono para confirmar sus datos')
-            return render(request, 'inventario_app/index.html', {'order_sent': True})
+                if form.cleaned_data['email']:         
+                    customer_email = form.cleaned_data['email']
+                    message = get_template('inventario_app/email_confirmation_customer.html').render({
+                        'order': order,
+                    })
+                    mail = EmailMessage(
+                        'Dulceria Funes',
+                        message,
+                        settings.EMAIL_HOST_USER,
+                        [customer_email],
+                        )
+                    mail.content_subtype = 'html'
+                    mail.send()
+                messages.info(request, 'Orden enviada. Nos contactaremos con usted para ultimar detalles del pedido.')
+                return render(request, 'inventario_app/index.html', {'order_sent': True})
+        else:
+            messages.warning(request, 'No puede enviar una orden vacia.')
+            return render(request, 'inventario_app/index.html')
     context = {"form": form}
     return render(request, 'inventario_app/email_confirmation.html', context)
 

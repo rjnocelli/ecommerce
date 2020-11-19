@@ -19,7 +19,7 @@ class EmailConfirmationForm(forms.Form):
     surname = forms.CharField(max_length=100, required=True, label='Apellido')
     phone_number = forms.CharField(max_length=20, label='Telefono')
     # phone = PhoneNumberField(label='Telefono')
-    email = forms.EmailField(required=False)
+    email = forms.EmailField(required=False, help_text='Agregue email para recibir orden por correo electronico')
     gift = forms.BooleanField(label='Para Regalar!', required=False)
     order_items = forms.JSONField(widget=forms.HiddenInput()) 
     captcha = CaptchaField()
