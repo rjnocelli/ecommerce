@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'captcha',
     'phonenumber_field',
+    'django_extensions',
 ]
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
