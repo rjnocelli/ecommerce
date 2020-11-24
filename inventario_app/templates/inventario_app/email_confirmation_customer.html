@@ -8,33 +8,33 @@
 <body>
     <h1>Bienvenidos a Funes Dulceria</h1>
     <p>Usted ha realizado la siguiente compra</p>
-    <table class="table table-striped">
-        <thead class="thead-dark">
+    <table id='email-table'>
+        <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Producto</th>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Precio x unidad</th>
+            <th id='email-table'>#</th>
+            <th id='email-table'>Producto</th>
+            <th id='email-table'>Cantidad</th>
+            <th id='email-table'>Precio x unidad</th>
           </tr>
         </thead>
         <tbody>
             {% for item in order.items.all %}
           <tr>
-            <th scope="row">{{ forloop.counter }}</th>
-            <td>{{ item.product.name }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ item.product.price }}</td>
+            <th id='email-table'>{{ forloop.counter }}</th>
+            <td id='email-table'>{{ item.product.name }}</td>
+            <td id='email-table'>{{ item.quantity }}</td>
+            <td id='email-table'>{{ item.product.price }}</td>
           </tr>
           {% endfor %}
         </tbody>
         <tbody>
         <tr>
-            <td ><h2>Cantidad: {{order.get_cart_items}} unidades</h2></td><br>
-            <td ><h2>Total: ${{order.get_cart_total|floatformat:2}}</h2></td>
+            <td id='email-table'><h2>Cantidad: {{order.get_cart_items}} unidades</h2></td><br>
+            <td id='email-table'><h2>Total: ${{order.get_cart_total|floatformat:2}}</h2></td>
         </tr>
         </tbody>
       </table>
-      <p>Nos comunicaremos con vos por telefono ({{customer_info.phone_number}}) para ultima detalles</p>
+      <p>Nos comunicaremos con vos por telefono para ultimar detalles</p>
     <!-- <p>Por favor clickee sobre este link para confirmar su direccion de email y completar su orden.</p>
     <h4><a href="{{ confirm_url }}">{{ confirm_url }}</h4></p>
     <p>Una vez confirmado el pedido lo contactaremos via el numero <strong>{{ customer_info.phone_number }}</strong></p> -->

@@ -27,7 +27,7 @@
 					<p style="display: inline-block;">${order_item_objs[key].name}</p><hr>
 				</div>
 				<div class='col-lg-4'>
-					<p style="display: inline-block;">$${order_item_objs[key].price}</p><hr><span></span>
+					<p style="display: inline-block;">$${order_item_objs[key].price}</p><span></span>
 				</div>
 				<div class='col-lg-4'>
 					<p id='cart-data'>
@@ -92,7 +92,6 @@
 					}
                     renderTotalPriceAndQuantity()
                     updateCart();
-                    // addContinueButton();
 
 				}
 

@@ -96,7 +96,7 @@ def removeFromCart(request, id):
     return HttpResponseRedirect(reverse('cart'))
 
 def cart(request):
-    return render(request, 'inventario_app/checkout.html')
+    return render(request, 'inventario_app/cart.html')
 
 @csrf_exempt
 def order_confirmation(request):
