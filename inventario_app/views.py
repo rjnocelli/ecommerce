@@ -49,7 +49,7 @@ class ProductDelete(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
 @login_required
 def AdminProductListView(request):
-    products = Product.objects.all()
+    products = Product.objects.all().order_by('name')
     return render(request, 'inventario_app/admin_product_list.html', {'products': products})
 
 def detail(request, id):
@@ -145,8 +145,8 @@ def order_confirmation(request):
                     mail.content_subtype = 'html'
                     mail.send()
                 messages.info(request, 'Orden enviada. Nos contactaremos con usted para ultimar detalles del pedido.')
-                request.session['order_complete'] = True
-                return HttpResponseRedirect(reverse('index'))
+                return render(request, 'inventario_app/index.html', {'order_complete': True})
+                # return HttpResponseRedirect(reverse('index'))
         else:
             messages.warning(request, 'No puede enviar una orden vacia.')
             return render(request, 'inventario_app/index.html')

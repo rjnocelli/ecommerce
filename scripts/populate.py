@@ -4,7 +4,7 @@ from inventario_app.models import Product
 def run():
     with open('/Users/rjnocelli/Desktop/dev/django/django_projects/ecommerce/scripts/product_data.csv', 'r') as csv_file:
         f = csv.reader(csv_file, delimiter=',')
-        
+
         for product in f:
             name = product[0]
             price = int(f"{product[1]}")

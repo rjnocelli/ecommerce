@@ -50,14 +50,14 @@
 </div><hr>
 <div id='product-details' class="row"></div>
 
-{% if request.session.order_complete %}
+{% if order_complete %}
 <script>
+    console.log(true)
     localStorage.removeItem('order')
     localStorage.removeItem('total_quantity')
     localStorage.removeItem('total_price')
     cart = document.querySelector('#cart span')
     cart.innerHTML = ` 0`
-
 </script>
 {% endif %}
 <script src="{% static 'js/index.js' %}"></script> 

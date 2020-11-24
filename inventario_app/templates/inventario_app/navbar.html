@@ -53,6 +53,7 @@
   </script>
   
 <script>
+  
   const search_input = document.getElementsByName('q')
   const form_submit_button = document.getElementById('search-submit')
   const contacto_at = document.getElementById('contacto')
@@ -87,10 +88,10 @@
         <div class="col-lg-3 col-md-3 col-sm-3">
             <a href=""><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
             <div class="box-element product">
-                <a href=""><h6 class="pt-2" style="display: inline-block"><strong>${product.name}</strong></h6></a>
-                <h6 class="pt-2" style="display: inline-block; float:right">$ ${product.price}</h6>		
+                <a href=""><h5 class="pt-2" style="display: inline-block; font-size: medium"><strong>${product.name}</strong></h5></a>
+                <p>precio p/u: <span style="font-size: medium;" class='float-right'>$${product.price}</span></p><hr>
                 <p class="card-text">${product.description}</p>		
-                <br><a id='lo-quiero ${product.id}' class="btn btn-success btn-sm" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
+                <br><a id='lo-quiero ${product.id}' class="btn btn-success btn-block btn-sm" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
             </div>
             <br>
         </div>
