@@ -4,13 +4,15 @@ from inventario_app.models import Product
 from django.urls import reverse
 from captcha.fields import CaptchaField
 from phonenumber_field.formfields import PhoneNumberField
+from image_cropping import ImageCropWidget
 
 class CreateProductForm(ModelForm):
     class Meta:
         model = Product
         fields = ['name','price','description','category','image', 'is_bundle', 'in_stock']
         widgets = {
-            'category': forms.CheckboxSelectMultiple()
+            'category': forms.CheckboxSelectMultiple(),
+            'image': ImageCropWidget,
         }
         
 
