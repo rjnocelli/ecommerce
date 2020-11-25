@@ -1,3 +1,4 @@
+console.log('email_confirmation.js working')
 try{
     order = JSON.parse(localStorage.getItem('order'))
     order_items = []

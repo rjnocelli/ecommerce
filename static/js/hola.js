@@ -1,3 +1,3 @@
-import {hola} from './functions.js'
+// import {hola} from './functions.js'
 
-hola();
+// hola();

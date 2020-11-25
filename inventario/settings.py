@@ -39,16 +39,14 @@ INSTALLED_APPS = [
     'captcha',
     'phonenumber_field',
     'django_extensions',
-    'easy_thumbnails',
-    'image_cropping',
 ]
 
-from easy_thumbnails.conf import Settings as thumbnail_settings
-THUMBNAIL_PROCESSORS = (
-    'image_cropping.thumbnail_processors.crop_corners',
-) + thumbnail_settings.THUMBNAIL_PROCESSORS
-
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]
+DJANGORESIZED_DEFAULT_QUALITY = 100
+DJANGORESIZED_DEFAULT_KEEP_META = True
+DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
+DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'JPEG': ".jpg"}
+DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

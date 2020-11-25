@@ -1,4 +1,5 @@
 // import {updateCart, updateLocalStorage, addLoQuieroTag, addProductOrCreateOrder} from './functions.js'
+console.log('index.js working')
 const updateCart = () => {
     cart = document.querySelector('#cart span')
     cart.innerHTML = ` `
@@ -11,6 +12,7 @@ const updateLocalStorage = () => {
     }
     
 const addLoQuieroTag = (products, first_half_id) =>{
+    console.log('addLoQuieroTag funciona')
     if(products.length > 1){
         products.forEach((product) => {
             lo_quiero_atag = document.getElementById(`${first_half_id} ${product.id}`)

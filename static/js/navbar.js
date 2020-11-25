@@ -1,4 +1,4 @@
-console.log('hola')
+console.log('navbar.js working')
 
 const addCartHtml = () => {
     total_quantity = localStorage.getItem('total_quantity')
@@ -34,6 +34,7 @@ const addCartHtml = () => {
   }
 
   function renderSearchResults(products, query) {
+      console.log(typeof(products))
     if(query === undefined){
       query = document.getElementsByName('q')[0].value
     }
@@ -43,25 +44,27 @@ const addCartHtml = () => {
     base_div.innerHTML = title
     base_div.innerHTML += base_div_row
     const base_div_row_el = document.getElementById('base-div-row')
-      products.forEach((product) => {
-        base_div_row_el.innerHTML += `
-        <div class="col-lg-3 col-md-3 col-sm-3">
-            <a href=""><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
-            <div class="box-element product">
-                <a href=""><h5 class="pt-2" style="display: inline-block; font-size: medium"><strong>${product.name}</strong></h5></a>
-                <p>precio p/u: <span style="font-size: medium;" class='float-right'>$${product.price}</span></p><hr>
-                <p class="card-text">${product.description}</p>		
-                <br><a id='lo-quiero ${product.id}' class="btn btn-success btn-block btn-sm" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
+    if(products.length > 0){
+        products.forEach((product) => {
+            base_div_row_el.innerHTML += `
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <a href=""><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
+                <div class="box-element product">
+                    <a href=""><h5 class="pt-2" style="display: inline-block; font-size: medium"><strong>${product.name}</strong></h5></a>
+                    <p>precio p/u: <span style="font-size: medium;" class='float-right'>$${product.price}</span></p><hr>
+                    <p class="card-text">${product.description}</p>		
+                    <br><a id='lo-quiero ${product.id}' class="btn btn-success btn-block btn-sm" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
+                </div>
+                <br>
             </div>
-            <br>
-        </div>
-        `
-      
-    });
-    addLoQuieroTag(products,'lo-quiero')
-    window.scrollTo(0,0)
+            `
+        });
+        console.log('Productos', products)
+        addLoQuieroTag(products,'lo-quiero')
+        window.scrollTo(0,0)
+        }else{console.log('no se ha encontrado ningun producto')}
     
-  }
+    }
           
 
   addEventListenerToBuscarButton()
