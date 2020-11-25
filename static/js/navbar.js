@@ -1,7 +1,9 @@
+import { addLoQuieroTag, updateCart, updateLocalStorage, addProductOrCreateOrder } from './functions.js'
+
 console.log('navbar.js working')
 
 const addCartHtml = () => {
-    total_quantity = localStorage.getItem('total_quantity')
+    let total_quantity = localStorage.getItem('total_quantity')
     if(total_quantity === null){
       total_quantity = '0'
     }
