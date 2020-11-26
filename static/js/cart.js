@@ -28,6 +28,14 @@ const addHtmlForItemQuantitySelection = (order_item_objs) => {
 	};
 };
 
+const renderTotalPriceAndQuantity = (order_items_total_quantity, order_items_total_price) => {
+	const total = document.getElementById('total')
+	total.innerHTML = ``
+	total.innerHTML += `
+	<h5>Cantidad Total: <span id='total-quantity'>${order_items_total_quantity}</span> unidades</h5>
+	<h5>Precio Final: $ <span id='total-price'>${order_items_total_price}</span></h5>`
+}
+
 const updateCart = () =>{
 	const cart = document.querySelector('#cart span')
 	cart.innerHTML = ` `
@@ -42,6 +50,7 @@ const onOrderListFetched = (order) => {
 		localStorage.setItem('total_quantity', '0')
 		localStorage.setItem('total_price', '0')
 
+		renderTotalPriceAndQuantity(order_items_total_quantity, order_items_total_price)
 		addHtmlForItemQuantitySelection(order_item_objs);
 
 		for(var key in order_item_objs){
@@ -50,14 +59,6 @@ const onOrderListFetched = (order) => {
 			localStorage.setItem('total_quantity', JSON.stringify(order_items_total_quantity))
 			localStorage.setItem('total_price', JSON.stringify(order_items_total_price))
 		};
-
-		function renderTotalPriceAndQuantity(){
-			const total = document.getElementById('total')
-			total.innerHTML = ``
-			total.innerHTML += `
-			<h5>Cantidad Total: <span id='total-quantity'>${order_items_total_quantity}</span> unidades</h5>
-			<h5>Precio Final: $ <span id='total-price'>${order_items_total_price}</span></h5>`
-		}
 
 		function deleteProduct(item) {
 			const itemsDiv = document.getElementById('items-div')
@@ -69,7 +70,7 @@ const onOrderListFetched = (order) => {
 				if(itemsDiv.children[i].id === ('item-row ' + item.id)){
 					itemsDiv.children[i].remove()}
 				}
-				renderTotalPriceAndQuantity()
+				renderTotalPriceAndQuantity(order_items_total_quantity, order_items_total_price)
 				updateCart();
 
 			}
@@ -88,7 +89,7 @@ const onOrderListFetched = (order) => {
 				document.querySelector('#total-price').innerHTML = order_items_total_price
 				document.querySelector('#total-quantity').innerHTML = order_items_total_quantity
 			}
-			renderTotalPriceAndQuantity()
+			renderTotalPriceAndQuantity(order_items_total_quantity, order_items_total_price)
 			updateCart();
 		};
 
@@ -124,8 +125,7 @@ const onOrderListFetched = (order) => {
 				trash_can.addEventListener('click', callbackClosure(item, deleteProduct))
 
 		};
-
-		renderTotalPriceAndQuantity()
+		renderTotalPriceAndQuantity(order_items_total_quantity, order_items_total_price)
 	}
 
 const buildProductsList = () => {
