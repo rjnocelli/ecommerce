@@ -1,36 +1,38 @@
-import { addLoQuieroTag } from './functions.js'
+import { addLoQuieroTag, updateLocalStorage } from './functions.js'
 console.log('cart.js working')
-	buildProductsList()
 
-	function addHtmlForItemQuantitySelection(order_item_objs) {
-		const itemsDiv = document.getElementById('items-div');
-		itemsDiv.innerHTML = ``
-		for(var key in order_item_objs){
-			itemsDiv.innerHTML += `
-			<div id='item-row ${order_item_objs[key].id}' class='row'>
-				<div class='col-lg-4'>
-					<p style="display: inline-block;">${order_item_objs[key].name}</p><hr>
-				</div>
-				<div class='col-lg-4'>
-					<p style="display: inline-block;">$${order_item_objs[key].price}</p><span></span>
-				</div>
-				<div class='col-lg-4'>
-					<p id='cart-data'>
-						<i id='minus-quantity ${order_item_objs[key].id}' class="fas fa-minus mr-1"></i>
-						<span id='item-quantity ${order_item_objs[key].id}'>${order_item_objs[key].quantity}</span>
-						<i id='plus-quantity ${order_item_objs[key].id}' class="fas fa-plus mr-1"></i>
-						<i id='trash-can ${order_item_objs[key].id}' class="fa fa-trash ml-4" aria-hidden="true"></i>
-					</p>
-				<div class='col-lg-4'>
-				</div>
-				</div>
+const addHtmlForItemQuantitySelection = (order_item_objs) => {
+	const itemsDiv = document.getElementById('items-div');
+	itemsDiv.innerHTML = ``
+	for(var key in order_item_objs){
+		itemsDiv.innerHTML += `
+		<div id='item-row ${order_item_objs[key].id}' class='row'>
+			<div class='col-lg-4'>
+				<p style="display: inline-block;">${order_item_objs[key].name}</p><hr>
 			</div>
-			`
-		};
-	}
+			<div class='col-lg-4'>
+				<p style="display: inline-block;">$${order_item_objs[key].price}</p><span></span>
+			</div>
+			<div class='col-lg-4'>
+				<p id='cart-data'>
+					<i id='minus-quantity ${order_item_objs[key].id}' class="fas fa-minus mr-1"></i>
+					<span id='item-quantity ${order_item_objs[key].id}'>${order_item_objs[key].quantity}</span>
+					<i id='plus-quantity ${order_item_objs[key].id}' class="fas fa-plus mr-1"></i>
+					<i id='trash-can ${order_item_objs[key].id}' class="fa fa-trash ml-4" aria-hidden="true"></i>
+				</p>
+			<div class='col-lg-4'>
+			</div>
+			</div>
+		</div>
+		`
+	};
+};
+
+buildProductsList()
+
 
     const updateCart = () =>{
-        cart = document.querySelector('#cart span')
+        const cart = document.querySelector('#cart span')
         cart.innerHTML = ` `
         cart.innerHTML = ` ${localStorage.getItem('total_quantity')} `
     }
@@ -67,10 +69,11 @@ console.log('cart.js working')
 			}
 
 			function deleteProduct(item) {
-					order_items_total_price -= item.price * item.quantity;
-					order_items_total_quantity -= item.quantity;
-					delete order_item_objs[item.name]
-					updateLocalStorage()
+				const itemsDiv = document.getElementById('items-div')
+				order_items_total_price -= item.price * item.quantity;
+				order_items_total_quantity -= item.quantity;
+				delete order_item_objs[item.name]
+				updateLocalStorage()
 				for(var i = 0; i < itemsDiv.children.length; i ++){
 					if(itemsDiv.children[i].id === ('item-row ' + item.id)){
 						itemsDiv.children[i].remove()}
@@ -81,7 +84,7 @@ console.log('cart.js working')
 				}
 
 			function substractQuantity(item) {
-				minus = document.getElementById('minus-quantity ' + JSON.stringify(item.id));
+				const minus = document.getElementById('minus-quantity ' + JSON.stringify(item.id));
 				if(item.quantity > 0){
 					item.quantity -= 1;
 					order_items_total_price -= parseInt(item.price);
@@ -96,13 +99,11 @@ console.log('cart.js working')
 				}
                 renderTotalPriceAndQuantity()
                 updateCart();
-                // addContinueButton();
-
-			}
+			};
 
 			function addQuantity(item) {
 				item.quantity += 1;
-				minus = document.getElementById('minus-quantity ' + item.id);
+				const minus = document.getElementById('minus-quantity ' + item.id);
 				if(item.quantity > 0){
 					if(minus.classList.value.includes("disabled")){
 						minus.classList.remove("disabled")
@@ -178,9 +179,3 @@ total_price += parseInt(product.price)
 updateCart()
 updateLocalStorage()
 };
-
-const updateLocalStorage = () => {
-	localStorage.setItem('order', JSON.stringify(order))
-	localStorage.setItem('total_quantity', JSON.stringify(total_quantity))
-	localStorage.setItem('total_price', JSON.stringify(total_price))
-}
