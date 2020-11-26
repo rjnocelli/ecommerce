@@ -1,10 +1,12 @@
 console.log('email_confirmation.js working')
 try{
-    order = JSON.parse(localStorage.getItem('order'))
+    const order = JSON.parse(localStorage.getItem('order'))
     order_items = []
 }catch (error){
     console.log(error)
 }
+
+const order = JSON.parse(localStorage.getItem('order'))
 
 if(order && Object.keys(order).length > 0){
     Object.values(order).forEach((i) => {

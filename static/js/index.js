@@ -1,51 +1,7 @@
 import { addLoQuieroTag, updateCart, updateLocalStorage, addProductOrCreateOrder  } from './functions.js'
 console.log('index.js working')
 
-const renderDetailView = (product) => {
-    console.log('PRODUCTO DETAIL VIEW', product.name)
-    const main_div = document.getElementById('most-popular-container')
-    main_div.innerHTML = ``
-    main_div.innerHTML = `
-    <div class="card mt-5 mb-5 mx-auto p-2" style="width: 20rem;">
-        <img class="card-img-top img-thumbnail" src="${product.image}" alt="Card image cap">
-        <div class="card-body">
-            <h3>${product.name}</h3>
-            <div id='cat-div'>
-            </div>
-            <p>precio p/u: <span class='float-right'>$${product.price}</span></p><hr>
-            <p class="card-text">${product.description}</p>
-            <a id='lo-quiero ${product.id}' class="btn btn-success btn-block">Lo Quiero! <span class='far fa-candy-cane'></span></a>
-      </div>
-  </div>`
-  let cat_div = document.getElementById('cat-div')
-  product.category.forEach((cat) => {
-      cat_div.innerHTML += `<span class="badge badge-primary">${cat.name}</span>
-      `
-  });
-  addLoQuieroTag(product, 'lo-quiero')  
-  window.scrollTo(200,300)
-};
-    buildProductsList()
-    buildMostPouplarProductsList()
-
-function buildMostPouplarProductsList() {
-    const url = '/api/popular-products/'
-
-    fetch(url)
-        .then(function(response){ return response.json() })
-        .then(fetchMostPopularProducts)
-}
-
-function buildProductsList() {
-    const url = '/api/product-list/'
-
-    fetch(url)
-        .then(function(response) { return response.json(); })
-        .then(updateProducts);
-
-    }
-
-function fetchMostPopularProducts(products) {
+const fetchMostPopularProducts = (products) => {
     let carrousel_inner_div = document.querySelector('.carousel-inner')
     let carrousel_indicators = document.querySelector('.carousel-indicators')
     carrousel_inner_div.innerHTML = ``
@@ -79,14 +35,8 @@ function fetchMostPopularProducts(products) {
     });
 };
 
-function updateProducts(products) {
-    localStorage.setItem('products', JSON.stringify(products))
-    
-    renderProducts(products)
-    addLoQuieroTag(products, "lo-quiero")
-}
 
-function renderProducts(products) {
+const renderProducts = (products) => {
     console.log('render product function')
     const products_row = document.getElementById('product-details');
     products.forEach((product) => {
@@ -105,13 +55,67 @@ function renderProducts(products) {
 
     products.forEach((product)=> {
         const product_a_tag = document.getElementById('img-atag '+ product.id)
-        product_a_tag.addEventListener('click', ()=> {
+        product_a_tag.addEventListener('click', () => {
             event.preventDefault()
             renderDetailView(product)
         });
     });
 
 }
+
+const renderDetailView = (product) => {
+    console.log('PRODUCTO DETAIL VIEW', product.name)
+    const main_div = document.getElementById('most-popular-container')
+    main_div.innerHTML = ``
+    main_div.innerHTML = `
+    <div class="card mt-5 mb-5 mx-auto p-2" style="width: 20rem;">
+        <img class="card-img-top img-thumbnail" src="${product.image}" alt="Card image cap">
+        <div class="card-body">
+            <h3>${product.name}</h3>
+            <div id='cat-div'>
+            </div>
+            <p>precio p/u: <span class='float-right'>$${product.price}</span></p><hr>
+            <p class="card-text">${product.description}</p>
+            <a id='lo-quiero ${product.id}' class="btn btn-success btn-block">Lo Quiero! <span class='far fa-candy-cane'></span></a>
+      </div>
+  </div>`
+  let cat_div = document.getElementById('cat-div')
+  product.category.forEach((cat) => {
+      cat_div.innerHTML += `<span class="badge badge-primary">${cat.name}</span>
+      `
+  });
+  addLoQuieroTag(product, 'lo-quiero')  
+  window.scrollTo(200,300)
+};
+
+const updateProducts = (products) => {
+    localStorage.setItem('products', JSON.stringify(products))
+    
+    renderProducts(products)
+    addLoQuieroTag(products, "lo-quiero")
+};
+
+const buildMostPouplarProductsList = () => {
+    const url = '/api/popular-products/'
+
+    fetch(url)
+        .then(function(response){ return response.json() })
+        .then(fetchMostPopularProducts)
+    };
+
+const buildProductsList = () => {
+    const url = '/api/product-list/'
+
+    fetch(url)
+        .then(function(response) { return response.json(); })
+        .then(updateProducts);
+
+    };
+
+buildProductsList()
+buildMostPouplarProductsList()
+
+
       
    
 

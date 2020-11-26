@@ -27,18 +27,18 @@ const addCartHtml = () => {
     window.scrollTo(1200,1200)
   })
     
-  function filterItems(query) {
-    return products.filter(function(el) {
-        return ((el.name.toLowerCase().indexOf(query.toLowerCase()) > -1) 
-        || (el.description.toLowerCase().indexOf(query.toLowerCase()) > -1) 
-        || (el.category.map((i) => {return i.name.toLowerCase()}).join(" ").includes(query)));          
-    })
-  }
+const filterItems = (query) => {
+return products.filter(function(el) {
+    return ((el.name.toLowerCase().indexOf(query.toLowerCase()) > -1) 
+    || (el.description.toLowerCase().indexOf(query.toLowerCase()) > -1) 
+    || (el.category.map((i) => {return i.name.toLowerCase()}).join(" ").includes(query)));          
+})
+};
 
-  function renderSearchResults(products, query) {
-      console.log(typeof(products))
+const renderSearchResults = (products, query) => {
+    console.log(typeof(products))
     if(query === undefined){
-      query = document.getElementsByName('q')[0].value
+        const query = document.getElementsByName('q')[0].value
     }
     const base_div = document.getElementById('base-div');
     const title = `<div class='row'><h2>Resultados de la busqueda "${query}"</h2></div>`
@@ -47,50 +47,47 @@ const addCartHtml = () => {
     base_div.innerHTML += base_div_row
     const base_div_row_el = document.getElementById('base-div-row')
     if(products.length > 0){
-        products.forEach((product) => {
-            base_div_row_el.innerHTML += `
-            <div class="col-lg-3 col-md-3 col-sm-3">
-                <a href=""><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
-                <div class="box-element product">
-                    <a href=""><h5 class="pt-2" style="display: inline-block; font-size: medium"><strong>${product.name}</strong></h5></a>
-                    <p>precio p/u: <span style="font-size: medium;" class='float-right'>$${product.price}</span></p><hr>
-                    <p class="card-text">${product.description}</p>		
-                    <br><a id='lo-quiero ${product.id}' class="btn btn-success btn-block btn-sm" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
-                </div>
-                <br>
+    products.forEach((product) => {
+        base_div_row_el.innerHTML += `
+        <div class="col-lg-3 col-md-3 col-sm-3">
+            <a href=""><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
+            <div class="box-element product">
+                <a href=""><h5 class="pt-2" style="display: inline-block; font-size: medium"><strong>${product.name}</strong></h5></a>
+                <p>precio p/u: <span style="font-size: medium;" class='float-right'>$${product.price}</span></p><hr>
+                <p class="card-text">${product.description}</p>		
+                <br><a id='lo-quiero ${product.id}' class="btn btn-success btn-block btn-sm" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
             </div>
-            `
-        });
-        console.log('Productos', products)
-        addLoQuieroTag(products,'lo-quiero')
-        window.scrollTo(0,0)
-        }else{console.log('no se ha encontrado ningun producto')}
-    
-    }
+            <br>
+        </div>
+        `
+    });
+    console.log('Productos', products)
+    addLoQuieroTag(products,'lo-quiero')
+    window.scrollTo(0,0)
+    }else{console.log('no se ha encontrado ningun producto')}
+
+};
           
-
-  addEventListenerToBuscarButton()
-
-
-function addEventListenerToBuscarButton(){
+const addEventListenerToBuscarButton = () => {
   form_submit_button.addEventListener('click', (e) => {
     e.preventDefault()
     let query = document.getElementsByName('q')[0].value
     let products_filtered = filterItems(query.toLowerCase())
     renderSearchResults(products_filtered)
   });
-}
+};
 
+addEventListenerToBuscarButton()
 
 // --------- Fetch all categories -------
-function displayCatsOnNavbar(response){
+const displayCatsOnNavbar = (response) => {
   const cats_div = document.getElementById('dropdown-cats-list')
   response.forEach((cat)=>{
     const node = `<a id='cat ${cat.id}' class="dropdown-item" href="">${cat.name}</a>`
     cats_div.insertAdjacentHTML('afterbegin', node)
     document.getElementById('cat ' + cat.id).addEventListener('click', (e)=>{
       e.preventDefault()
-      query = cat.name.toLowerCase()
+      const query = cat.name.toLowerCase()
       let products_filtered = filterItems(query)
       console.log(products_filtered)
       renderSearchResults(products_filtered, query)
@@ -98,7 +95,7 @@ function displayCatsOnNavbar(response){
   });
 };
 
-function buildCategoriesList() {
+const buildCategoriesList = () => {
   const url = '/api/categories-list/'
 
   fetch(url)
@@ -108,7 +105,7 @@ function buildCategoriesList() {
   buildCategoriesList()
 
 
-function renderIndex(){
+const renderIndex = () => {
   let base_div = document.getElementById('base-div');
   console.log(base_div)
   base_div = ``
@@ -122,4 +119,4 @@ function renderIndex(){
     </div><hr>
   <div id='product-details' class="row"></div>
   `) 
-}
+};
