@@ -15,7 +15,6 @@ const addCartHtml = () => {
 
   addCartHtml()
 
-
   const search_input = document.getElementsByName('q')
   const form_submit_button = document.getElementById('search-submit')
   const contacto_at = document.getElementById('contacto')

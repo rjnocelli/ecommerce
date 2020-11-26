@@ -60,7 +60,7 @@ const onOrderListFetched = (order) => {
 			localStorage.setItem('total_price', JSON.stringify(order_items_total_price))
 		};
 
-		function deleteProduct(item) {
+		const deleteProduct = (item) => {
 			const itemsDiv = document.getElementById('items-div')
 				order_items_total_price -= item.price * item.quantity;
 				order_items_total_quantity -= item.quantity;
@@ -75,7 +75,7 @@ const onOrderListFetched = (order) => {
 
 			}
 
-		function substractQuantity(item) {
+		const substractQuantity = (item) => {
 			const minus = document.getElementById('minus-quantity ' + JSON.stringify(item.id));
 			if(item.quantity > 0){
 				item.quantity -= 1;
@@ -93,7 +93,7 @@ const onOrderListFetched = (order) => {
 			updateCart();
 		};
 
-		function addQuantity(item) {
+		const addQuantity = (item) => {
 			item.quantity += 1;
 			const minus = document.getElementById('minus-quantity ' + item.id);
 			if(item.quantity > 0){
@@ -125,6 +125,7 @@ const onOrderListFetched = (order) => {
 				trash_can.addEventListener('click', callbackClosure(item, deleteProduct))
 
 		};
+
 		renderTotalPriceAndQuantity(order_items_total_quantity, order_items_total_price)
 	}
 

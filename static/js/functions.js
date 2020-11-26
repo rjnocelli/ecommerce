@@ -29,7 +29,7 @@ export const addLoQuieroTag = (products, first_half_id) =>{
 
 export const addProductOrCreateOrder = (product) => {
     console.log(product.name)
-    let total_quantity, total_price, order
+    let total_quantity = 0, total_price = 0, order
     if(localStorage.getItem('total_price') && localStorage.getItem('total_quantity')){
         total_quantity = parseInt(localStorage.getItem('total_quantity'))
         total_price = parseInt(localStorage.getItem('total_price'))
@@ -61,6 +61,7 @@ export const updateCart = (total_quantity) => {
     cart.innerHTML = ` ${total_quantity} `
 }
 export const updateLocalStorage = (order, total_price, total_quantity) => {
+        console.log('updating local storage', total_quantity, total_price)
         localStorage.setItem('order', JSON.stringify(order))
         localStorage.setItem('total_quantity', JSON.stringify(total_quantity))
         localStorage.setItem('total_price', JSON.stringify(total_price))
