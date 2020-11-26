@@ -1,4 +1,4 @@
-import { addLoQuieroTag, updateLocalStorage } from './functions.js'
+import { addLoQuieroTag, updateLocalStorage, callbackClosure } from './functions.js'
 console.log('cart.js working')
 
 const addHtmlForItemQuantitySelection = (order_item_objs) => {
@@ -108,12 +108,6 @@ const onOrderListFetched = (order) => {
 			document.getElementById('item-quantity ' + item.id).innerHTML = item.quantity
 			document.querySelector('#total-price').innerHTML = order_items_total_price
 			document.querySelector('#total-quantity').innerHTML = order_items_total_quantity
-		}
-
-		function callbackClosure(i, callback) {
-			return function() {
-			return callback(i);
-			}
 		}
 
 		for(var key in order_item_objs){

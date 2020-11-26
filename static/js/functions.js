@@ -65,3 +65,9 @@ export const updateLocalStorage = (order, total_price, total_quantity) => {
         localStorage.setItem('total_quantity', JSON.stringify(total_quantity))
         localStorage.setItem('total_price', JSON.stringify(total_price))
     }
+
+export const callbackClosure = (i, callback) => {
+    return function() {
+    return callback(i);
+    }
+}
