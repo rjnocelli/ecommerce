@@ -23,7 +23,7 @@ const products = JSON.parse(localStorage.getItem('products'))
 
 contacto_at.addEventListener('click', (event) =>{
 event.preventDefault()
-window.scrollTo(1200,1200)
+window.scrollTo(0,document.body.scrollHeight)
 })
     
 const filterItems = (query) => {
