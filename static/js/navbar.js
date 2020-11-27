@@ -13,18 +13,18 @@ const addCartHtml = () => {
     `
   }
 
-  addCartHtml()
+addCartHtml()
 
-  const search_input = document.getElementsByName('q')
-  const form_submit_button = document.getElementById('search-submit')
-  const contacto_at = document.getElementById('contacto')
+const search_input = document.getElementsByName('q')
+const form_submit_button = document.getElementById('search-submit')
+const contacto_at = document.getElementById('contacto')
 
-  const products = JSON.parse(localStorage.getItem('products'))
+const products = JSON.parse(localStorage.getItem('products'))
 
-  contacto_at.addEventListener('click', (event) =>{
-    event.preventDefault()
-    window.scrollTo(1200,1200)
-  })
+contacto_at.addEventListener('click', (event) =>{
+event.preventDefault()
+window.scrollTo(1200,1200)
+})
     
 const filterItems = (query) => {
 return products.filter(function(el) {
