@@ -8,7 +8,7 @@ const addCartHtml = () => {
       total_quantity = '0'
     }
     document.getElementById('cart').innerHTML +=`
-    <a style="color: white; font-family: Arial, Helvetica, sans-serif" href="/cart"><i style="vertical-align: middle" class="far fa-candy-cane"><span> ${total_quantity} <span></i>
+    <a class='candy-icon' href="/cart"><i class="far fa-candy-cane"><span> ${total_quantity} <span></i>
     </a> 
     `
   }
@@ -23,7 +23,7 @@ const products = JSON.parse(localStorage.getItem('products'))
 
 contacto_at.addEventListener('click', (event) =>{
 event.preventDefault()
-window.scrollTo(0,document.body.scrollHeight)
+window.scrollTo(0, document.body.scrollHeight)
 })
     
 const filterItems = (query) => {
@@ -35,10 +35,10 @@ return products.filter(function(el) {
 };
 
 const renderSearchResults = (products, query) => {
-    console.log(typeof(products))
     if(query === undefined){
-        const query = document.getElementsByName('q')[0].value
+        var query = document.getElementsByName('q')[0].value
     }
+    console.log(query)
     const base_div = document.getElementById('base-div');
     const title = `<div class='row'><h2>Resultados de la busqueda "${query}"</h2></div>`
     const base_div_row = `<div class="row" id="base-div-row"></div>`

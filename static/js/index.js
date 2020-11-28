@@ -22,7 +22,7 @@ const fetchMostPopularProducts = (products) => {
         }else{
             carrousel_inner_div.insertAdjacentHTML('beforeend', 
             `<div class="carousel-item">
-                <img class="" src="${product.image}" alt="">
+                <img class="carousel-img" src="${product.image}" alt="">
                 <div class="carousel-caption d-none d-md-block">
                     <h4>${product.name}</h4>
                 </div>
