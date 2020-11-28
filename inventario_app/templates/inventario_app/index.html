@@ -21,15 +21,12 @@
 
 {% block body %}
 
-<div id='jumbotron' style='background-color:#abb7b7' class="jumbotron text-center expand">
+<div id='jumbotron' class="jumbotron text-center expand">
     <h1 class="">Bienvenidos a Funes Dulceria</h1>
-    <p class="lead text-muted">Elegí lo que quieras y te lo enviamos a tu casa<p>
+    <p>Elegí lo que quieras y te lo enviamos a tu casa<p>
 </div>
 
 <div id='most-popular-container' style="padding: 10px" class="row shadow-lg border boder-light">
-    <!-- <div style="float: none; margin: 0 auto;" class='row justify-content-center'>
-        <h3 >Productos Mas Populares y Ofertas</h3>
-    </div> -->
     <div style="float: none; margin: 0 auto;" class='row'>
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
@@ -57,7 +54,6 @@
     localStorage.removeItem('total_quantity')
     localStorage.removeItem('total_price')
     cart = document.querySelector('#cart span')
-    cart.innerHTML = ` 0`
 </script>
 {% endif %}
 <script type='module' src="{% static 'js/index.js' %}"></script> 

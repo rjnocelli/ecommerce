@@ -2,14 +2,40 @@
 body{
 	font-family: 'Emilys Candy', cursive;
 	padding-top: 20px;
-	background-color: hsl(0, 0%, 98%);
+	/* background-color: hsl(0, 0%, 98%); */
+	background-color: rgb(247, 218, 227);
 	/* background: #D3CCE3;  fallback for old browsers */
 	/* background: -webkit-linear-gradient(to right, #E9E4F0, #D3CCE3);  Chrome 10-25, Safari 5.1-6 */
 	/* background: linear-gradient(to right, #E9E4F0, #D3CCE3); W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 	font-size: 20px;
 }
 
-/* #base-div { }  */
+.jumbotron {
+	background: #77A1D3;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #d6b4c3, #96eceb, #96a8be);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #d3a0b6, #9ac5c4, #98acc5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.jumbotron h1, p {
+	color: rgb(49, 47, 47);
+}
+
+#base-div { 
+	background-color: rgb(247, 218, 227);
+} 
+
+#product-details {
+	background-color: rgb(247, 218, 227);
+	padding-top: 20px;
+}
+
+#base-div {
+	background-color: rgb(247, 218, 227);
+	margin: 20px;
+}
+
+#most-popular-container {	
+}
 
 /* .card-body {
 	font-size: 20px;
@@ -21,10 +47,11 @@ h1,h2,h3,h4,h5,h6{
 
 .box-element{
 	box-shadow:hsl(0, 0%, 80%) 0 0 16px;
-	/* background-color: #fff; */
+	background-color: #F8F9FA;
 	border-radius: 4px;
 	padding: 10px;
 	font-size: 20px;
+
 }
 
 .thumbnail{
@@ -125,10 +152,6 @@ h1,h2,h3,h4,h5,h6{
     width:100%;
 }
 
-#base-div {
-	margin: 20px;
-}
-
 .carousel-item{
     width: 100%; /*width you want*/
     height: 300px; /*height you want*/
@@ -143,7 +166,7 @@ h1,h2,h3,h4,h5,h6{
 
 .carousel-caption h4{
 	color:black;
-	background-color: white;
+	background-color: #F8F9FA;
 	border-radius: 25px;
 
 }
@@ -158,4 +181,49 @@ h1,h2,h3,h4,h5,h6{
 
 #email-table {
 	border: 1px solid black;
+}
+
+.candy-icon{
+
+	color: grey;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.candy-icon i{
+	vertical-align: middle;
+}
+
+footer {
+	margin-top: 20px;
+	background-color: #F8F9FA;
+}
+
+.box-element .btn-success, .btn-success:hover, .btn-success:active, .btn-success:visited{
+	/* background-color: rgb(191, 134, 230) !important; */
+	background: #77A1D3;  
+	background: -webkit-linear-gradient(to right, #d6b4c3, #96eceb, #96a8be);  
+	background: linear-gradient(to right, #d3a0b6, #9ac5c4, #98acc5);
+	border: none;
+}
+
+.card-body a{
+	/* background-color: rgb(191, 134, 230) !important; */
+	background: #77A1D3;  
+	background: -webkit-linear-gradient(to right, #d6b4c3, #96eceb, #96a8be);  
+	background: linear-gradient(to right, #d3a0b6, #9ac5c4, #98acc5);
+	border: none;
+}
+
+
+.box-element a {
+	font-size: 16px;
+}
+
+/* .card-body #lo-quiero {
+	background-color: rgb(191, 134, 230) !important;
+	border: none;
+} */
+
+.carousel-img{
+	border: 3px solid white;
 }

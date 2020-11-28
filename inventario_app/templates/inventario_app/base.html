@@ -12,14 +12,14 @@
     {% endblock head %}
     <title>Document</title>
 </head>
-<body style="background-color:#e8e8e8; padding-top: 0" id='body-block-div'>
+<body id='body-block-div'>
     
 
     {% include "inventario_app/navbar.html" %}
     {% block post-navbar %}
     {% endblock post-navbar %}
 
-    <div id='base-div' style="background-color: #eeeeee;" class="container p-4 mx-auto">
+    <div id='base-div' class="container p-4 mx-auto">
     {% block body %}
     {% endblock body%}
     </div>
