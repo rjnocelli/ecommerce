@@ -3,19 +3,43 @@
 
 <a  class="btn btn-outline-dark" href="{% url 'index' %}">&#x2190; Inicio</a>
 
-<div class="card mt-5 mb-5 mx-auto p-2" style="width: 20rem;">
-    <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap">
-    <div class="card-body">
-        <h3>{{product.name}}</h3>
-        <p>precio p/u: ${{product.price}}</p>
-        {% for cat in product.category.all %}
-        <a href="{% url 'search-view' %}?q={{cat}}"><span class="badge badge-info">{{cat}}</span></a>
-        {% endfor %} <hr>
-      <p class="card-text">{{product.description}}</p>
-      <a href="{% url 'add-to-cart' id=product.id%}" class="btn btn-primary" method='POST'>Lo Quiero!</a>
-      <!-- <a href=><button class="btn btn-outline-secondary add-btn update-cart">Agregar </button></a> -->
+<section class="mb-5 mt-5">
+  <div class="row">
+    <div class="col-md-6 mb-4 mb-md-0">
+      <div id="mdb-lightbox-ui"></div>
+      <div class="mdb-lightbox">
+        <div class="row product-gallery mx-1">
+
+          <div class="col-12 mb-0">
+            <figure class="view overlay rounded z-depth-1 main-img">
+              <a href=""
+                data-size="710x823">
+                <img id='product-detail-img' src="{{product.image.url}}"
+                  class="img-fluid z-depth-1">
+              </a>
+            </figure>
+          </div>
+        </div>
+      </div>
     </div>
+    <div class="col-md-6">
+      <h4>{{product.name}}</h4>
+      {% for cat in product.category.all %}
+      <span class="badge badge-primary">
+        {{ cat }}
+      </span>
+      {% endfor %}
+      <p><span class="mt-5"><strong class='mt-5'>${{product.price}} p/u</strong></span></p>
+      <p class="pt-1">{{product.description}}</p>
+      <div class="table-responsive">
+      </div>
+      <hr>
+      <button type="button" class="btn btn-primary btn-md mr-1 mb-2">Lo Quiero</button>
+      </div>
   </div>
+
+</section>
+<!--Section: Block Content-->
 
 {% endblock %}
 

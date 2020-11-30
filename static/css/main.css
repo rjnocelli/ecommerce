@@ -227,3 +227,14 @@ footer {
 .carousel-img{
 	border: 3px solid white;
 }
+
+.card-text {
+	/* flex-wrap: wrap;
+	flex-grow: 3!important; */
+    white-space: normal!important;
+    /* overflow: hidden; */
+}
+
+#product-detail-img {
+	border: 3px solid white;
+}
