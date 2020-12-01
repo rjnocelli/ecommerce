@@ -206,6 +206,13 @@ footer {
 	border: none;
 }
 
+.lo-quiero-button{
+	background: #77A1D3;  
+	background: -webkit-linear-gradient(to right, #d6b4c3, #96eceb, #96a8be);  
+	background: linear-gradient(to right, #d3a0b6, #9ac5c4, #98acc5);
+	border: none;
+}
+
 .card-body a{
 	/* background-color: rgb(191, 134, 230) !important; */
 	background: #77A1D3;  
@@ -225,5 +232,16 @@ footer {
 } */
 
 .carousel-img{
+	border: 3px solid white;
+}
+
+.card-text {
+	/* flex-wrap: wrap;
+	flex-grow: 3!important; */
+    white-space: normal!important;
+    /* overflow: hidden; */
+}
+
+#product-detail-img {
 	border: 3px solid white;
 }

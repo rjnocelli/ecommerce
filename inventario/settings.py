@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'captcha',
-    'phonenumber_field',
     'django_extensions',
 ]
 

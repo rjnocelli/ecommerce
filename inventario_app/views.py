@@ -24,7 +24,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 from django.views.decorators.csrf import csrf_exempt
 
-from api import serializers
+from api.serializers import ProductSerializer
+
 
 def Index(request):
     return render(request, 'inventario_app/index.html')
@@ -52,9 +53,10 @@ def AdminProductListView(request):
     products = Product.objects.all().order_by('name')
     return render(request, 'inventario_app/admin_product_list.html', {'products': products})
 
-def detail(request, id):
+def detail(request, id):    
     qs = get_object_or_404(Product, id=id)
-    context = {'product': qs}
+    mydata = qs.id
+    context = {'product': qs, 'mydata':mydata}
     return render(request, 'inventario_app/detail_view.html', context)
 
 @login_required
