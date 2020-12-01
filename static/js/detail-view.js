@@ -1,7 +1,6 @@
 import { addLoQuieroTag } from './functions.js'
-console.log('detail-view js working')
-
 (function(){
+    console.log('detail-view js working')
     const products = JSON.parse(localStorage.getItem('products'))
     const mydata = JSON.parse(document.getElementById('mydata').textContent);
 
@@ -10,5 +9,5 @@ console.log('detail-view js working')
     });
 
     addLoQuieroTag(producto, 'lo-quiero')
-}());
+})();
 

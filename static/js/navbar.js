@@ -22,9 +22,9 @@ const contacto_at = document.getElementById('contacto')
 const products = JSON.parse(localStorage.getItem('products'))
 
 contacto_at.addEventListener('click', (event) =>{
-event.preventDefault()
-window.scrollTo(0, document.body.scrollHeight)
-})
+event.preventDefault();
+window.scrollTo(0, document.body.scrollHeight);
+});
     
 const filterItems = (query) => {
 return products.filter(function(el) {
@@ -35,10 +35,10 @@ return products.filter(function(el) {
 };
 
 const renderSearchResults = (products, query) => {
+    window.history.pushState({}, document.title, "/");
     if(query === undefined){
-        var query = document.getElementsByName('q')[0].value
-    }
-    console.log(query)
+        var query = document.getElementsByName('q')[0].value;
+    };
     const base_div = document.getElementById('base-div');
     const title = `<div class='row'><h2>Resultados de la busqueda "${query}"</h2></div>`
     const base_div_row = `<div class="row" id="base-div-row"></div>`
@@ -63,8 +63,7 @@ const renderSearchResults = (products, query) => {
     console.log('Productos', products)
     addLoQuieroTag(products,'lo-quiero')
     window.scrollTo(0,0)
-    }else{console.log('no se ha encontrado ningun producto')}
-
+    }else{console.log('no se ha encontrado ningun producto')};
 };
           
 const addEventListenerToBuscarButton = () => {
