@@ -49,7 +49,7 @@ const renderSearchResults = (products, query) => {
     products.forEach((product) => {
         base_div_row_el.innerHTML += `
         <div class="col-lg-3 col-md-3 col-sm-3">
-            <a href=""><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
+            <a href="product/${product.id}"><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
             <div class="box-element product">
                 <a href=""><h5 class="pt-2" style="display: inline-block; font-size: medium"><strong>${product.name}</strong></h5></a>
                 <p>precio p/u: <span style="font-size: medium;" class='float-right'>$${product.price}</span></p><hr>
