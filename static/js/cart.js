@@ -7,20 +7,20 @@ const addHtmlForItemQuantitySelection = (order_item_objs) => {
 	for(var key in order_item_objs){
 		itemsDiv.innerHTML += `
 		<div id='item-row ${order_item_objs[key].id}' class='row'>
-			<div class='col-lg-4'>
+			<div class='col-4 col-lg-4 col-sm-4'>
 				<p style="display: inline-block;">${order_item_objs[key].name}</p><hr>
 			</div>
-			<div class='col-lg-4'>
+			<div class='col-4 col-lg-4 col-sm-4'>
 				<p style="display: inline-block;">$${order_item_objs[key].price}</p><span></span>
 			</div>
-			<div class='col-lg-4'>
+			<div class='col-4 col-lg-4 col-sm-4'>
 				<p id='cart-data'>
 					<i id='minus-quantity ${order_item_objs[key].id}' class="fas fa-minus mr-1"></i>
 					<span id='item-quantity ${order_item_objs[key].id}'>${order_item_objs[key].quantity}</span>
 					<i id='plus-quantity ${order_item_objs[key].id}' class="fas fa-plus mr-1"></i>
-					<i id='trash-can ${order_item_objs[key].id}' class="fa fa-trash ml-4" aria-hidden="true"></i>
+					<i id='trash-can ${order_item_objs[key].id}' class="fa fa-trash ml-2" aria-hidden="true"></i>
 				</p>
-			<div class='col-lg-4'>
+			<div class='col-4 col-lg-4 col-sm-4'>
 			</div>
 			</div>
 		</div>

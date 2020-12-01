@@ -35,7 +35,7 @@ return products.filter(function(el) {
 };
 
 const renderSearchResults = (products, query) => {
-    window.history.pushState({}, document.title, "/");
+    window.history.pushState({}, 'Funes Dulceria', "/");
     if(query === undefined){
         var query = document.getElementsByName('q')[0].value;
     };
