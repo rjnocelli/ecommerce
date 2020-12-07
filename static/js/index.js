@@ -52,13 +52,6 @@ const renderProducts = (products) => {
         </div>
         `
     });
-
-    products.forEach((product)=> {
-        const product_a_tag = document.getElementById('img-atag '+ product.id)
-        product_a_tag.addEventListener('click', () => {
-        });
-    });
-
 }
 
 // const renderDetailView = (product) => {

@@ -1,5 +1,8 @@
 export const addLoQuieroTag = (products, first_half_id) =>{
     console.log('addLoQuieroTag funciona')
+    const candy_cane = document.getElementsByClassName('candy-icon')[0]
+    console.log(candy_cane, candy_cane.classList)
+    candy_cane.classList.toggle('candy-cane-animation')
     let lo_quiero_atag, product
     if(products.length > 1){
         products.forEach((product) => {
