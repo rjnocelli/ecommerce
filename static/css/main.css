@@ -211,14 +211,11 @@ footer {
 	background: -webkit-linear-gradient(to right, #d6b4c3, #96eceb, #96a8be);  
 	background: linear-gradient(to right, #d3a0b6, #9ac5c4, #98acc5);
 	border: none;
-<<<<<<< Updated upstream
-=======
 	transition: all 70ms ease-in-out;
 }
 
 .lo-quiero-button:hover {
 	transform: scale(1.02);
->>>>>>> Stashed changes
 }
 
 .card-body a{
@@ -252,8 +249,6 @@ footer {
 
 #product-detail-img {
 	border: 3px solid white;
-<<<<<<< Updated upstream
-=======
 }
 
 .candy-icon {
@@ -263,5 +258,4 @@ footer {
 .candy-icon.candy-cane-animation {
 	transform: scale(1.02);
 	animation-direction: alternate;
->>>>>>> Stashed changes
 }

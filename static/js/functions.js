@@ -32,7 +32,7 @@ export const addLoQuieroTag = (products, first_half_id) =>{
 
 export const addProductOrCreateOrder = (product) => {
     console.log(product.name)
-    let total_quantity = 0, total_price = 0, order
+    let total_quantity = 0, total_price = 60, order
     if(localStorage.getItem('total_price') && localStorage.getItem('total_quantity')){
         total_quantity = parseInt(localStorage.getItem('total_quantity'))
         total_price = parseInt(localStorage.getItem('total_price'))
