@@ -3,7 +3,6 @@
     try{
         var order = JSON.parse(localStorage.getItem('order'))
         var order_items = []
-        console.log(order)
     }catch(error){
         console.log(error)
     }

@@ -106,11 +106,3 @@ const buildProductsList = () => {
 buildProductsList()
 buildMostPouplarProductsList()
 
-
-      
-   
-
- 
-
-
-// 

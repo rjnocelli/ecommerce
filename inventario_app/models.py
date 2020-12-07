@@ -60,6 +60,8 @@ class Order(models.Model):
     customer_name = models.CharField(max_length=100, blank=True)
     customer_email = models.CharField(max_length=100, blank=True)
     customer_phone_number = models.CharField(max_length=100, blank=True)
+    customer_location = models.CharField(max_length=100, blank=True)
+    customer_address = models.CharField(max_length=100, blank=True)
     active = models.BooleanField(default=True)
     gift = models.BooleanField(default=False)
 
