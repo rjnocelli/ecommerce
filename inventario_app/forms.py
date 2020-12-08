@@ -28,4 +28,8 @@ class EmailConfirmationForm(forms.Form):
     gift = forms.BooleanField(label='Para Regalar!', required=False)
     order_items = forms.JSONField(widget=forms.HiddenInput()) 
     captcha = CaptchaField()
+
+    def clean_location(self):
+        value = self.cleaned_data.get('location')
+        return dict(self.fields['location'].choices)[value]
     

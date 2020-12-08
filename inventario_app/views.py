@@ -119,7 +119,7 @@ def order_confirmation(request):
                     customer_name=customer_name,
                     customer_email=form.cleaned_data["email"],
                     customer_phone_number=form.cleaned_data["phone_number"],
-                    customer_location=form.cleaned_data["location"][1],
+                    customer_location=form.cleaned_data["location"],
                     customer_address=form.cleaned_data["customer_address"],
                     gift=form.cleaned_data['gift'])
                 order.items.set(order_items)
