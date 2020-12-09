@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="row justify-content-md-center">
-    <div class="">
+    <div>
     <h2>Actualizar producto ya existente</h2> 
     <form action="{% url 'update' product.id %}" method="POST" name='create-product' enctype="multipart/form-data">
         {% csrf_token %}
@@ -12,8 +12,7 @@
     <br>  
     <button class="btn btn-success" type='submit'>Actualizar</button>
     </form>
+    </div>
 </div>
    
-    
-
 {% endblock %}
