@@ -45,7 +45,7 @@ const renderProducts = (products) => {
             <div class="box-element product">
                 <h6 class="pt-2" style="display: inline-block">${product.name}</h6>
                 <h6>precio p/u: <span class='float-right'><strong>$ ${product.price}</strong></span></h6><hr>		
-                <a id='lo-quiero ${product.id}' class="btn btn-success btn-block btn-sm lo-quiero-button" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
+                <a id='lo-quiero ${product.id}' class="btn btn-success btn-block btn-sm lo-quiero-button shadow-none" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
             </div>
             <br>
         </div>

@@ -256,16 +256,6 @@ footer {
 	border: 3px solid white;
 }
 
-.candy-icon {
-	transition: all 70ms ease-out;
-}
-
-.candy-icon.candy-cane-animation {
-	transform: scale(1.02);
-	animation-direction: alternate;
-}
-
-
 .scale {
     animation: scaling 0.2s 2 alternate;
 }  
@@ -291,3 +281,4 @@ footer {
         -webkit-transform: scale(1.2);
     }
 }
+
