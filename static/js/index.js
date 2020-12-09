@@ -35,7 +35,6 @@ const fetchMostPopularProducts = (products) => {
     });
 };
 
-
 const renderProducts = (products) => {
     console.log('render product function')
     const products_row = document.getElementById('product-details');
@@ -44,40 +43,15 @@ const renderProducts = (products) => {
         <div class="col-lg-3 col-md-6 col-sm-4">
             <a href="product/${product.id}"><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
             <div class="box-element product">
-                <h6 class="pt-2" style="display: inline-block"><strong>${product.name}</strong></h6><br>
-                <h6 class="pt-2" style="display: inline-block; float:center">$ ${product.price} p/u</h6>				
-                <br><a id='lo-quiero ${product.id}' class="btn btn-success btn-block btn-sm lo-quiero-button" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
+                <h6 class="pt-2" style="display: inline-block">${product.name}</h6>
+                <h6>precio p/u: <span class='float-right'><strong>$ ${product.price}</strong></span></h6><hr>		
+                <a id='lo-quiero ${product.id}' class="btn btn-success btn-block btn-sm lo-quiero-button" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
             </div>
             <br>
         </div>
         `
     });
 }
-
-// const renderDetailView = (product) => {
-//         console.log('PRODUCTO DETAIL VIEW', product.name)
-//         const main_div = document.getElementById('most-popular-container')
-//         main_div.innerHTML = ``
-//         main_div.innerHTML = `
-//         <div class="card mt-5 mb-5 mx-auto p-2" style="width: 20rem;">
-//             <img class="card-img-top img-thumbnail" src="${product.image}" alt="Card image cap">
-//             <div class="card-body">
-//                 <h3>${product.name}</h3>
-//                 <div id='cat-div'>
-//                 </div>
-//                 <p>precio p/u: <span class='float-right'>$${product.price}</span></p><hr>
-//                 <p class="card-text">${product.description}</p>
-//                 <a id='lo-quiero ${product.id}' class="btn btn-success btn-block">Lo Quiero! <span class='far fa-candy-cane'></span></a>
-//           </div>
-//       </div>`
-//       let cat_div = document.getElementById('cat-div')
-//       product.category.forEach((cat) => {
-//           cat_div.innerHTML += `<span class="badge badge-primary">${cat.name}</span>
-//           `
-//       });
-//       addLoQuieroTag(product, 'lo-quiero')  
-//       window.scrollTo(200,300)
-//     };
 
 const updateProducts = (products) => {
     localStorage.setItem('products', JSON.stringify(products))
