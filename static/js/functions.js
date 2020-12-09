@@ -30,7 +30,24 @@ export const addLoQuieroTag = (products, first_half_id) =>{
     }
 };
 
+export const toggleClassAnimationButton = () => {
+    if(cart.classList.contains('scale')){
+        cart.classList.toggle('scale');
+        cart.classList.toggle('scale2');
+    }else if(cart.classList.contains('scale2')){
+        cart.classList.add('scale');
+        cart.classList.toggle('scale2');
+    }else{
+        cart.classList.add('scale');
+    }
+};
+
 export const addProductOrCreateOrder = (product) => {
+    const cart = document.getElementsByClassName('candy-icon')[0].firstChild
+    console.log('hola soy cart', cart)
+
+    toggleClassAnimationButton()
+
     console.log(product.name)
     let total_quantity = 0, total_price = 60, order
     if(localStorage.getItem('total_price') && localStorage.getItem('total_quantity')){

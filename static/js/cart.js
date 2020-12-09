@@ -1,4 +1,4 @@
-import { addLoQuieroTag, updateLocalStorage, callbackClosure } from './functions.js'
+import { addLoQuieroTag, updateLocalStorage, callbackClosure, toggleClassAnimationButton } from './functions.js'
 console.log('cart.js working')
 
 const addHtmlForItemQuantitySelection = (order_item_objs) => {
@@ -52,6 +52,7 @@ const updateCart = () =>{
 }
 
 const onOrderListFetched = (order) => {
+
 		let order_item_objs = order
 		let order_items_total_price = 60
 		let order_items_total_quantity = 0
@@ -70,6 +71,9 @@ const onOrderListFetched = (order) => {
 		};
 
 		const deleteProduct = (item) => {
+
+			toggleClassAnimationButton()
+
 			const itemsDiv = document.getElementById('items-div')
 				order_items_total_price -= item.price * item.quantity;
 				order_items_total_quantity -= item.quantity;
@@ -85,6 +89,9 @@ const onOrderListFetched = (order) => {
 			}
 
 		const substractQuantity = (item) => {
+
+			toggleClassAnimationButton()
+
 			const minus = document.getElementById('minus-quantity ' + JSON.stringify(item.id));
 			if(item.quantity > 0){
 				item.quantity -= 1;
@@ -103,6 +110,9 @@ const onOrderListFetched = (order) => {
 		};
 
 		const addQuantity = (item) => {
+
+			toggleClassAnimationButton()
+
 			item.quantity += 1;
 			const minus = document.getElementById('minus-quantity ' + item.id);
 			if(item.quantity > 0){

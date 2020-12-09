@@ -264,3 +264,30 @@ footer {
 	transform: scale(1.02);
 	animation-direction: alternate;
 }
+
+
+.scale {
+    animation: scaling 0.2s 2 alternate;
+}  
+
+.scale2 {
+    animation: scaling2 0.2s 2 alternate;
+}
+
+@keyframes scaling {
+    from {
+        -webkit-transform: scale(1);
+    }
+    to {
+        -webkit-transform: scale(1.2);
+    }
+}
+
+@keyframes scaling2 {
+    from {
+        -webkit-transform: scale(1);
+    }
+    to {
+        -webkit-transform: scale(1.2);
+    }
+}
