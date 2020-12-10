@@ -23,16 +23,16 @@
     <div class="col-md-6">
       <h4>{{product.name}}</h4>
       {% for cat in product.category.all %}
-      <span class="badge badge-primary">
+      <span style='background-color: coral;' class="badge badge-primary">
         {{ cat }}
       </span>
       {% endfor %}
-      <p class="pt-1">{{product.description}}</p>
+      <p style='font-size: medium' class="pt-1">{{product.description}}</p>
       <div class="table-responsive">
       </div>
       <hr>
       <a id='lo-quiero {{ product.id }}' style='display: inline-block;' class="btn btn-success btn-m lo-quiero-button mr-3" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
-      <p style='display: inline-block;'><span><strong class='mt-5'>${{product.price}} p/u</strong></span></p>
+      <p style='display: inline-block; color: hsl(0, 0%, 30%);'><span><strong class='mt-5'>${{product.price}} p/u</strong></span></p>
       </div>
   </div>
   <input type='hidden' value='{{ product.id }}' id='product'/>

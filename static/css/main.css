@@ -5,6 +5,7 @@
   }
 
 body{
+	background: url(/images/pattern-png2.png) repeat;
 	font-family: 'Emilys Candy', cursive;
 	padding-top: 20px;
 	/* background-color: hsl(0, 0%, 98%); */
@@ -13,17 +14,23 @@ body{
 	/* background: -webkit-linear-gradient(to right, #E9E4F0, #D3CCE3);  Chrome 10-25, Safari 5.1-6 */
 	/* background: linear-gradient(to right, #E9E4F0, #D3CCE3); W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 	font-size: 20px;
+	color: hsl(0, 0%, 30%);
 }
 
-.jumbotron {
-	background: #77A1D3;  /* fallback for old browsers */
-	background: -webkit-linear-gradient(to right, #d6b4c3, #96eceb, #96a8be);  /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to right, #d3a0b6, #9ac5c4, #98acc5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+#jumbotron {
+	background: #b6d1f3;  	
 }
 
-.jumbotron h1, p {
-	color: rgb(49, 47, 47);
+#jumbotron h1, p, h6{
+	/* text-shadow: black; */
+	color: hsl(0, 0%, 30%);
 }
+
+#jumbotron h6{
+	/* text-shadow: black; */
+	color: hsl(0, 0%, 30%);
+}
+
 
 #base-div { 
 	background-color: rgb(247, 218, 227);
@@ -39,12 +46,9 @@ body{
 	margin: 20px;
 }
 
-#most-popular-container {	
+.contact-details p, .copyrights .container .row .info p {
+	color:hsl(0, 0%, 30%);	
 }
-
-/* .card-body {
-	font-size: 20px;
-} */
 
 h1,h2,h3,h4,h5,h6{
 	color:hsl(0, 0%, 30%);
@@ -169,15 +173,15 @@ h1,h2,h3,h4,h5,h6{
 	/* object-fit: contain; */
 }
 
+/* .carousel-caption {
+	opacity: 0.5;
+} */
+
 .carousel-caption h4{
-	color:black;
-	background-color: #F8F9FA;
+	color:rgb(44, 42, 42);
+	background-color: rgba(255, 255, 255, 0.75);
 	border-radius: 25px;
 
-}
-
-.carousel-caption {
-	width: 0px,
 }
 
 .card-text {
@@ -199,22 +203,31 @@ h1,h2,h3,h4,h5,h6{
 }
 
 footer {
+	/* color: rgb(54, 49, 49); */
 	margin-top: 20px;
 	background-color: #F8F9FA;
 }
 
 .box-element .btn-success, .btn-success:hover, .btn-success:active, .btn-success:visited{
-	/* background-color: rgb(191, 134, 230) !important; */
-	background: #77A1D3;  
-	background: -webkit-linear-gradient(to right, #d6b4c3, #96eceb, #96a8be);  
-	background: linear-gradient(to right, #d3a0b6, #9ac5c4, #98acc5);
-	border: none;
+	box-shadow: 
+  	0 1px 2px #fff, /*bottom external highlight*/
+  	0 -1px 1px rgba(34, 79, 109, 0.5), /*top external shadow*/ 
+  	inset 0 -1px 1px rgba(34, 79, 109, 0.5), /*bottom internal shadow*/ 
+	inset 0 1px 1px rgba(147, 196, 219, 0.5)!important; /*top internal highlight*/
+	background: #89b0df;  
+
+	border-radius: 20px;
 }
 
 .lo-quiero-button{
-	background: #77A1D3;  
-	background: -webkit-linear-gradient(to right, #d6b4c3, #96eceb, #96a8be);  
-	background: linear-gradient(to right, #d3a0b6, #9ac5c4, #98acc5);
+	box-shadow: 
+  	0 1px 2px #fff, /*bottom external highlight*/
+  	0 -1px 1px #666, /*top external shadow*/ 
+  	inset 0 -1px 1px rgba(0,0,0,0.5), /*bottom internal shadow*/ 
+  	inset 0 1px 1px rgba(255,255,255,0.8); /*top internal highlight*/
+	border-radius: 20px;
+
+	background: #89b0df;  
 	border: none;
 	transition: all 70ms ease-in-out;
 }
@@ -226,8 +239,8 @@ footer {
 .card-body a{
 	/* background-color: rgb(191, 134, 230) !important; */
 	background: #77A1D3;  
-	background: -webkit-linear-gradient(to right, #d6b4c3, #96eceb, #96a8be);  
-	background: linear-gradient(to right, #d3a0b6, #9ac5c4, #98acc5);
+	background: -webkit-linear-gradient(to right, #d16895, #53cac8, #577faf);  
+	background: linear-gradient(to right, #cc7299, #5bbbb9, #6b90be);
 	border: none;
 }
 
@@ -254,6 +267,10 @@ footer {
 
 #product-detail-img {
 	border: 3px solid white;
+}
+
+#items-div {
+	color: hsl(0, 0%, 30%);
 }
 
 .scale {
