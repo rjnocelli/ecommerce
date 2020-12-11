@@ -220,8 +220,8 @@ footer {
 	border-radius: 20px;
 }
 .carousel {
-	width:1000px;
-	height:360px;
+	max-width: 550px; 
+  	margin: 0 auto; 
   }
 
 .lo-quiero-button{
