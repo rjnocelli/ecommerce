@@ -31,6 +31,7 @@ export const addLoQuieroTag = (products, first_half_id) =>{
 };
 
 export const toggleClassAnimationButton = () => {
+    const cart = document.getElementsByClassName('candy-icon')[0].firstChild
     if(cart.classList.contains('scale')){
         cart.classList.toggle('scale');
         cart.classList.toggle('scale2');

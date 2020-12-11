@@ -5,10 +5,12 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light ml-auto shadow sticky-top tp-0">
   <div class="container d-flex justify-content-between">
     <a class="navbar-brand" href="{% url 'index' %}">DULCERIA</a>
+    <div class="mr-auto mb-1 mr-5">
+      <span id='cart' class="nav-item"></span>
+    </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-  
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         {% if user.is_authenticated %}
@@ -20,7 +22,7 @@
         </li>
         {% endif %}
         <li class="nav-item active">
-          <a href=''class='nav-link' id='contacto'>Contacto<span class="sr-only"></span></a>
+          <a href="" class='nav-link ml-1' id='contacto'>Contacto<span class="sr-only"></span></a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -29,11 +31,9 @@
           <div id='dropdown-cats-list' class="dropdown-menu" aria-labelledby="navbarDropdown">
           </div>
         </li>
-        <li id='cart' class="nav-item mr-auto">
-        </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0" method="">
-        <input id='search-input' name="q" class="form-control mr-sm-3" type="search" placeholder="Buscar">
+      <form class="form-inline my-2 my-lg-0 ml-auto" method="">
+        <input id='search-input' name="q" class="form-control mr-sm-3" type="search" placeholder="escriba aquí">
         <button id='search-submit' class="btn btn-outline my-2 my-sm-0" type="submit">Buscar</button>
       </form>
     </div>
