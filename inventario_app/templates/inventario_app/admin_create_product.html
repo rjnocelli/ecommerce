@@ -14,5 +14,30 @@
     </form>
     </div>
 </div>
-   
+
+<script>
+    (function() {
+        const list_of_fields = [document.querySelector('#id_price_100g'),                
+                                document.querySelector('#id_price_200g'),
+                                document.querySelector('#id_price_300g')]
+        list_of_fields.forEach((field) => {
+                field.disabled = true
+        });
+        document.querySelector('#id_sold_by_weight').addEventListener('click', () =>{
+           if(!document.querySelector('#id_price').disabled){
+            document.querySelector('#id_price').disabled = true
+            list_of_fields.forEach((field) => {
+                field.disabled = false
+        });
+           }else{
+            document.querySelector('#id_price').disabled = false
+            list_of_fields.forEach((field) => {
+                field.disabled = true
+            });
+           };
+        });
+    })();
+</script>
 {% endblock %}
+
+

@@ -5,9 +5,10 @@ from django.urls import reverse
 from captcha.fields import CaptchaField
 
 class CreateProductForm(ModelForm):
+
     class Meta:
         model = Product
-        fields = ['name','price','description','category','image', 'is_bundle', 'in_stock']
+        fields = ['name','price', 'sold_by_weight','price_100g','price_200g','price_300g','description','category','image', 'is_bundle', 'in_stock']
         widgets = {
             'category': forms.CheckboxSelectMultiple(),
         }
