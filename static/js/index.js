@@ -44,10 +44,8 @@ const renderProducts = (products) => {
             <a href="product/${product.id}"><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
             <div class="box-element product">
                 <h6 class="pt-2" style="display: inline-block">${product.name.length > 20 ? product.name.slice(0,20).concat("...") : product.name}</h6>
-                <h6>precio p/u: <span class='float-right'><strong>$ ${product.price}</strong></span></h6><hr>		
-                <a id='lo-quiero ${product.id}' class="btn btn-success btn-block btn-sm lo-quiero-button shadow-none" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
-            </div>
-            <br>
+                <h6>precio p/u: <span class='float-right'><strong>$ ${product.price}</strong></span></h6>	
+            </div><br>
         </div>
         `
     });
@@ -55,9 +53,7 @@ const renderProducts = (products) => {
 
 const updateProducts = (products) => {
     localStorage.setItem('products', JSON.stringify(products))
-    
     renderProducts(products)
-    addLoQuieroTag(products, "lo-quiero")
 };
 
 const buildMostPouplarProductsList = () => {

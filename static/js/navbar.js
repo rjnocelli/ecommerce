@@ -1,4 +1,4 @@
-import { addLoQuieroTag, updateCart, updateLocalStorage, addProductOrCreateOrder } from './functions.js'
+import { updateCart, updateLocalStorage, addProductOrCreateOrder } from './functions.js'
 
 console.log('navbar.js working')
 
@@ -53,14 +53,12 @@ const renderSearchResults = (products, query) => {
             <div class="box-element product">
                 <h6 class="pt-2" style="display: inline-block;"><strong>${product.name}</strong></h6>
                 <h6>precio p/u: <span class='float-right'>$ ${product.price}</span></h6>
-                <hr><a id='lo-quiero ${product.id}' class="btn btn-success btn-block btn-sm" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
             </div>
             <br>
         </div>
         `
     });
     console.log('Productos', products)
-    addLoQuieroTag(products,'lo-quiero')
     window.scrollTo(0,0)
     }else{console.log('no se ha encontrado ningun producto')};
 };
