@@ -57,6 +57,8 @@ def detail(request, id):
     qs = get_object_or_404(Product, id=id)
     mydata = qs.id
     context = {'product': qs, 'mydata':mydata}
+    if qs.sold_by_weight:
+        context['sold_by_weight'] = [("100g",qs.price_100g),("200g",qs.price_200g),("300g",qs.price_300g)]
     return render(request, 'inventario_app/detail_view.html', context)
 
 @login_required
