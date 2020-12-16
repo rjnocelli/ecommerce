@@ -36,17 +36,15 @@
       <p style='display: inline-block; color: hsl(0, 0%, 30%);'><span><strong class='mt-5'>${{product.price}} p/u</strong></span></p>
       {% else %}
       <label for="cars">Elija el peso:</label>
-      <select>
+      <select id='price-by-weight-select-id'>
       {% for item in sold_by_weight %}
-      <option value="{{item.1}}">{{item.0}} - ${{item.1}}</option>
+      <option value="{{item.0}} {{item.1}}">{{item.0}} - ${{item.1}}</option>
       
       {% endfor%}
       </select>
       {% endif %}
       </div>
   </div>
-  <input type='hidden' value='{{ product.id }}' id='product'/>
-
 </section>
 {{ mydata|json_script:"mydata" }}
 

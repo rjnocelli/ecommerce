@@ -3,6 +3,7 @@ import { addLoQuieroTag } from './functions.js'
     console.log('detail-view js working')
     const products = JSON.parse(localStorage.getItem('products'))
     const mydata = JSON.parse(document.getElementById('mydata').textContent);
+    console.log(mydata)
 
     const producto = products.filter(p =>{
     return p.id === mydata;

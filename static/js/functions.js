@@ -44,12 +44,20 @@ export const toggleClassAnimationButton = () => {
 };
 
 export const addProductOrCreateOrder = (product) => {
+    const product_name = product.name
     const cart = document.getElementsByClassName('candy-icon')[0].firstChild
     console.log('hola soy cart', cart)
 
     toggleClassAnimationButton()
 
     console.log(product.name)
+    if(product.sold_by_weight){
+        const weight_and_price = document.getElementById('price-by-weight-select-id').value.split(" ")
+        product.price = JSON.parse(weight_and_price[1])
+        const original_name = product.name
+        console.log("NOMBRE ORIGINAL", original_name)
+        product.name = product.name + " " + weight_and_price[0]
+    }
     let total_quantity = 0, total_price = 60, order
     if(localStorage.getItem('total_price') && localStorage.getItem('total_quantity')){
         total_quantity = parseInt(localStorage.getItem('total_quantity'))
@@ -72,6 +80,7 @@ export const addProductOrCreateOrder = (product) => {
         order[product.name] = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}  
 
    }
+   product.name = product_name
     updateLocalStorage(order, total_price, total_quantity)
     updateCart(total_quantity)
 };
