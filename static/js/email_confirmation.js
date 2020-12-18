@@ -9,10 +9,13 @@
 
     if(order && Object.keys(order).length > 0){
         Object.values(order).forEach((i) => {
+            console.log(i)
             order_items.push({
                 'id': i.id,
+                'product_name': i.name,
                 'quantity': i.quantity,
-                })
+                'sold_by_weight': i.sold_by_weight
+                });
             });
         document.getElementById('id_order_items')
         .setAttribute("value", JSON.stringify(order_items));    

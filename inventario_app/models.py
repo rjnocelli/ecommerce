@@ -45,17 +45,15 @@ class Category(models.Model):
 
 class OrderItem(models.Model):
     product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True, related_name='product')
+    product_name = models.CharField(max_length=50, null=True, blank=True)
+    product_price = models.DecimalField(max_digits = 5, decimal_places= 2, null=True, blank=True)
+    sold_by_weight_info = models.CharField(max_length=50, null=True, blank=True)
     quantity = models.IntegerField(default=1, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = "Order Item"
         verbose_name_plural = "Order Items"
-
-    @property
-    def get_total(self):
-        total = self.product.price * self.quantity
-        return total
 
     @property
     def add(self):
@@ -86,7 +84,9 @@ class Order(models.Model):
     @property
     def get_cart_total(self):
         orderitems = self.items.all()
-        total = sum([item.get_total for item in orderitems])
+        for i in orderitems:
+            print(i.product_name, type(i.product_price))
+        total = sum([item.product_price * item.quantity for item in orderitems])
         return total
 
     @property

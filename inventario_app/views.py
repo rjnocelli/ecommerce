@@ -111,11 +111,30 @@ def order_confirmation(request):
             if form.cleaned_data["order_items"]:
                 order_items = []
                 for element in form.cleaned_data["order_items"]:
-                    order_item = OrderItem(
-                        product=Product.objects.get(id = element["id"]),
-                        quantity=element["quantity"])
-                    order_item.save()
-                    order_items.append(order_item)
+                    product = Product.objects.get(id = element["id"])
+                    if element["sold_by_weight"] == False:
+                        order_item = OrderItem(
+                            product = product,
+                            product_name=element["product_name"],
+                            quantity=element["quantity"],
+                            product_price = product.price)
+                        order_item.save()
+                        order_items.append(order_item) 
+                    else:
+                        weight_price = element["sold_by_weight"].split()[1]
+                        order_item = OrderItem(
+                            product_name=element["product_name"],
+                            product=product,
+                            quantity=element["quantity"],
+                            sold_by_weight_info=weight_price)
+                        if weight_price == '100g':
+                            order_item.product_price = product.price_100g
+                        elif weight_price == '200g':
+                            order_item.product_price = product.price_200g
+                        elif weight_price == '300g':
+                            order_item.product_price = product.price_300g
+                        order_item.save()
+                        order_items.append(order_item)
                 customer_name = f"{form.cleaned_data['name']} {form.cleaned_data['surname']}"
                 order = Order.objects.create(
                     customer_name=customer_name,

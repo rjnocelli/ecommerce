@@ -55,7 +55,6 @@ export const addProductOrCreateOrder = (product) => {
         const weight_and_price = document.getElementById('price-by-weight-select-id').value.split(" ")
         product.price = JSON.parse(weight_and_price[1])
         const original_name = product.name
-        console.log("NOMBRE ORIGINAL", original_name)
         product.name = product.name + " " + weight_and_price[0]
     }
     let total_quantity = 0, total_price = 60, order
@@ -74,12 +73,14 @@ export const addProductOrCreateOrder = (product) => {
                 order[product.name].quantity += 1 
             }else{
                 order[product.name] = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}
+                if(product.sold_by_weight){order[product.name].sold_by_weight = "true " + product.name.split(" ")[product.name.split(" ").length-1]}else{order[product.name].sold_by_weight = false}
             }
     }else{
         order = {}
-        order[product.name] = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}  
-
+        order[product.name] = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}     
+        if(product.sold_by_weight){order[product.name].sold_by_weight = "true " + product.name.split(" ")[product.name.split(" ").length-1]}else{order[product.name].sold_by_weight = false}
    }
+   
    product.name = product_name
     updateLocalStorage(order, total_price, total_quantity)
     updateCart(total_quantity)
