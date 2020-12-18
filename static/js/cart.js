@@ -92,8 +92,10 @@ const onOrderListFetched = (order) => {
 
 			toggleClassAnimationButton()
 
-			const minus = document.getElementById('minus-quantity ' + JSON.stringify(item.name));
+			const minus = document.getElementById('minus-quantity ' + item.name);
 			if(item.quantity > 0){
+				console.log(minus)
+
 				item.quantity -= 1;
 				order_items_total_price -= parseInt(item.price);
 				order_items_total_quantity -= 1;

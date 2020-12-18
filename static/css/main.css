@@ -17,6 +17,13 @@ body{
 	color: hsl(0, 0%, 30%);
 }
 
+#order-div {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 #jumbotron {
 	background: #fbfdfd;  
 	
