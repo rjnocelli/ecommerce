@@ -68,6 +68,8 @@ def update(request, id):
     if request.method == "POST":
         form = CreateProductForm(request.POST, request.FILES, instance = qs)
         if form.is_valid():
+            if form.cleaned_data['sold_by_weight']:
+                form.cleaned_data['price'] = None
             form.save()
             return HttpResponseRedirect(reverse('index'))
     return render(request, "inventario_app/update_product.html", context = {"form": form, "product":qs})
