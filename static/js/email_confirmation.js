@@ -19,7 +19,6 @@
             });
         document.getElementById('id_order_items')
         .setAttribute("value", JSON.stringify(order_items));    
-        console.log(order_items)
     }
 })();
 
