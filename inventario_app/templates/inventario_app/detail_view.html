@@ -38,8 +38,9 @@
       <label for="cars">Elija el peso:</label>
       <select id='price-by-weight-select-id'>
       {% for item in sold_by_weight %}
+      {% if item.1 is not None %}
       <option value="{{item.0}} {{item.1}}">{{item.0}} - ${{item.1}}</option>
-      
+      {% endif %}
       {% endfor%}
       </select>
       {% endif %}
