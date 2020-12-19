@@ -22,7 +22,7 @@ body{
 	
 }
 
-#order-div {
+#order-div, .create-product, .update-product {
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
