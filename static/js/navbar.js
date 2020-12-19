@@ -51,7 +51,7 @@ const renderSearchResults = (products, query) => {
         <div class="col-lg-3 col-md-3 col-sm-3">
             <a href="product/${product.id}"><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
             <div class="box-element product">
-                <h6 class="pt-2" style="display: inline-block;"><strong>${product.name}</strong></h6>
+              <h6 class="pt-2" style="display: inline-block">${product.name.length > 20 ? product.name.slice(0,20).concat("...") : product.name}</h6>
                 ${product.price ? `<h6>precio p/u: <span class='float-right'><strong>$ ${product.price}</strong></span></h6>` : `<h6>Producto Vendio Por Peso<h6/>`}
             </div>
             <br>

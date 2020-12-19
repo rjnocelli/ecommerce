@@ -46,11 +46,9 @@ export const toggleClassAnimationButton = () => {
 export const addProductOrCreateOrder = (product) => {
     const product_name = product.name
     const cart = document.getElementsByClassName('candy-icon')[0].firstChild
-    console.log('hola soy cart', cart)
 
     toggleClassAnimationButton()
 
-    console.log(product.name)
     if(product.sold_by_weight){
         const weight_and_price = document.getElementById('price-by-weight-select-id').value.split(" ")
         product.price = JSON.parse(weight_and_price[1])
@@ -68,17 +66,23 @@ export const addProductOrCreateOrder = (product) => {
 
     if(localStorage.getItem('order')){
         order = JSON.parse(localStorage.getItem('order'))
-        console.log(order)
             if(order[product.name]){
                 order[product.name].quantity += 1 
             }else{
                 order[product.name] = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}
-                if(product.sold_by_weight){order[product.name].sold_by_weight = "true " + product.name.split(" ")[product.name.split(" ").length-1]}else{order[product.name].sold_by_weight = false}
+                if(product.sold_by_weight){
+                    order[product.name].sold_by_weight = "true " + product.name.split(" ")[product.name.split(" ").length-1]}
+                    else{
+                        order[product.name].sold_by_weight = false
+                    }
             }
     }else{
         order = {}
         order[product.name] = {'id':product.id,'name':product.name,'price':product.price,'quantity':1}     
-        if(product.sold_by_weight){order[product.name].sold_by_weight = "true " + product.name.split(" ")[product.name.split(" ").length-1]}else{order[product.name].sold_by_weight = false}
+        if(product.sold_by_weight){
+            order[product.name].sold_by_weight = "true " + product.name.split(" ")[product.name.split(" ").length-1]}else{
+                order[product.name].sold_by_weight = false
+            }
    }
    
    product.name = product_name

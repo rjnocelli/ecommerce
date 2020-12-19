@@ -6,7 +6,7 @@ const addHtmlForItemQuantitySelection = (order_item_objs) => {
 	itemsDiv.innerHTML = ``
 	for(var key in order_item_objs){
 		itemsDiv.innerHTML += `
-		<div id='item-row ${order_item_objs[key].name}' class='row'>
+		<div id='item-row ${order_item_objs[key].name} ${order_item_objs[key].id}' class='row'>
 			<div class='col-4 col-lg-4 col-sm-4'>
 				<p style="display: inline-block;">${order_item_objs[key].name}</p><hr>
 			</div>
@@ -15,10 +15,10 @@ const addHtmlForItemQuantitySelection = (order_item_objs) => {
 			</div>
 			<div class='col-4 col-lg-4 col-sm-4'>
 				<p id='cart-data'>
-					<i id='minus-quantity ${order_item_objs[key].name}' class="fas fa-minus mr-1"></i>
-					<span id='item-quantity ${order_item_objs[key].name}'>${order_item_objs[key].quantity}</span>
-					<i id='plus-quantity ${order_item_objs[key].name}' class="fas fa-plus mr-1"></i>
-					<i id='trash-can ${order_item_objs[key].name}' class="fa fa-trash ml-2" aria-hidden="true"></i>
+					<i id='minus-quantity ${order_item_objs[key].name} ${order_item_objs[key].id}' class="fas fa-minus mr-1"></i>
+					<span id='item-quantity ${order_item_objs[key].name} ${order_item_objs[key].id}'>${order_item_objs[key].quantity}</span>
+					<i id='plus-quantity ${order_item_objs[key].name} ${order_item_objs[key].id}' class="fas fa-plus mr-1"></i>
+					<i id='trash-can ${order_item_objs[key].name} ${order_item_objs[key].id}' class="fa fa-trash ml-2" aria-hidden="true"></i>
 				</p>
 			<div class='col-4 col-lg-4 col-sm-4'>
 			</div>
@@ -92,7 +92,7 @@ const onOrderListFetched = (order) => {
 
 			toggleClassAnimationButton()
 
-			const minus = document.getElementById('minus-quantity ' + item.name);
+			const minus = document.getElementById('minus-quantity ' + item.name + ' ' + item.id);
 			if(item.quantity > 0){
 				console.log(minus)
 
@@ -116,7 +116,7 @@ const onOrderListFetched = (order) => {
 			toggleClassAnimationButton()
 
 			item.quantity += 1;
-			const minus = document.getElementById('minus-quantity ' + item.name);
+			const minus = document.getElementById('minus-quantity ' + item.name + ' ' + item.id);
 			if(item.quantity > 0){
 				if(minus.classList.value.includes("disabled")){
 					minus.classList.remove("disabled")
@@ -127,13 +127,13 @@ const onOrderListFetched = (order) => {
 				updateCart();
 			}
 
-			document.getElementById('item-quantity ' + item.name).innerHTML = item.quantity
+			document.getElementById('item-quantity ' + item.name + ' ' + item.id).innerHTML = item.quantity
 			document.querySelector('#total-price').innerHTML = order_items_total_price
 			document.querySelector('#total-quantity').innerHTML = order_items_total_quantity
 		}
 
 		for(var key in order_item_objs){
-				const item_id = order_item_objs[key].name;
+				const item_id = order_item_objs[key].name + ' ' + order_item_objs[key].id;
 				const minus_id = 'minus-quantity ' + item_id;
 				const minus = document.getElementById(minus_id);
 				const plus_id = 'plus-quantity ' + item_id;
