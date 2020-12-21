@@ -80,7 +80,7 @@ const onOrderListFetched = (order) => {
 				delete order_item_objs[item.name]
 				updateLocalStorage(order_item_objs, order_items_total_price, order_items_total_quantity)
 			for(var i = 0; i < itemsDiv.children.length; i ++){
-				if(itemsDiv.children[i].id === ('item-row ' + item.name)){
+				if(itemsDiv.children[i].id === ('item-row ' + item.name + ' ' + item.id)){
 					itemsDiv.children[i].remove()}
 				}
 				renderTotalPriceAndQuantity(order_items_total_quantity, order_items_total_price)
@@ -103,7 +103,7 @@ const onOrderListFetched = (order) => {
 				if (item.quantity == 0) {
 					minus.classList.add("disabled");
 				}
-				document.getElementById('item-quantity ' + item.name).innerHTML = item.quantity
+				document.getElementById('item-quantity ' + item.name + ' ' + item.id).innerHTML = item.quantity
 				document.querySelector('#total-price').innerHTML = order_items_total_price
 				document.querySelector('#total-quantity').innerHTML = order_items_total_quantity
 			}
