@@ -13,7 +13,7 @@ SECRET_KEY = 'no-1lmc8ehgdga-x_ptlw^97#7tv)j1=_pz5-8iq-7c=uy*3(e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['192.168.1.8','localhost', '127.0.0.1', '10.108.0.2']
+ALLOWED_HOSTS = ['192.168.1.8','localhost', '127.0.0.1', '45.55.99.211']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -132,8 +132,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
-STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/images/'
 
 STATICFILES_DIRS = [
