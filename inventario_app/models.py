@@ -2,8 +2,19 @@ from django.db import models
 from django.utils import timezone
 
 class Product(models.Model):
+
+    choices = (
+        ('100g', 0),
+        ('200g', 0),
+        ('300g', 0),
+    )
+
     name = models.CharField(max_length=50, verbose_name="nombre")
-    price = models.DecimalField(max_digits = 5, decimal_places= 2, verbose_name="precio")
+    price = models.DecimalField(max_digits = 5, decimal_places= 2, verbose_name="precio", null=True, blank=True)
+    sold_by_weight = models.BooleanField(default = False, verbose_name= 'Producto Vendido x Peso')
+    price_100g = models.DecimalField(max_digits = 5, decimal_places= 2, verbose_name="precio por 100g", null=True, blank=True)
+    price_200g = models.DecimalField(max_digits = 5, decimal_places= 2, verbose_name="precio por 200g", null=True, blank=True)
+    price_300g = models.DecimalField(max_digits = 5, decimal_places= 2, verbose_name="precio por 300g", null=True, blank=True)
     description = models.TextField(max_length=400, verbose_name="descripcion", null=True, blank=True)
     timestamp = models.DateTimeField(default=timezone.now,blank=True, null=True)
     image = models.ImageField(default='chocolate.jpg',blank=True, null=True, verbose_name='imagen')
@@ -34,17 +45,15 @@ class Category(models.Model):
 
 class OrderItem(models.Model):
     product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True, related_name='product')
+    product_name = models.CharField(max_length=50, null=True, blank=True)
+    product_price = models.DecimalField(max_digits = 5, decimal_places= 2, null=True, blank=True)
+    sold_by_weight_info = models.CharField(max_length=50, null=True, blank=True)
     quantity = models.IntegerField(default=1, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = "Order Item"
         verbose_name_plural = "Order Items"
-
-    @property
-    def get_total(self):
-        total = self.product.price * self.quantity
-        return total
 
     @property
     def add(self):
@@ -75,7 +84,9 @@ class Order(models.Model):
     @property
     def get_cart_total(self):
         orderitems = self.items.all()
-        total = sum([item.get_total for item in orderitems])
+        for i in orderitems:
+            print(i.product_name, type(i.product_price))
+        total = sum([item.product_price * item.quantity for item in orderitems])
         return total
 
     @property

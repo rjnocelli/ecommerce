@@ -32,11 +32,20 @@
       </div>
       <hr>
       <a id='lo-quiero {{ product.id }}' style='display: inline-block;' class="btn btn-success btn-m lo-quiero-button mr-3" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
+      {% if not product.sold_by_weight %}
       <p style='display: inline-block; color: hsl(0, 0%, 30%);'><span><strong class='mt-5'>${{product.price}} p/u</strong></span></p>
+      {% else %}
+      <label for="cars">Elija el peso:</label>
+      <select id='price-by-weight-select-id'>
+      {% for item in sold_by_weight %}
+      {% if item.1 is not None %}
+      <option value="{{item.0}} {{item.1}}">{{item.0}} - ${{item.1}}</option>
+      {% endif %}
+      {% endfor%}
+      </select>
+      {% endif %}
       </div>
   </div>
-  <input type='hidden' value='{{ product.id }}' id='product'/>
-
 </section>
 {{ mydata|json_script:"mydata" }}
 

@@ -27,9 +27,9 @@
             {% for item in order.items.all %}
           <tr>
             <th id='email-table'>{{ forloop.counter }}</th>
-            <td id='email-table'>{{ item.product.name }}</td>
+            <td id='email-table'>{{ item.product_name }}</td>
             <td id='email-table'>{{ item.quantity }}</td>
-            <td id='email-table'>${{ item.product.price }}</td>
+            <td id='email-table'>${{ item.product_price }}</td>
           </tr>
           {% endfor %}
           <tr>
