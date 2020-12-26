@@ -22,7 +22,7 @@ const fetchMostPopularProducts = (products) => {
         }else{
             carrousel_inner_div.insertAdjacentHTML('beforeend', 
             `<div class="carousel-item">
-                <img class="carousel-img" src="${product.image}" alt="">
+                <img class="carousel-img" src="static/${product.image}" alt="">
                 <div class="carousel-caption d-none d-md-block">
                     <h4>${product.name}</h4>
                 </div>
@@ -41,7 +41,7 @@ const renderProducts = (products) => {
     products.forEach((product) => {
         products_row.innerHTML += `
         <div class="col-lg-3 col-md-6 col-sm-4">
-            <a href="product/${product.id}"><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
+            <a href="product/${product.id}"><img id='img-atag ${product.id}' class="img-thumbnail" src=static/${product.image}></a>
             <div class="box-element product">
                 <h6 class="pt-2" style="display: inline-block">${product.name.length > 20 ? product.name.slice(0,20).concat("...") : product.name}</h6>
                 <h6>precio p/u: <span class='float-right'><strong>$ ${product.price}</strong></span></h6><hr>		
