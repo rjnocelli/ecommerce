@@ -13,7 +13,7 @@ SECRET_KEY = 'no-1lmc8ehgdga-x_ptlw^97#7tv)j1=_pz5-8iq-7c=uy*3(e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['192.168.1.8','localhost', '127.0.0.1', '45.55.99.211']
+ALLOWED_HOSTS = ['192.168.1.8','localhost', '127.0.0.1', '159.89.245.186']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -69,9 +69,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'inventario.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
 if DEBUG:
     DATABASES = {
         'default': {
@@ -90,10 +87,6 @@ else:
         'PORT': '',
         }
     }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
