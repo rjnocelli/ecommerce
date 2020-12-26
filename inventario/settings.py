@@ -11,27 +11,24 @@ STATIC_DIR = os.path.join(BASE_DIR,'static')
 SECRET_KEY = 'no-1lmc8ehgdga-x_ptlw^97#7tv)j1=_pz5-8iq-7c=uy*3(e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['192.168.1.8','localhost', '127.0.0.1', '10.108.0.2']
+ALLOWED_HOSTS = ['192.168.1.8','localhost', '127.0.0.1', '45.55.99.211']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
 # CAPTCHA
 
-
-
-
 # Application definition
 
 INSTALLED_APPS = [
+    'inventario_app',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'inventario_app',
     'bootstrap4',
     'crispy_forms',
     'rest_framework',
@@ -75,12 +72,24 @@ WSGI_APPLICATION = 'inventario.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dulceria',
+        'USER': 'rjnocelli',
+        'PASSWORD': '4K6j0clhi',
+        'HOST': 'localhost',
+        'PORT': '',
+        }
+    }
 
 
 # Password validation
@@ -101,7 +110,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -115,16 +123,16 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
-MEDIA_URL = '/images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, 'inventario_app/static/inventario_app'),
 ]
 
 #Email conf

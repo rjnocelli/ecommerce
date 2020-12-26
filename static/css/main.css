@@ -29,6 +29,13 @@ body{
 	
 }
 
+#order-div, .create-product, .update-product {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 #jumbotron h1, p, h6{
 	/* text-shadow: black; */
 	color: hsl(0, 0%, 30%);

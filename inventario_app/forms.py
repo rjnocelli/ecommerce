@@ -22,10 +22,10 @@ choices = (
 class EmailConfirmationForm(forms.Form):
     name = forms.CharField(max_length=100, required=True, label='Nombre')
     surname = forms.CharField(max_length=100, required=True, label='Apellido')
-    phone_number = forms.CharField(max_length=20, label='Teléfono')
+    phone_number = forms.CharField(max_length=20, help_text='Ej. 3415778972.', label='Teléfono')
     location = forms.ChoiceField(choices = choices, label='Localidad')
     customer_address = forms.CharField(max_length=100, label='Domicilio')
-    email = forms.EmailField(required=False, help_text='Agregue email si desea recibir orden por corre electrónico.')
+    email = forms.EmailField(required=False, help_text='Agregue email si desea recibir orden por correo electrónico.')
     gift = forms.BooleanField(label='Para Regalar!', required=False)
     order_items = forms.JSONField(widget=forms.HiddenInput()) 
     captcha = CaptchaField()
