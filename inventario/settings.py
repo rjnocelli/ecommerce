@@ -80,7 +80,7 @@ else:
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dulceria',
+        'NAME': 'dulceria_db',
         'USER': 'rjnocelli',
         'PASSWORD': '4K6j0clhi',
         'HOST': 'localhost',
