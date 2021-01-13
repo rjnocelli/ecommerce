@@ -11,7 +11,6 @@ STATIC_DIR = os.path.join(BASE_DIR,'static')
 SECRET_KEY = 'no-1lmc8ehgdga-x_ptlw^97#7tv)j1=_pz5-8iq-7c=uy*3(e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.241.137.29']
 
@@ -68,25 +67,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'inventario.wsgi.application'
 
-
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
-else:
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dulceria_db',
-        'USER': 'rjnocelli',
-        'PASSWORD': '4K6j0clhi',
-        'HOST': 'localhost',
-        'PORT': '',
-        }
-    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
