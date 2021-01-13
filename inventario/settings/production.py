@@ -3,15 +3,15 @@ from .base import *
 DEBUG = False
 
 DATABASES = {
-'default': {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'dulceria',
-    'USER': 'rjnocelli',
-    'PASSWORD': '4K6j0clhi',
-    'HOST': '192.241.137.29',
-    'PORT': '',
+    'default': {
+        'ENGINE': os.getenv('SQL_ENGINE')
+        'NAME': os.getenv('SQL_NAME')
+        'USER': os.getenv('SQL_USER)
+        'PASSWORD': os.getenv('SQL_PASSWORD')
+        'HOST': os.getenv('SQL_HOST)
+        'PORT': os.getenv('SQL_PORT')
+        }
     }
-}
 
 ALLOWED_HOSTS = ['192.241.137.29']
 
