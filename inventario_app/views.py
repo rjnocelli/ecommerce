@@ -176,6 +176,6 @@ def order_confirmation(request):
                 # return HttpResponseRedirect(reverse('index'))
         else:
             messages.warning(request, 'No puede enviar una orden vacia.')
-            return render(request, 'inventario_app/index.html')
+            return render(request, 'inventario_app/index.html', context={'order_failed': True})
     context = {"form": form}
     return render(request, 'inventario_app/email_confirmation.html', context)

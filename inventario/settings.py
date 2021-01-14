@@ -128,8 +128,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'inventario_app/static/inventario_app'),
 ]
 
-#Email conf
+#EMAIL conf
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'rjnocelli2@gmail.com'
