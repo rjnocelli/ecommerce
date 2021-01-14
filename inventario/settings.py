@@ -64,22 +64,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'inventario.wsgi.application'
 
 
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
-else:
-    DATABASES = {
+DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dulceria',
-        'USER': 'rjnocelli',
-        'PASSWORD': '4K6j0clhi',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': os.getenv('SQL_ENGINE', 'sql_engine'),
+        'NAME': os.getenv('SQL_NAME', 'sql_name'),
+        'USER': os.getenv('SQL_USER', 'sql_user'),
+        'PASSWORD': os.getenv('SQL_PASSWORD', 'sql_password'),
+        'HOST': os.getenv('SQL_HOST', 'sql_host'),
+        'PORT': os.getenv('SQL_PORT', 'sql_port'),
         }
     }
 
