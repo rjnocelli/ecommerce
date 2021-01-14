@@ -13,14 +13,6 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.241.137.29']
 
-# SECURE_SSL_REDIRECT = True
-
-# SESSION_COOKIE_SECURE = True
-
-# CSRF_COOKIE_SECURE = True
-
-# SECURE_BROWSER_XSS_FILTER = True
-
 INSTALLED_APPS = [
     'inventario_app',
     'django.contrib.admin',
@@ -115,13 +107,18 @@ STATICFILES_DIRS = [
 ]
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = os.getenv('EMAIL_HOST', 'email_host')
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'email_host_user')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'email_host_password')
-EMAIL_PORT = 587
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_HOST_USER='rjnocelli2@gmail.com'
+EMAIL_HOST_PASSWORD='4k6j0clhi'
+EMAIL_PORT=587
 PASSWORD_RESET_TIMEOUT_DAYS = 2
 
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 
 PHONENUMBER_DEFAULT_REGION = 'NATIONAL'
+
+# EMAIL_HOST = os.getenv('EMAIL_HOST', 'email_host')
+# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'email_host_user')
+# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'email_host_password')
+# EMAIL_PORT = 587
