@@ -4,22 +4,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 STATIC_DIR = os.path.join(BASE_DIR,'static')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'no-1lmc8ehgdga-x_ptlw^97#7tv)j1=_pz5-8iq-7c=uy*3(e'
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.241.137.29']
 
 CORS_ORIGIN_ALLOW_ALL = True
-
-# CAPTCHA
-
-# Application definition
 
 INSTALLED_APPS = [
     'inventario_app',
@@ -127,8 +118,6 @@ MEDIA_URL = '/media/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'inventario_app/static/inventario_app'),
 ]
-
-#Email conf
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
