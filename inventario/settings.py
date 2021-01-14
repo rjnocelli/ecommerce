@@ -1,27 +1,25 @@
 import os
 
-from dotenv import load_dotenv
-load_dotenv()
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 STATIC_DIR = os.path.join(BASE_DIR,'static')
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'secret_key')
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'no-1lmc8ehgdga-x_ptlw^97#7tv)j1=_pz5-8iq-7c=uy*3(e'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.241.137.29']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-DEBUG = False
+# CAPTCHA
 
-SECURE_SSL_REDIRECT = True
-
-SESSION_COOKIE_SECURE = True
-
-CSRF_COOKIE_SECURE = True
-
-SECURE_BROWSER_XSS_FILTER = True
-
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.241.137.29']
+# Application definition
 
 INSTALLED_APPS = [
     'inventario_app',
@@ -71,14 +69,22 @@ TEMPLATES = [
 WSGI_APPLICATION = 'inventario.wsgi.application'
 
 
-DATABASES = {
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+else:
+    DATABASES = {
     'default': {
-        'ENGINE': os.getenv('SQL_ENGINE', 'sql_engine'),
-        'NAME': os.getenv('SQL_NAME', 'sql_name'),
-        'USER': os.getenv('SQL_USER', 'sql_user'),
-        'PASSWORD': os.getenv('SQL_PASSWORD', 'sql_password'),
-        'HOST': os.getenv('SQL_HOST', 'sql_host'),
-        'PORT': os.getenv('SQL_PORT', 'sql_port'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dulceria',
+        'USER': 'rjnocelli',
+        'PASSWORD': '4K6j0clhi',
+        'HOST': 'localhost',
+        'PORT': '',
         }
     }
 
@@ -97,6 +103,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Internationalization
+# https://docs.djangoproject.com/en/3.0/topics/i18n/
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -107,6 +116,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.0/howto/static-files/
+
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
@@ -116,19 +128,16 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'inventario_app/static/inventario_app'),
 ]
 
+#Email conf
+
 EMAIL_USE_TLS = True
-EMAIL_HOST='smtp.gmail.com'
-EMAIL_HOST_USER='rjnocelli2@gmail.com'
-EMAIL_HOST_PASSWORD='4k6j0clhi'
-EMAIL_PORT=587
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'rjnocelli2@gmail.com'
+EMAIL_HOST_PASSWORD = '4k6j0clhi'
+EMAIL_PORT = 587
 PASSWORD_RESET_TIMEOUT_DAYS = 2
 
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 
 PHONENUMBER_DEFAULT_REGION = 'NATIONAL'
-
-# EMAIL_HOST = os.getenv('EMAIL_HOST', 'email_host')
-# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'email_host_user')
-# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'email_host_password')
-# EMAIL_PORT = 587
