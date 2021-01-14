@@ -13,7 +13,6 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.241.137.29']
 
-CORS_ORIGIN_ALLOW_ALL = True
 
 INSTALLED_APPS = [
     'inventario_app',
@@ -109,9 +108,9 @@ STATICFILES_DIRS = [
 ]
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'rjnocelli2@gmail.com'
-EMAIL_HOST_PASSWORD = '4k6j0clhi'
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'email_host')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'email_host_user')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'email_host_password')
 EMAIL_PORT = 587
 PASSWORD_RESET_TIMEOUT_DAYS = 2
 
