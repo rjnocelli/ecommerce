@@ -18,6 +18,16 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.241.137.29', 'www.funesdulceria.
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+# ---------------------
+
+SECURE_SSL_REDIRECT = True
+
+SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SECURE = True
+
+SECURE_BROWSER_XSS_FILTER = True
+
 # CAPTCHA
 
 # Application definition
