@@ -142,7 +142,7 @@ STATICFILES_DIRS = [
 #EMAIL conf
 
 SERVER_EMAIL = 'rjnocelli2@gmail.com'
-ADMINS = (('Me', 'rjnocelli2@gmail.com'))
+ADMINS = [('Me', 'rjnocelli2@gmail.com')]
 MANAGERS = ADMINS
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = False
