@@ -1,7 +1,6 @@
 import os
 from os.path import join
 from dotenv import load_dotenv
-import environ
 
 load_dotenv()
 
@@ -10,8 +9,6 @@ TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 STATIC_DIR = os.path.join(BASE_DIR,'static')
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'secret_key')
-
-env = environ.Env()
 
 DEBUG = False
 
