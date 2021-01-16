@@ -141,13 +141,19 @@ SERVER_EMAIL = os.getenv('SERVER_EMAIL', 'server_email')
 ADMINS = os.getenv('ADMINS', 'admin')
 MANAGERS = ADMINS
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', False)
-EMAIL_HOST = os.getenv('EMAIL_HOST', 'email_host')
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'email_host_user')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-EMAIL_PORT = 465
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', False)
+# EMAIL_HOST = os.getenv('EMAIL_HOST', 'email_host')
+# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'email_host_user')
+# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+# EMAIL_PORT = 465
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
 
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
