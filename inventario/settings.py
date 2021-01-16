@@ -10,7 +10,7 @@ STATIC_DIR = os.path.join(BASE_DIR,'static')
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'secret_key')
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.241.137.29', 'www.funesdulceria.com.ar','funesdulceria.com.ar']
 
