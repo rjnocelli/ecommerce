@@ -11,8 +11,8 @@ STATIC_DIR = os.path.join(BASE_DIR,'static')
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'secret_key')
 
-# env = environ.Env()
-# DEBUG = env.bool('DEBUG',default=False)
+env = environ.Env()
+
 DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.241.137.29', 'www.funesdulceria.com.ar','funesdulceria.com.ar']
@@ -145,11 +145,11 @@ ADMINS = os.getenv('ADMINS', 'admin')
 MANAGERS = ADMINS
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
-EMAIL_PORT = 587
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', False)
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'email_host')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'email_host_user')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 465
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 LOGIN_URL = '/'
