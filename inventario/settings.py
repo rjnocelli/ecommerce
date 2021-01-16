@@ -152,7 +152,7 @@ MANAGERS = ADMINS
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'rjnocelli2@gmail.com'
-EMAIL_HOST_PASSWORD = '4k6j0clhi'
+EMAIL_HOST_PASSWORD = 'dtojdesenvxztqvn'
 EMAIL_PORT = 587
 PASSWORD_RESET_TIMEOUT_DAYS = 2
 
