@@ -2,7 +2,7 @@ from django.conf import settings
 import json
 
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.db.models import Q
 from django.contrib import messages
@@ -172,10 +172,13 @@ def order_confirmation(request):
                     mail.content_subtype = 'html'
                     mail.send()
                 messages.info(request, 'Orden enviada. Nos contactaremos con usted para ultimar detalles del pedido.')
-                return render(request, 'inventario_app/index.html', {'order_complete': True})
+                # return render(request, 'inventario_app/index.html', {'order_completed': True})
+                request.session['order_completed'] = True
+                return redirect(request, 'inventario_app/index.html')
                 # return HttpResponseRedirect(reverse('index'))
         else:
             messages.warning(request, 'No puede enviar una orden vacia.')
-            return render(request, 'inventario_app/index.html', context={'order_failed': True})
+            request.session['order_failed'] = True
+            return redirect(request, 'inventario_app/index.html')
     context = {"form": form}
     return render(request, 'inventario_app/email_confirmation.html', context)

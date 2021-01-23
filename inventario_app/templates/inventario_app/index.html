@@ -51,7 +51,7 @@
 </div><hr>
 <div id='product-details' class="row"></div>
 
-{% if order_complete or order_failed %}
+{% if request.session.order_completed or request.session.order_failed %}
 <script>
     localStorage.removeItem('order')
     localStorage.removeItem('total_quantity')

@@ -10,15 +10,18 @@ STATIC_DIR = os.path.join(BASE_DIR,'static')
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'secret_key')
 
-DEBUG = False
+if os.getenv('DEBUG') == 'True':
+    DEBUG = True
+else:
+    DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.241.137.29', 'www.funesdulceria.com.ar','funesdulceria.com.ar']
+ALLOWED_HOSTS = ['192.241.137.29', 'www.funesdulceria.com.ar','funesdulceria.com.ar','localhost']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
 # ---------------------
 
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = (os.getenv('SECURE_SSL_REDIRECT', 'False') == 'True')
 
 SESSION_COOKIE_SECURE = True
 
