@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
+from django.db.models import Q
+from rest_framework.views import APIView
 from api.serializers import (
     OrderSerializer,
     ProductSerializer,
@@ -62,6 +64,7 @@ def orderDelete(request, id):
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 # PRODUCT VIEWS ------
+
 @api_view(['GET'])
 def getAllProducts(request):
     return Response(ServerToClientProductSerializer(Product.objects.filter(in_stock=True).order_by("-is_bundle", "-views"), many=True).data)
@@ -73,6 +76,14 @@ def getMostPopularProducts(request):
     and all products.
     """
     return Response(ServerToClientProductSerializer(Product.objects.all().filter(in_stock=True).order_by("-is_bundle", "-views")[:5], many=True).data)
+
+def getProductsOnSearch(request):
+    query_params = request.data.get('query_params')
+    return Response(ServerToClientProductSerializer(Product.objects.filter(
+        Q(title__icontains=query_params) |
+        Q(description__icontains=query_params) | 
+        Q(category__icontains=query_params))))
+
 
 # PRODUCT VIEWS -----
 
