@@ -172,7 +172,6 @@ def order_confirmation(request):
                     mail.content_subtype = 'html'
                     mail.send()
                 messages.info(request, 'Orden enviada. Nos contactaremos con usted para ultimar detalles del pedido.')
-                # return render(request, 'inventario_app/index.html', {'order_completed': True})
                 request.session['order_completed'] = True
                 return HttpResponseRedirect('/')
         else:

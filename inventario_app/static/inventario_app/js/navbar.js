@@ -15,7 +15,6 @@ const addCartHtml = () => {
 
 addCartHtml()
 
-const search_input = document.getElementsByName('q')
 const form_submit_button = document.getElementById('search-submit')
 const contacto_at = document.getElementById('contacto')
 
@@ -25,27 +24,35 @@ contacto_at.addEventListener('click', (event) =>{
 event.preventDefault();
 window.scrollTo(0, document.body.scrollHeight);
 });
-    
-const filterItems = (query) => {
-return products.filter(function(el) {
-    return ((el.name.toLowerCase().indexOf(query.toLowerCase()) > -1) 
-    || (el.description.toLowerCase().indexOf(query.toLowerCase()) > -1) 
-    || (el.category.map((i) => {return i.name.toLowerCase()}).join(" ").includes(query)));          
-})
-};
 
-const renderSearchResults = (products, query) => {
-    window.history.pushState({}, 'Funes Dulceria', "/");
-    if(query === undefined){
-        var query = document.getElementsByName('q')[0].value;
-    };
+const buildProductsListOnSearch = (query_params) => {
+  const url = '/api/search/?q=' + query_params
+  console.log(url)
+  fetch(url)
+    .then(function(response) { return response.json(); })
+    .then(renderSearchResults);
+  };
+    
+// const filterItems = (query) => {
+// return products.filter(function(el) {
+//     return ((el.name.toLowerCase().indexOf(query.toLowerCase()) > -1) 
+//     || (el.description.toLowerCase().indexOf(query.toLowerCase()) > -1) 
+//     || (el.category.map((i) => {return i.name.toLowerCase()}).join(" ").includes(query)));          
+// })
+// };
+
+const renderSearchResults = (products) => {
+    let query = ((document.getElementsByName('q')[0].value).split(" ")).join("+")
+    console.log(query)
+    window.history.pushState({'q':query}, 'Funes Dulceria', "search",);
     const base_div = document.getElementById('base-div');
     const title = `<div class='row'><h2>Resultado de la búsqueda "${query}"</h2></div>`
     const base_div_row = `<div class="row" id="base-div-row"></div>`
     base_div.innerHTML = title
     base_div.innerHTML += base_div_row
     const base_div_row_el = document.getElementById('base-div-row')
-    if(products.length > 0){
+    console.log(products)
+    if(products && products.length > 0){
     products.forEach((product) => {
         base_div_row_el.innerHTML += `
         <div class="col-lg-3 col-md-3 col-sm-3">
@@ -66,9 +73,10 @@ const renderSearchResults = (products, query) => {
 const addEventListenerToBuscarButton = () => {
   form_submit_button.addEventListener('click', (e) => {
     e.preventDefault()
-    let query = document.getElementsByName('q')[0].value
-    let products_filtered = filterItems(query.toLowerCase())
-    renderSearchResults(products_filtered)
+    let query = ((document.getElementsByName('q')[0].value).split(" ")).join("+")
+    buildProductsListOnSearch(query)
+    // let products_filtered = filterItems(query.toLowerCase())
+    // renderSearchResults(products_filtered)
   });
 };
 

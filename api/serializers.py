@@ -12,7 +12,6 @@ class ServerToClientProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"
-        
 
 class ServerToClientOrderSerializer(serializers.ModelSerializer):
     class Meta:

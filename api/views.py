@@ -7,7 +7,7 @@ from api.serializers import (
     ProductSerializer,
     ServerToClientProductSerializer,
     ServerToClientOrderSerializer,
-    ServerToClientCategorySerializer)
+    ServerToClientCategorySerializer,)
 from inventario_app.models import Order, Product, Category
 
 from itertools import *
@@ -77,13 +77,14 @@ def getMostPopularProducts(request):
     """
     return Response(ServerToClientProductSerializer(Product.objects.all().filter(in_stock=True).order_by("-is_bundle", "-views")[:5], many=True).data)
 
+@api_view(['GET'])
 def getProductsOnSearch(request):
-    query_params = request.data.get('query_params')
-    return Response(ServerToClientProductSerializer(Product.objects.filter(
-        Q(title__icontains=query_params) |
-        Q(description__icontains=query_params) | 
-        Q(category__icontains=query_params))))
-
+    query_params = request.query_params.get('q', '')
+    serializer = ServerToClientProductSerializer(Product.objects.filter(
+        Q(name__icontains=query_params) |
+        Q(description__icontains=query_params) |
+        Q(category__name__icontains=query_params)), many=True)
+    return Response(serializer.data)
 
 # PRODUCT VIEWS -----
 

@@ -1,3 +1,4 @@
+from api.views import getProductsOnSearch
 import os
 
 from dotenv import load_dotenv
@@ -7,6 +8,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from api import views
 from inventario_app import views
 from inventario_app.views import (
     CreateProductView,
@@ -20,9 +22,8 @@ urlpatterns = [
     path('', views.Index, name='index'),
     path('api/', include('api.urls')),
     path('cart/', views.cart, name='cart'),
-    path('search/', views.SearchProducts, name='search-view'),
     path('email-confirmation/', views.order_confirmation, name='email-confirmation'),
-
+    path('search/', views.getProductsOnSearch, name='search'),
     path('create/', views.CreateProductView, name='create'),
     path('admin-product-list', views.AdminProductListView, name='admin-product-list'),
     path('product/<id>/', views.detail, name='detail'),
