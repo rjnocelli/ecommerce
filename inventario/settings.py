@@ -15,7 +15,7 @@ if os.getenv('DEBUG') == 'True':
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = ['192.241.137.29', 'www.funesdulceria.com.ar','funesdulceria.com.ar','localhost']
+ALLOWED_HOSTS = ['192.241.137.29', 'www.funesdulceria.com.ar','funesdulceria.com.ar','localhost','127.0.0.1']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -23,13 +23,15 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 SECURE_SSL_REDIRECT = (os.getenv('SECURE_SSL_REDIRECT', 'False') == 'True')
 
-SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = (os.getenv('SESSION_COOKIE_SECURE', 'False') == 'True')
 
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = (os.getenv('CSRF_COOKIE_SECURE', 'False') == 'True')
 
 SECURE_BROWSER_XSS_FILTER = True
 
 # Application definition
+
+# MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 INSTALLED_APPS = [
     'inventario_app',
