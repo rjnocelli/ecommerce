@@ -51,7 +51,11 @@
 </div><hr>
 <div id='product-details' class="row"></div>
 
-{% if request.session.order_completed or request.session.order_failed %}
+<script type='module' src="{% static 'js/index.js' %}"></script> 
+<script type='module' src="{% static 'js/functions.js' %}"></script> 
+
+{% if 'order_completed' in request.session %}
+
 <script>
     localStorage.removeItem('order')
     localStorage.removeItem('total_quantity')
@@ -59,6 +63,4 @@
     cart = document.querySelector('#cart span')
 </script>
 {% endif %}
-<script type='module' src="{% static 'js/index.js' %}"></script> 
-<script type='module' src="{% static 'js/functions.js' %}"></script> 
 {% endblock body %}

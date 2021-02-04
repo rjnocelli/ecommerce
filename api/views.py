@@ -5,8 +5,10 @@ from api.serializers import (
     ProductSerializer,
     ServerToClientProductSerializer,
     ServerToClientOrderSerializer,
-    ServerToClientCategorySerializer)
+    ServerToClientCategorySerializer,
+    ServerToClientProductSerializerOnSearch,)
 from inventario_app.models import Order, Product, Category
+from django.db.models import Q
 
 from itertools import *
 
@@ -60,6 +62,19 @@ def orderDelete(request, id):
     order = Order.objects.get(id=id)
     order.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+def getProductsOnSearch(request):
+    query = request.query_params['q']
+    print(query)
+    products = Product.objects.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query) |
+            Q(category__name__icontains=query)
+        )
+    serializer = ServerToClientProductSerializerOnSearch(products, many=True)
+    return Response(serializer.data)
+
 
 # PRODUCT VIEWS ------
 @api_view(['GET'])

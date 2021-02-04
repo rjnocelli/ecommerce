@@ -25,20 +25,18 @@ contacto_at.addEventListener('click', (event) =>{
 event.preventDefault();
 window.scrollTo(0, document.body.scrollHeight);
 });
-    
-const filterItems = (query) => {
-return products.filter(function(el) {
-    return ((el.name.toLowerCase().indexOf(query.toLowerCase()) > -1) 
-    || (el.description.toLowerCase().indexOf(query.toLowerCase()) > -1) 
-    || (el.category.map((i) => {return i.name.toLowerCase()}).join(" ").includes(query)));          
-})
-};
 
-const renderSearchResults = (products, query) => {
-    window.history.pushState({}, 'Funes Dulceria', "/");
-    if(query === undefined){
-        var query = document.getElementsByName('q')[0].value;
-    };
+const buildProductsListOnSearch = (query_params) => {
+  const url = '/search/?q=' + query_params
+  console.log(url)
+  fetch(url)
+    .then(function(response) { return response.json(); })
+    .then(renderSearchResults);
+  };
+
+const renderSearchResults = (products) => {
+    let query = ((document.getElementsByName('q')[0].value).split(" ")).join("+")
+    window.history.pushState({'q':query}, 'Funes Dulceria', "search",);
     const base_div = document.getElementById('base-div');
     const title = `<div class='row'><h2>Resultado de la búsqueda "${query}"</h2></div>`
     const base_div_row = `<div class="row" id="base-div-row"></div>`
