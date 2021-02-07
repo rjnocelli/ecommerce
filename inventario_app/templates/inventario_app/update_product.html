@@ -15,12 +15,12 @@
     </div>
 </div>
 
-<script>
-    (function() {
+<!-- <script> -->
+    <!-- (function() {
         const list_of_fields = [document.querySelector('#id_price_100g'),                
                                 document.querySelector('#id_price_200g'),
                                 document.querySelector('#id_price_300g')]
-        if(document.querySelector('#id_price').value){
+        if(document.querySelector('#id_price').value || !document.querySelector('#id_price_100g').value){
             document.querySelector('#id_price').disabled = false
             list_of_fields.forEach((field) => {
                 field.disabled = true
@@ -42,7 +42,7 @@
             });
            };
         });
-    })();
-</script>
+    })();   -->
+<!-- </script> -->
    
 {% endblock %}
