@@ -47,6 +47,39 @@ def orderDetail(request, pk):
     serializer = OrderSerializer(order)
     return Response(serializer.data)
 
+
+class infinte_scroll_view(generics.ListAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        return self.infinite_filter(self.request)
+
+    def infinite_filter(request):
+        limit = request.GET.get('limit')    
+        offset = request.GET.get('offset')
+        return Product.objects.all()[int(offset): int(offset) + int(limit)]
+    
+    def has_more(request):
+        offset = request.GET.get('offset')
+        if int(offset) > Product.objecst.all().count():
+            return False
+        return True
+    
+    def list(self, request):
+        queryset = self.get_queryset()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response({
+            "products": serializer.data,
+            "has_more": self.has_more(request)
+        })
+
+
+
+    
+
+
+
+
 @api_view(['POST'])
 def orderUpdate(request, id):
     order = Order.objects.get(id=id)
