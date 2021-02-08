@@ -36,7 +36,7 @@ const fetchMostPopularProducts = (products) => {
 };
 
 const renderProducts = (products) => {
-    console.log('render product function')
+    console.log('render product function', products)
     const products_row = document.getElementById('product-details');
     products.forEach((product) => {
         products_row.innerHTML += `
@@ -52,8 +52,23 @@ const renderProducts = (products) => {
 }
 
 const updateProducts = (products) => {
-    localStorage.setItem('products', JSON.stringify(products))
-    renderProducts(products)
+    let product_list = products.products
+    let new_list = []
+    if(products.has_more){
+        if(!localStorage.getItem('products')){
+            localStorage.setItem('products', JSON.stringify(product_list))
+            new_list = products
+        }else{
+            console.log(JSON.parse(localStorage.getItem('products')))
+            new_list = [... JSON.parse(localStorage.getItem('products')), ...product_list]
+            localStorage.setItem('products', JSON.stringify(new_list))
+        }
+        
+    renderProducts(product_list)
+
+    }else{
+        console.log('productos terminados')
+    }
 };
 
 const buildMostPouplarProductsList = () => {
@@ -73,6 +88,29 @@ const buildProductsList = () => {
 
     };
 
-buildProductsList()
+localStorage.setItem('limit', JSON.stringify(8))
+localStorage.setItem('offset', JSON.stringify(0))
+localStorage.removeItem('products')
+
+const loadProducts = () => {
+    let limit = JSON.parse(localStorage.getItem('limit'))
+    let offset = JSON.parse(localStorage.getItem('offset'))
+
+    const url = `/api/product-infinite/?limit=${limit}&offset=${offset}&/`
+    fetch(url)
+
+        .then(function(response){ return response.json() })
+        .then(updateProducts) 
+}
+
+loadProducts()
 buildMostPouplarProductsList()
 
+window.addEventListener('scroll', () => {
+    if(document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight){
+        let offset = JSON.parse(localStorage.getItem('offset'))
+        let limit = JSON.parse(localStorage.getItem('limit'))
+        localStorage.setItem('offset', JSON.stringify(offset + limit))
+        loadProducts()
+    }
+});

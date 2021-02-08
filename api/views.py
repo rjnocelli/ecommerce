@@ -47,6 +47,12 @@ def orderDetail(request, pk):
     serializer = OrderSerializer(order)
     return Response(serializer.data)
 
+@api_view(['DELETE'])
+def orderDelete(request, id):
+    order = Order.objects.get(id=id)
+    order.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
 @api_view(['POST'])
 def orderUpdate(request, id):
     order = Order.objects.get(id=id)
@@ -54,14 +60,35 @@ def orderUpdate(request, id):
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
-
-@api_view(['DELETE'])
-def orderDelete(request, id):
-    order = Order.objects.get(id=id)
-    order.delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
+    
 
 # PRODUCT VIEWS ------
+
+def infinite_filter(request):
+        limit = request.GET.get('limit')    
+        offset = request.GET.get('offset')
+        return Product.objects.all()[int(offset): int(offset) + int(limit)]
+
+def has_more(request):
+        offset = request.GET.get('offset')
+        if int(offset) > Product.objects.all().count():
+            return False
+        return True
+
+class infinte_scroll_view(generics.ListAPIView):
+    serializer_class = ServerToClientProductSerializer
+
+    def get_queryset(self):
+        return infinite_filter(self.request)
+    
+    def list(self, request):
+        queryset = self.get_queryset()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response({
+            'products':serializer.data,
+            'has_more': has_more(request)
+            })
+
 @api_view(['GET'])
 def getAllProducts(request):
     return Response(ServerToClientProductSerializer(Product.objects.filter(in_stock=True).order_by("-is_bundle", "-views"), many=True).data)
@@ -73,8 +100,6 @@ def getMostPopularProducts(request):
     and all products.
     """
     return Response(ServerToClientProductSerializer(Product.objects.all().filter(in_stock=True).order_by("-is_bundle", "-views")[:5], many=True).data)
-
-# PRODUCT VIEWS -----
 
 
 # CATEGORIES VIEW
