@@ -107,7 +107,9 @@ loadProducts()
 buildMostPouplarProductsList()
 
 window.addEventListener('scroll', () => {
-    if(document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight){
+        var scrollHeight = $(document).height();
+        var scrollPos = $(window).height() + $(window).scrollTop();
+    if(!((scrollHeight - 300) >= scrollPos)){
         let offset = JSON.parse(localStorage.getItem('offset'))
         let limit = JSON.parse(localStorage.getItem('limit'))
         localStorage.setItem('offset', JSON.stringify(offset + limit))
