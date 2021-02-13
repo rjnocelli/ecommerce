@@ -27,6 +27,7 @@ window.scrollTo(0, document.body.scrollHeight);
 });
 
 const buildProductsListOnSearch = (query_params) => {
+  console.log("build products")
   const url = '/search/?q=' + query_params
   console.log(url)
   fetch(url)
@@ -38,7 +39,7 @@ const renderSearchResults = (products) => {
     let query = ((document.getElementsByName('q')[0].value).split(" ")).join("+")
     window.history.pushState({'q':query}, 'Funes Dulceria', "search",);
     const base_div = document.getElementById('base-div');
-    const title = `<div class='row'><h2>Resultado de la búsqueda "${query}"</h2></div>`
+    const title = `<div class='row'><h2>Resultado de la búsqueda "${query.replace(/[+]/g, " ")}"</h2></div>`
     const base_div_row = `<div class="row" id="base-div-row"></div>`
     base_div.innerHTML = title
     base_div.innerHTML += base_div_row
@@ -57,7 +58,7 @@ const renderSearchResults = (products) => {
         `
     });
     console.log('Productos', products)
-    window.scrollTo(0,0)
+    window.scrollTo(0,0) 
     }else{console.log('no se ha encontrado ningun producto')};
 };
           
@@ -65,8 +66,7 @@ const addEventListenerToBuscarButton = () => {
   form_submit_button.addEventListener('click', (e) => {
     e.preventDefault()
     let query = document.getElementsByName('q')[0].value
-    let products_filtered = filterItems(query.toLowerCase())
-    renderSearchResults(products_filtered)
+    buildProductsListOnSearch(query)
   });
 };
 
@@ -81,9 +81,7 @@ const displayCatsOnNavbar = (response) => {
     document.getElementById('cat ' + cat.id).addEventListener('click', (e)=>{
       e.preventDefault()
       const query = cat.name.toLowerCase()
-      let products_filtered = filterItems(query)
-      console.log(products_filtered)
-      renderSearchResults(products_filtered, query)
+      buildProductsListOnSearch(query)
     });
   });
 };
