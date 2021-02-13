@@ -172,10 +172,21 @@ def order_confirmation(request):
                     mail.content_subtype = 'html'
                     mail.send()
                 request.session['order_completed'] = True
+<<<<<<< HEAD
                 messages.success(request, 'Orden enviada. Nos contactaremos con usted para ultimar detalles del pedido.')
                 return redirect('/?q=success')        
             request.session['order_failed'] = True
             messages.warning(request, 'No puede enviar una orden vacia.')
             return HttpResponseRedirect('/')
+=======
+                request.session.set_expiry(1)
+                messages.success(request, 'Orden enviada. Nos contactaremos con usted para ultimar detalles del pedido.')
+                return redirect('/?q=success')
+        else:
+            request.session['order_failed'] = True
+            request.session.set_expiry(1)
+            messages.warning(request, 'No puede enviar una orden vacia.')
+            return redirect('/?q=failed')
+>>>>>>> master
     context = {"form": form}
     return render(request, 'inventario_app/email_confirmation.html', context)

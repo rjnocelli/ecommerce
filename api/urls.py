@@ -13,7 +13,7 @@ urlpatterns = [
 
     path('product-list/', views.getAllProducts, name='product-list'),
     path('popular-products/', views.getMostPopularProducts, name='popular-products'),
-
+    path('product-infinite/', views.infinte_scroll_view.as_view(), name='product-infinite'),
     path('categories-list/', views.getAllCategories, name='cat-list')
 
 ]
