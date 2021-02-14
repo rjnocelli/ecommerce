@@ -41,9 +41,11 @@ const renderProducts = (products) => {
     products.forEach((product) => {
         products_row.innerHTML += `
         <div class="col-lg-3 col-md-6 col-sm-4">
-            <a href="product/${product.id}"><img id='img-atag ${product.id}' class="img-thumbnail" src='${product.image}'></a>
+            <a href="product/${product.id}"><img style="object-fit:cover;" id='img-atag ${product.id}' class="img-thumbnail" src='${product.image}'></a>
             <div class="box-element product">
                 <h6 class="pt-2" style="display: inline-block">${product.name.length > 20 ? product.name.slice(0,20).concat("...") : product.name}</h6>
+                <h6 class="pt-2 fas fa-plus" style="display: inline-block; float:right; margin-left:5px"></h6>
+                <h6 class="pt-2 fas fa-minus" style="display: inline-block; float:right"></h6>
                ${!product.sold_by_weight ? `<h6>precio p/u: <span class='float-right'><strong>$ ${product.price}</strong></span></h6>` : `<h6>Producto Vendio Por Peso<h6/>`} 	
             </div><br>
         </div>
