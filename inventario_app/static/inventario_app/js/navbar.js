@@ -27,7 +27,6 @@ window.scrollTo(0, document.body.scrollHeight);
 });
 
 const buildProductsListOnSearch = (query_params) => {
-  console.log("build products")
   const url = '/search/?q=' + query_params
   fetch(url)
     .then(function(response) { return response.json(); })
@@ -56,7 +55,6 @@ const renderSearchResults = (products) => {
         </div>
         `
     });
-    console.log('Productos', products)
     window.scrollTo(0,0) 
     }else{console.log('no se ha encontrado ningun producto')};
 };
@@ -97,7 +95,6 @@ const buildCategoriesList = () => {
 
 const renderIndex = () => {
   let base_div = document.getElementById('base-div');
-  console.log(base_div)
   base_div = ``
   base_div.insertAdjacentHTML('afterbegin',
   `<div id='jumbotron' style='background-color:#abb7b7' class="jumbotron text-center expand">
