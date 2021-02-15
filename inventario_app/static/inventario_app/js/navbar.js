@@ -27,7 +27,7 @@ window.scrollTo(0, document.body.scrollHeight);
 });
 
 const buildProductsListOnSearch = (query_params) => {
-  const url = '/search/?q=' + query_params
+  const url = '/api/search/?q=' + query_params
   fetch(url)
     .then(function(response) { return response.json(); })
     .then(renderSearchResults);
@@ -35,7 +35,10 @@ const buildProductsListOnSearch = (query_params) => {
 
 const renderSearchResults = (products) => {
     let query = ((document.getElementsByName('q')[0].value).split(" ")).join("+")
-    window.history.pushState({'q':query}, 'Funes Dulceria', "search",);
+    // let url = new URL(window.location); 
+    // url.pathname = "search/"
+    // url.searchParams.set("q", query);
+    // window.history.pushState({}, "", url)
     const base_div = document.getElementById('base-div');
     const title = `<div class='row'><h2>Resultado de la búsqueda "${query.replace(/[+]/g, " ")}"</h2></div>`
     const base_div_row = `<div class="row" id="base-div-row"></div>`
@@ -46,7 +49,7 @@ const renderSearchResults = (products) => {
     products.forEach((product) => {
         base_div_row_el.innerHTML += `
         <div class="col-lg-3 col-md-3 col-sm-3">
-            <a href="product/${product.id}"><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
+            <a href="/product/${product.id}"><img style="object-fit:cover;" id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
             <div class="box-element product">
               <h6 class="pt-2" style="display: inline-block">${product.name.length > 20 ? product.name.slice(0,20).concat("...") : product.name}</h6>
                 ${product.price ? `<h6>precio p/u: <span class='float-right'><strong>$ ${product.price}</strong></span></h6>` : `<h6>Producto Vendio Por Peso<h6/>`}
@@ -78,6 +81,7 @@ const displayCatsOnNavbar = (response) => {
     document.getElementById('cat ' + cat.id).addEventListener('click', (e)=>{
       e.preventDefault()
       const query = cat.name.toLowerCase()
+      document.getElementsByName('q')[0].value = query
       buildProductsListOnSearch(query)
     });
   });

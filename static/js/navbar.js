@@ -25,22 +25,22 @@ contacto_at.addEventListener('click', (event) =>{
 event.preventDefault();
 window.scrollTo(0, document.body.scrollHeight);
 });
-    
-const filterItems = (query) => {
-return products.filter(function(el) {
-    return ((el.name.toLowerCase().indexOf(query.toLowerCase()) > -1) 
-    || (el.description.toLowerCase().indexOf(query.toLowerCase()) > -1) 
-    || (el.category.map((i) => {return i.name.toLowerCase()}).join(" ").includes(query)));          
-})
-};
 
-const renderSearchResults = (products, query) => {
-    window.history.pushState({}, 'Funes Dulceria', "/");
-    if(query === undefined){
-        var query = document.getElementsByName('q')[0].value;
-    };
+const buildProductsListOnSearch = (query_params) => {
+  const url = '/api/search/?q=' + query_params
+  fetch(url)
+    .then(function(response) { return response.json(); })
+    .then(renderSearchResults);
+  };
+
+const renderSearchResults = (products) => {
+    let query = ((document.getElementsByName('q')[0].value).split(" ")).join("+")
+    // let url = new URL(window.location); 
+    // url.pathname = "search/"
+    // url.searchParams.set("q", query);
+    // window.history.pushState({}, "", url)
     const base_div = document.getElementById('base-div');
-    const title = `<div class='row'><h2>Resultado de la búsqueda "${query}"</h2></div>`
+    const title = `<div class='row'><h2>Resultado de la búsqueda "${query.replace(/[+]/g, " ")}"</h2></div>`
     const base_div_row = `<div class="row" id="base-div-row"></div>`
     base_div.innerHTML = title
     base_div.innerHTML += base_div_row
@@ -49,7 +49,7 @@ const renderSearchResults = (products, query) => {
     products.forEach((product) => {
         base_div_row_el.innerHTML += `
         <div class="col-lg-3 col-md-3 col-sm-3">
-            <a href="product/${product.id}"><img id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
+            <a href="/product/${product.id}"><img style="object-fit:cover;" id='img-atag ${product.id}' class="img-thumbnail" src=${product.image}></a>
             <div class="box-element product">
               <h6 class="pt-2" style="display: inline-block">${product.name.length > 20 ? product.name.slice(0,20).concat("...") : product.name}</h6>
                 ${product.price ? `<h6>precio p/u: <span class='float-right'><strong>$ ${product.price}</strong></span></h6>` : `<h6>Producto Vendio Por Peso<h6/>`}
@@ -58,8 +58,7 @@ const renderSearchResults = (products, query) => {
         </div>
         `
     });
-    console.log('Productos', products)
-    window.scrollTo(0,0)
+    window.scrollTo(0,0) 
     }else{console.log('no se ha encontrado ningun producto')};
 };
           
@@ -67,8 +66,7 @@ const addEventListenerToBuscarButton = () => {
   form_submit_button.addEventListener('click', (e) => {
     e.preventDefault()
     let query = document.getElementsByName('q')[0].value
-    let products_filtered = filterItems(query.toLowerCase())
-    renderSearchResults(products_filtered)
+    buildProductsListOnSearch(query)
   });
 };
 
@@ -83,9 +81,8 @@ const displayCatsOnNavbar = (response) => {
     document.getElementById('cat ' + cat.id).addEventListener('click', (e)=>{
       e.preventDefault()
       const query = cat.name.toLowerCase()
-      let products_filtered = filterItems(query)
-      console.log(products_filtered)
-      renderSearchResults(products_filtered, query)
+      document.getElementsByName('q')[0].value = query
+      buildProductsListOnSearch(query)
     });
   });
 };
@@ -102,7 +99,6 @@ const buildCategoriesList = () => {
 
 const renderIndex = () => {
   let base_div = document.getElementById('base-div');
-  console.log(base_div)
   base_div = ``
   base_div.insertAdjacentHTML('afterbegin',
   `<div id='jumbotron' style='background-color:#abb7b7' class="jumbotron text-center expand">
