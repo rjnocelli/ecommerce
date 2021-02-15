@@ -5,7 +5,7 @@
   }
 
 body{
-	background: url(/images/pattern-png2.png) repeat;
+	background-image: url('media/pattern-png2.png') repeat;
 	font-family: 'Emilys Candy', cursive;
 	padding-top: 20px;
 	/* background-color: hsl(0, 0%, 98%); */

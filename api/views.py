@@ -5,8 +5,10 @@ from api.serializers import (
     ProductSerializer,
     ServerToClientProductSerializer,
     ServerToClientOrderSerializer,
-    ServerToClientCategorySerializer)
+    ServerToClientCategorySerializer,
+    ServerToClientProductSerializerOnSearch,)
 from inventario_app.models import Order, Product, Category
+from django.db.models import Q
 
 from itertools import *
 
@@ -61,6 +63,18 @@ def orderUpdate(request, id):
         serializer.save()
     return Response(serializer.data)
     
+
+@api_view(['GET'])
+def getProductsOnSearch(request):
+    query = request.query_params['q']
+    products = Product.objects.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query) |
+            Q(category__name__icontains=query)
+        )
+    serializer = ServerToClientProductSerializerOnSearch(products, many=True)
+    return Response(serializer.data)
+
 
 # PRODUCT VIEWS ------
 
