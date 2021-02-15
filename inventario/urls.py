@@ -21,7 +21,6 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('cart/', cart, name='cart'),
     path('email-confirmation/', order_confirmation, name='email-confirmation'),
-    path('search/', getProductsOnSearch, name='search'),
     path('create/', CreateProductView, name='create'),
     path('admin-product-list', AdminProductListView, name='admin-product-list'),
     path('product/<id>/', detail, name='detail'),
