@@ -10,7 +10,8 @@ urlpatterns = [
     path('order-detail/<str:pk>/', views.orderDetail, name='order-detail'),
     path('order-update/<str:pk>/', views.orderUpdate, name='order-update'),
     path('order-delete/<str:pk>/', views.orderDelete, name='order-delete'),
-
+    
+    path('search/', views.getProductsOnSearch, name='search'),
     path('product-list/', views.getAllProducts, name='product-list'),
     path('popular-products/', views.getMostPopularProducts, name='popular-products'),
     path('product-infinite/', views.infinte_scroll_view.as_view(), name='product-infinite'),
