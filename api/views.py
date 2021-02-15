@@ -67,7 +67,6 @@ def orderUpdate(request, id):
 @api_view(['GET'])
 def getProductsOnSearch(request):
     query = request.query_params['q']
-    print(query)
     products = Product.objects.filter(
             Q(name__icontains=query) |
             Q(description__icontains=query) |

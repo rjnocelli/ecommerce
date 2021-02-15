@@ -29,7 +29,6 @@ window.scrollTo(0, document.body.scrollHeight);
 const buildProductsListOnSearch = (query_params) => {
   console.log("build products")
   const url = '/search/?q=' + query_params
-  console.log(url)
   fetch(url)
     .then(function(response) { return response.json(); })
     .then(renderSearchResults);
