@@ -11,13 +11,14 @@ from django.urls import path, include
 from api.views import getProductsOnSearch
 from inventario_app.views import (Index,
     cart, order_confirmation, CreateProductView,
-    AdminProductListView, detail, update, ProductDelete)
+    AdminProductListView, detail, update, ProductDelete, Contact)
 
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path(os.getenv('SECRET_ADMIN_URL') + '/admin/', admin.site.urls),
     path('', Index, name='index'),
+    path('contact/', Contact, name='contact'),
     path('api/', include('api.urls')),
     path('cart/', cart, name='cart'),
     path('email-confirmation/', order_confirmation, name='email-confirmation'),

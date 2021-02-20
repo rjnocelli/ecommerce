@@ -30,6 +30,9 @@ from api.serializers import ProductSerializer
 def Index(request):
     return render(request, 'inventario_app/index.html')
 
+def Contact(request):
+    return render(request, 'inventario_app/contact.html')
+
 # Admin UI Views
 
 @login_required
