@@ -30,6 +30,10 @@ from api.serializers import ProductSerializer
 def Index(request):
     return render(request, 'inventario_app/index.html')
 
+
+def Contact(request):
+    return render(request, 'inventario_app/contact.html')
+
 def serve_search_template(request):
     query = request.GET.get('q')
     return render(request, "inventario_app/search_results.html", context={"q":query})
