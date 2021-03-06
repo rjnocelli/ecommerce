@@ -30,6 +30,10 @@ from api.serializers import ProductSerializer
 def Index(request):
     return render(request, 'inventario_app/index.html')
 
+def serve_search_template(request):
+    query = request.GET.get('q')
+    return render(request, "inventario_app/search_results.html", context={"q":query})
+
 # Admin UI Views
 
 @login_required
@@ -55,8 +59,17 @@ def AdminProductListView(request):
 
 def detail(request, id):    
     qs = get_object_or_404(Product, id=id)
+    product_data = {
+        "id": qs.id,
+        "name": qs.name,
+        "price": qs.price,
+        "sold_by_weight": qs.sold_by_weight,
+        "price_100g": qs.price_100g,
+        "price_200g": qs.price_200g,
+        "price_300g": qs.price_300g,
+    }
     mydata = qs.id
-    context = {'product': qs, 'mydata':mydata}
+    context = {'product': qs, 'product_data': product_data}
     if qs.sold_by_weight:
         context['sold_by_weight'] = [("100g",qs.price_100g),("200g",qs.price_200g),("300g",qs.price_300g)]
     return render(request, 'inventario_app/detail_view.html', context)
@@ -74,19 +87,19 @@ def update(request, id):
             return HttpResponseRedirect(reverse('index'))
     return render(request, "inventario_app/update_product.html", context = {"form": form, "product":qs})
 
-def SearchProducts(request):
-    queryset = Product.objects.all()
-    query = request.GET.get('q')
-    if query:
-        queryset = queryset.filter(
-            Q(name__icontains=query) |
-            Q(description__icontains=query) |
-            Q(category__name__icontains=query)
-        ).distinct()
-    context = {
-        'products': queryset
-    }
-    return render(request, 'inventario_app/search_results.html', context)
+# def SearchProducts(request):
+#     queryset = Product.objects.all()
+#     query = request.GET.get('q')
+#     if query:
+#         queryset = queryset.filter(
+#             Q(name__icontains=query) |
+#             Q(description__icontains=query) |
+#             Q(category__name__icontains=query)
+#         ).distinct()
+#     context = {
+#         'products': queryset
+#     }
+#     return render(request, 'inventario_app/search_results.html', context)
 
 def removeFromCart(request, id):
     item = get_object_or_404(Product, id = id)
