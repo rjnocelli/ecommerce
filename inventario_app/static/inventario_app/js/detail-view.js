@@ -1,14 +1,11 @@
-import { addLoQuieroTag } from './functions.js'
+import { addProductOrCreateOrder } from './functions.js'
 (function(){
     console.log('detail-view js working')
-    const products = JSON.parse(localStorage.getItem('products'))
-    const mydata = JSON.parse(document.getElementById('mydata').textContent);
-    console.log(mydata)
-
-    const producto = products.filter(p =>{
-    return p.id === mydata;
+    const product = JSON.parse(document.getElementById('product_data').textContent)
+    const lo_quiero_button = document.getElementById("lo-quiero-button")
+    lo_quiero_button.addEventListener("click", (e) => {
+        e.preventDefault()
+        addProductOrCreateOrder(product)
     });
-
-    addLoQuieroTag(producto, 'lo-quiero')
 })();
 

@@ -31,7 +31,7 @@
       <div class="table-responsive">
       </div>
       <hr>
-      <a id='lo-quiero {{ product.id }}' style='display: inline-block;' class="btn btn-success btn-m lo-quiero-button mr-3" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
+      <a id='lo-quiero-button' style='display: inline-block;' class="btn btn-success btn-m lo-quiero-button mr-3" href="">Lo Quiero! <span class='far fa-candy-cane'></span></a>
       {% if not product.sold_by_weight %}
       <p style='display: inline-block; color: hsl(0, 0%, 30%);'><span><strong class='mt-5'>${{product.price}} p/u</strong></span></p>
       {% else %}
@@ -47,8 +47,7 @@
       </div>
   </div>
 </section>
-{{ mydata|json_script:"mydata" }}
-
+{{ product_data|json_script:"product_data" }}
 
 <script type='module' src='{% static "js/detail-view.js" %}'></script>
 {% endblock %}
