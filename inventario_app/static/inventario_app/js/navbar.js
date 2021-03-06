@@ -19,12 +19,6 @@ const search_input = document.getElementsByName('q')
 const form_submit_button = document.getElementById('search-submit')
 const products = JSON.parse(localStorage.getItem('products'))
 
-// const contacto_at = document.getElementById('contacto')
-// contacto_at.addEventListener('click', (event) =>{
-// event.preventDefault();
-// window.scrollTo(0, document.body.scrollHeight);
-// });
-
 const buildProductsListOnSearch = (query_params) => {
   const url = '/api/search/?q=' + query_params
   fetch(url)
