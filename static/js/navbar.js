@@ -8,7 +8,7 @@ const addCartHtml = () => {
       total_quantity = '0'
     }
     document.getElementById('cart').innerHTML +=`
-    <a class='candy-icon' href="/cart"><i class="far fa-candy-cane"><span> ${total_quantity} <span></i>
+    <a class='candy-icon' href="/cart"><i class="fas fa-shopping-cart"><span> ${total_quantity} <span></i>
     </a> 
     `
   }
