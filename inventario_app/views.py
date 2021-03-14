@@ -165,7 +165,7 @@ def order_confirmation(request):
                 if order_items_total < 500:
                         for item in order_items:
                             item.delete()
-                        messages.warning(request, 'La order minima es de $500 más el envío.')
+                        messages.warning(request, 'La compra mínima es de $500 más el envío.')
                         return redirect('/?q=failed')
                 order.save()
                 order.items.set(order_items)
