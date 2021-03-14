@@ -30,7 +30,6 @@ from api.serializers import ProductSerializer
 def Index(request):
     return render(request, 'inventario_app/index.html')
 
-
 def Contact(request):
     return render(request, 'inventario_app/contact.html')
 
@@ -155,15 +154,22 @@ def order_confirmation(request):
                         order_item.save()
                         order_items.append(order_item)
                 customer_name = f"{form.cleaned_data['name']} {form.cleaned_data['surname']}"
-                order = Order.objects.create(
+                order = Order(
                     customer_name=customer_name,
                     customer_email=form.cleaned_data["email"],
                     customer_phone_number=form.cleaned_data["phone_number"],
                     customer_location=form.cleaned_data["location"],
                     customer_address=form.cleaned_data["customer_address"],
                     gift=form.cleaned_data['gift'])
+                order_items_total = sum(item.product_price * item.quantity for item in order_items)
+                if order_items_total < 500:
+                        for item in order_items:
+                            item.delete()
+                        messages.warning(request, 'La order minima es de $500 más el envío.')
+                        return redirect('/?q=failed')
+                order.save()
                 order.items.set(order_items)
-                order.save()   
+                order.save()
                 message = get_template('inventario_app/email_confirmation_shop.html').render({
                     'order': order,
                 })
@@ -190,6 +196,7 @@ def order_confirmation(request):
                     mail.send()
                 request.session['order_completed'] = True
                 request.session.set_expiry(1)
+                order.save()
                 messages.success(request, 'Orden enviada. Nos contactaremos con usted para ultimar detalles del pedido.')
                 return redirect('/?q=success')
         else:
