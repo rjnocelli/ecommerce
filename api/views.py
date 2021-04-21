@@ -81,7 +81,7 @@ def getProductsOnSearch(request):
 def infinite_filter(request):
         limit = request.GET.get('limit')    
         offset = request.GET.get('offset')
-        return Product.objects.all()[int(offset): int(offset) + int(limit)]
+        return Product.objects.filter(in_stock=True)[int(offset): int(offset) + int(limit)]
 
 def has_more(request):
         offset = request.GET.get('offset')
