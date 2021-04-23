@@ -72,7 +72,7 @@ def getProductsOnSearch(request):
             Q(description__icontains=query) |
             Q(category__name__icontains=query),
             in_stock=True
-        )
+        ).distinct()
     serializer = ServerToClientProductSerializerOnSearch(products, many=True)
     return Response(serializer.data)
 
