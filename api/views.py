@@ -70,7 +70,8 @@ def getProductsOnSearch(request):
     products = Product.objects.filter(
             Q(name__icontains=query) |
             Q(description__icontains=query) |
-            Q(category__name__icontains=query)
+            Q(category__name__icontains=query),
+            in_stock=True
         )
     serializer = ServerToClientProductSerializerOnSearch(products, many=True)
     return Response(serializer.data)
