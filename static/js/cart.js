@@ -32,7 +32,7 @@ const addHtmlForItemQuantitySelection = (order_item_objs) => {
 			<p style="display: inline-block;">Envio</p><hr>
 		</div>
 		<div class='col-4 col-lg-4 col-sm-4'>
-			<p style="display: inline-block;">$ 60</p>
+			<p style="display: inline-block;">$ 80</p>
 		</div>
 	</div>`
 };
@@ -54,7 +54,7 @@ const updateCart = () =>{
 const onOrderListFetched = (order) => {
 
 		let order_item_objs = order
-		let order_items_total_price = 60
+		let order_items_total_price = 80
 		let order_items_total_quantity = 0
 		
 		localStorage.setItem('total_quantity', '0')
