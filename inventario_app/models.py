@@ -10,7 +10,7 @@ class Product(models.Model):
     )
 
     name = models.CharField(max_length=50, verbose_name="nombre")
-    price = models.DecimalField(max_digits = 5, decimal_places= 2, verbose_name="precio", null=True, blank=True)
+    price = models.DecimalField(max_digits = 8, decimal_places= 2, verbose_name="precio", null=True, blank=True)
     sold_by_weight = models.BooleanField(default = False, verbose_name= 'Producto Vendido x Peso')
     price_100g = models.DecimalField(max_digits = 5, decimal_places= 2, verbose_name="precio por 100g", null=True, blank=True)
     price_200g = models.DecimalField(max_digits = 5, decimal_places= 2, verbose_name="precio por 200g", null=True, blank=True)
