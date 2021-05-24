@@ -10,7 +10,7 @@ class Product(models.Model):
     )
 
     name = models.CharField(max_length=50, verbose_name="nombre")
-    price = models.DecimalField(max_digits = 8, decimal_places= 2, verbose_name="precio", null=True, blank=True)
+    price = models.DecimalField(max_digits = 6, decimal_places= 2, verbose_name="precio", null=True, blank=True)
     sold_by_weight = models.BooleanField(default = False, verbose_name= 'Producto Vendido x Peso')
     price_100g = models.DecimalField(max_digits = 5, decimal_places= 2, verbose_name="precio por 100g", null=True, blank=True)
     price_200g = models.DecimalField(max_digits = 5, decimal_places= 2, verbose_name="precio por 200g", null=True, blank=True)
@@ -46,7 +46,7 @@ class Category(models.Model):
 class OrderItem(models.Model):
     product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True, related_name='product')
     product_name = models.CharField(max_length=50, null=True, blank=True)
-    product_price = models.DecimalField(max_digits = 5, decimal_places= 2, null=True, blank=True)
+    product_price = models.DecimalField(max_digits = 6, decimal_places= 2, null=True, blank=True)
     sold_by_weight_info = models.CharField(max_length=50, null=True, blank=True)
     quantity = models.IntegerField(default=1, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
