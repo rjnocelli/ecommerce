@@ -162,7 +162,8 @@ def order_confirmation(request):
                     customer_address=form.cleaned_data["customer_address"],
                     gift=form.cleaned_data['gift'])
                 order_items_total = sum(item.product_price * item.quantity for item in order_items)
-                if order_items_total < 1080:
+                if order_items_total <= 1080:
+                    # fields valid but order less than minimum
                         for item in order_items:
                             item.delete()
                         messages.warning(request, 'La compra mínima es de $1000 más el envío.')
@@ -199,10 +200,16 @@ def order_confirmation(request):
                 order.save()
                 messages.success(request, 'Orden enviada. Nos contactaremos con usted para ultimar detalles del pedido.')
                 return redirect('/?q=success')
+            else:          
+                # reCAPTCHA valid but order empty 
+                # creates a new order on the client side from scratch
+                request.session['order_failed'] = True
+                request.session.set_expiry(1)
+                messages.warning(request, 'No puede enviar una orden vacia.')
+                return redirect('/?q=failed')
         else:
-            request.session['order_failed'] = True
-            request.session.set_expiry(1)
-            messages.warning(request, 'No puede enviar una orden vacia.')
+            # any of thes fields is not valid (empty order items or failed reCAPTCHA)
+            messages.warning(request, 'reCAPTCHA incorrecto u orden vacía, inténtelo de nuevo.')
             return redirect('/?q=failed')
     context = {"form": form}
     return render(request, 'inventario_app/email_confirmation.html', context)
