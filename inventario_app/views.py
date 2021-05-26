@@ -162,10 +162,10 @@ def order_confirmation(request):
                     customer_address=form.cleaned_data["customer_address"],
                     gift=form.cleaned_data['gift'])
                 order_items_total = sum(item.product_price * item.quantity for item in order_items)
-                if order_items_total < 500:
+                if order_items_total < 1080:
                         for item in order_items:
                             item.delete()
-                        messages.warning(request, 'La compra mínima es de $500 más el envío.')
+                        messages.warning(request, 'La compra mínima es de $1000 más el envío.')
                         return redirect('/?q=failed')
                 order.save()
                 order.items.set(order_items)
