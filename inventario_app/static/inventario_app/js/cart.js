@@ -54,7 +54,7 @@ const updateCart = () =>{
 const onOrderListFetched = (order) => {
 
 		let order_item_objs = order
-		let order_items_total_price = 80
+		let order_items_total_price = 0
 		let order_items_total_quantity = 0
 		
 		localStorage.setItem('total_quantity', '0')

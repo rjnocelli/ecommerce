@@ -162,7 +162,7 @@ def order_confirmation(request):
                     customer_address=form.cleaned_data["customer_address"],
                     gift=form.cleaned_data['gift'])
                 order_items_total = sum(item.product_price * item.quantity for item in order_items)
-                if order_items_total <= 1080:
+                if order_items_total < 1000:
                     # fields valid but order less than minimum
                         for item in order_items:
                             item.delete()
@@ -208,7 +208,7 @@ def order_confirmation(request):
                 messages.warning(request, 'No puede enviar una orden vacia.')
                 return redirect('/?q=failed')
         else:
-            # any of thes fields is not valid (empty order items or failed reCAPTCHA)
+            # at least one of the fields is not valid (empty order items or failed reCAPTCHA)
             messages.warning(request, 'reCAPTCHA incorrecto u orden vacía, inténtelo de nuevo.')
             return redirect('/?q=failed')
     context = {"form": form}

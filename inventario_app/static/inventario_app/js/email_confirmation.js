@@ -6,7 +6,8 @@
     }catch(error){
         console.log(error)
     }
-
+    // add delivery price 
+    localStorage.setItem('total_price', JSON.stringify(JSON.parse(localStorage.getItem('total_price')) + 80))
     if(order && Object.keys(order).length > 0){
         Object.values(order).forEach((i) => {
             console.log(i)
