@@ -55,7 +55,7 @@ export const addProductOrCreateOrder = (product) => {
         product.price = JSON.parse(weight_and_price[1])
         product.name = product.name + " " + weight_and_price[0]
     }
-    let total_quantity = 0, total_price = 60, order
+    let total_quantity = 0, total_price = 0, order
     if(localStorage.getItem('total_price') && localStorage.getItem('total_quantity')){
         total_quantity = parseInt(localStorage.getItem('total_quantity'))
         total_price = parseInt(localStorage.getItem('total_price'))
