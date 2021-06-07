@@ -35,36 +35,38 @@ const fetchMostPopularProducts = (products) => {
     });
 };
 
-const renderProducts = (products) => {
-    console.log('render product function', products)
+const renderProducts = (new_products, all_products) => {
+    // all_products variable is propagated to be used by add_plus_button()
     const products_row = document.getElementById('product-details');
-    products.forEach((product) => {
+    new_products.forEach((product) => {
         products_row.innerHTML += `
         <div class="col-lg-3 col-md-6 col-sm-4">
             <a href="product/${product.id}"><img style="object-fit: cover" id='img-atag ${product.id}' class="img-thumbnail" src='${product.image}'></a>
             <div class="box-element product">
                 <h6 class="pt-2" style="display: inline-block">${product.name.length > 20 ? product.name.slice(0,20).concat("...") : product.name}</h6>
+                <span id="plus-icon ${product.id}" class="fa fa-cart-plus float-right" style="font-size: medium;"></span>
                ${!product.sold_by_weight ? `<h6>precio p/u: <span class='float-right'><strong>$ ${product.price}</strong></span></h6>` : `<h6>Producto Vendio Por Peso<h6/>`} 	
             </div><br>
         </div>
         `
     });
+    return all_products
 }
 
 const updateProducts = (products) => {
     let product_list = products.products
-    let new_list = []
+    // all_products keeps track of all the products (it is propagated trough the whole rendering process)
+    let all_products = []
     if(products.has_more){
         if(!localStorage.getItem('products')){
             localStorage.setItem('products', JSON.stringify(product_list))
-            new_list = products
+            all_products = products.products
         }else{
             console.log(JSON.parse(localStorage.getItem('products')))
-            new_list = [... JSON.parse(localStorage.getItem('products')), ...product_list]
-            localStorage.setItem('products', JSON.stringify(new_list))
+            all_products = [... JSON.parse(localStorage.getItem('products')), ...product_list]
+            localStorage.setItem('products', JSON.stringify(all_products))
         }
-        
-    renderProducts(product_list)
+    return renderProducts(product_list, all_products)
 
     }else{
         console.log('productos terminados')
@@ -87,6 +89,16 @@ const buildProductsList = () => {
         .then(updateProducts);
 
     };
+    
+function add_plus_button(products){
+    products.forEach((product) => {
+        document.getElementById(("plus-icon " + product.id))
+        .addEventListener("click", (e) => {
+            e.preventDefault()
+            addProductOrCreateOrder(product)
+        });
+    })
+}
 
 localStorage.setItem('limit', JSON.stringify(8))
 localStorage.setItem('offset', JSON.stringify(0))
@@ -97,14 +109,23 @@ const loadProducts = () => {
     let offset = JSON.parse(localStorage.getItem('offset'))
 
     const url = `/api/product-infinite/?limit=${limit}&offset=${offset}&/`
-    fetch(url)
-
+    const data = fetch(url)
         .then(function(response){ return response.json() })
-        .then(updateProducts) 
-}
+        .then(function(response){
+            return updateProducts(response);
+        })
+        .then(function(result){
+            // make sure result is not `undefined`
+            if(result){
+                add_plus_button(result)}
+            }
+        )
+};
+
 
 loadProducts()
 buildMostPouplarProductsList()
+
 
 window.addEventListener('scroll', () => {
         var scrollHeight = $(document).height();
@@ -116,3 +137,5 @@ window.addEventListener('scroll', () => {
         loadProducts()
     }
 });
+
+
