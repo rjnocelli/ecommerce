@@ -14,7 +14,7 @@ class CreateProductForm(ModelForm):
         }
         
 choices = (
-    ('1', 'Gran Rosario'),
+    ('1', 'Rosario'),
     ('2', 'Funes'),
     ('3', 'Roldán')
 )
