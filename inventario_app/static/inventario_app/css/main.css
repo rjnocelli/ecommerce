@@ -311,3 +311,7 @@ footer {
     }
 }
 
+span #plus-icon {
+	cursor: pointer;
+}
+

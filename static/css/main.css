@@ -311,3 +311,6 @@ footer {
     }
 }
 
+#plus-icon:hover {
+	cursor: pointer;
+}
