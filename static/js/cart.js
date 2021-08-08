@@ -32,7 +32,7 @@ const addHtmlForItemQuantitySelection = (order_item_objs) => {
 			<p style="display: inline-block;">Envio</p><hr>
 		</div>
 		<div class='col-4 col-lg-4 col-sm-4'>
-			<p style="display: inline-block;">$ 80</p>
+			<p style="display: inline-block;">$ 100</p>
 		</div>
 	</div>`
 };
